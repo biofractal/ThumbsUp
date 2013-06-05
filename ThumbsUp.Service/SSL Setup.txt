@@ -1,0 +1,4 @@
+﻿Staging
+-------
+netsh http add sslcert ipport=0.0.0.0:8081 certhash=24d9b880f5e33288a4c88bb1d321d88d44d21f06 appid={a81e36cd-e7e9-43b3-94dd-5634a472f42d}
+

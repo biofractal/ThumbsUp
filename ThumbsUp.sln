@@ -8,7 +8,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{723FA2
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp", "ThumbsUp\ThumbsUp.csproj", "{49F56A22-5DE0-4FD6-90D3-5C0474936951}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Service", "ThumbsUp.Service\ThumbsUp.Service.csproj", "{49F56A22-5DE0-4FD6-90D3-5C0474936951}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Console", "ThumbsUp.Console\ThumbsUp.Console.csproj", "{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,10 @@ Global
 		{49F56A22-5DE0-4FD6-90D3-5C0474936951}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49F56A22-5DE0-4FD6-90D3-5C0474936951}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49F56A22-5DE0-4FD6-90D3-5C0474936951}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

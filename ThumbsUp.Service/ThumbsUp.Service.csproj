@@ -49,9 +49,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RavenDB.Client.2.0.2370\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\..\Patch-Runner\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
-    </Reference>
     <Reference Include="SimpleCrypto">
       <HintPath>..\packages\SimpleCrypto.0.3.28.24\lib\SimpleCrypto.dll</HintPath>
     </Reference>
@@ -71,7 +68,7 @@
     <Compile Include="Domain\Application.cs" />
     <Compile Include="Module\ApplicationModule.cs" />
     <Compile Include="Module\RootModule.cs" />
-    <Compile Include="Service\ThumbsUpService.cs" />
+    <Compile Include="SelfHostingController.cs" />
     <Compile Include="Raven\RavenIndexes.cs" />
     <Compile Include="Raven\RavenSessionProvider.cs" />
     <Compile Include="Domain\User.cs" />
@@ -84,6 +81,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SSL Setup.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
