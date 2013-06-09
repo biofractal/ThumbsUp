@@ -1,5 +1,6 @@
 ﻿using Nancy;
 using Nancy.Bootstrapper;
+using Nancy.Helper;
 using Nancy.TinyIoc;
 using SimpleCrypto;
 using ThumbsUp.Raven;
@@ -18,29 +19,39 @@ namespace ThumbsUp
 
 		protected override void RequestStartup(TinyIoCContainer container, IPipelines pipelines, NancyContext context)
 		{
-			pipelines.BeforeRequest += (ctx) => {
-				if(context.Request.Path=="/") return null;
+			pipelines.BeforeRequest += (ctx) =>
+			{
+				Log.Request(ctx.Request);
+				if (context.Request.Path == "/") return null;
 				var applicationService = container.Resolve<ApplicationService>();
 				var applicationId = (string)context.Request.Form.applicationid;
-				if(applicationService.ApplicationDoesNotExist(applicationId))
+				if (applicationService.ApplicationDoesNotExist(applicationId))
 				{
 					return HttpStatusCode.Unauthorized;
 				}
 				return null;
 			};
 
-			pipelines.AfterRequest.AddItemToEndOfPipeline(
-				(ctx) =>
+			pipelines.OnError += (ctx, ex) =>
+			{
+				Log.Error("Unhandled error on request: " + context.Request.Url, ex);
+				return null;
+			};
+
+			pipelines.AfterRequest += (ctx) =>
+			{
+				var documentSessionProvider = container.Resolve<RavenSessionProvider>();
+				if (!documentSessionProvider.SessionInitialized) return;
+				var documentSession = documentSessionProvider.Get();
+				if (ctx.Response.StatusCode != HttpStatusCode.InternalServerError)
 				{
-					var documentSessionProvider = container.Resolve<RavenSessionProvider>();
-					if (!documentSessionProvider.SessionInitialized) return;
-					var documentSession = documentSessionProvider.Get();
-					if (ctx.Response.StatusCode != HttpStatusCode.InternalServerError)
-					{
-						documentSession.SaveChanges();
-					}
-					documentSession.Dispose();
-				});
+					documentSession.SaveChanges();
+				}
+				documentSession.Dispose();
+				Log.Response(ctx.Response);
+			};
+
+			base.RequestStartup(container, pipelines, context);
 		}
 	}
 }

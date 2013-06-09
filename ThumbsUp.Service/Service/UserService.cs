@@ -36,17 +36,17 @@ namespace ThumbsUp.Service
 			return password;
 		}
 
-		public Tuple<Guid, User> GetUserAndKey(string username, string password)
+		public Tuple<Guid, dynamic> GetUserAndKey(string username, string password)
 		{
 			var user = Db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName == username);
 			if (user == null) return null;
 			if (Crypto.Compute(password, user.Salt) != user.PasswordHash) return null;
 			var thumbKey = Guid.NewGuid();
 			MemoryCache.Default.Add(thumbKey.ToString(), user, new CacheItemPolicy() { SlidingExpiration = new TimeSpan(0, SlidingExpirationMinutes, 0) });
-			return new Tuple<Guid, User>(thumbKey, user);
+			return new Tuple<Guid, dynamic>(thumbKey, new { Id=user.Id, UserName=user.UserName, Email=user.Email});
 		}
 
-		public bool Validate(string identifier)
+		public bool Check(string identifier)
 		{
 			return MemoryCache.Default.Contains(identifier);
 		}

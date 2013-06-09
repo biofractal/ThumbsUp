@@ -1,4 +1,5 @@
 ﻿using Nancy;
+using Nancy.Helper;
 using ThumbsUp.Service;
 
 namespace ThumbsUp.Module
@@ -7,7 +8,10 @@ namespace ThumbsUp.Module
 	{
 		public RootModule(UserService userService, ApplicationService applicationService)
 		{
-			Get["/"] = _ =>  "ThumbsUp Security Service is Running";
+			Get["/"] = _ =>
+			{
+				return "ThumbsUp Security Service is Running";
+			};
 		}
 	}
 }

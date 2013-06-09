@@ -16,7 +16,7 @@ namespace ThumbsUp.Console
 				C.WriteLine();
 				C.WriteLine("   1 - Quit");
 				C.WriteLine("   2 - Check the service is running");
-				C.WriteLine("   3 - Check a User's credentials");
+				C.WriteLine("   3 - Check User Login");
 				C.WriteLine("   4 - Create a new User");
 				C.WriteLine("   5 - Register a new Application");
 				C.WriteLine();
@@ -31,7 +31,7 @@ namespace ThumbsUp.Console
 						ThumbsUpService.CheckServiceIsRunning();
 						break;			
 					case "3":
-						ThumbsUpService.CheckUserCredentials();
+						ThumbsUpService.CheckLogin();
 						break;
 					case "4":
 						ThumbsUpService.CreateUser();

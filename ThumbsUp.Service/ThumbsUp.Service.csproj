@@ -17,19 +17,23 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>
+    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>ThumbsUp.Program</StartupObject>
@@ -59,20 +63,22 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="Topshelf">
-      <HintPath>..\..\Patch-Runner\packages\Topshelf.3.1.1\lib\net40-full\Topshelf.dll</HintPath>
+    <Reference Include="System.Xml" />
+    <Reference Include="Topshelf, Version=3.1.107.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Topshelf.3.1.1\lib\net40-full\Topshelf.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Boot.cs" />
     <Compile Include="Domain\Application.cs" />
-    <Compile Include="Module\ApplicationModule.cs" />
+    <Compile Include="Module\AdminModule.cs" />
     <Compile Include="Module\RootModule.cs" />
-    <Compile Include="SelfHostingController.cs" />
+    <Compile Include="SelfHost.cs" />
     <Compile Include="Raven\RavenIndexes.cs" />
     <Compile Include="Raven\RavenSessionProvider.cs" />
     <Compile Include="Domain\User.cs" />
-    <Compile Include="Module\UserModule.cs" />
+    <Compile Include="Module\SecurityModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ApplicationService.cs" />
@@ -85,8 +91,18 @@
   <ItemGroup>
     <Content Include="SSL Setup.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Nancy.Helper\Nancy.Helper\Nancy.Helper.csproj">
+      <Project>{1561b149-5dce-417a-bd61-3c6e37645468}</Project>
+      <Name>Nancy.Helper</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

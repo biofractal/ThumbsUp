@@ -9,9 +9,9 @@ namespace ThumbsUp
 		public static void Main()
 		{
 			HostFactory.Run(config => {
-				config.Service<SelfHostingController>(service =>
+				config.Service<SelfHost>(service =>
 				{
-					service.ConstructUsing(name => new SelfHostingController());
+					service.ConstructUsing(name => new SelfHost());
 					service.WhenStarted(thumbsUp => thumbsUp.Start());
 					service.WhenStopped(thumbsUp => thumbsUp.Stop());
 				});

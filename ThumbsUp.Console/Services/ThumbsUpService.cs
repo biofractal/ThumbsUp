@@ -29,14 +29,14 @@ namespace ThumbsUp.Console.Services
 			C.WriteLine((response.StatusCode == HttpStatusCode.OK)? "Success: The service is running fine" : "Failure: Cannot locate a running service at this address");
 		}
 
-		public static void CheckUserCredentials()
+		public static void CheckLogin()
 		{
 			C.WriteLine("UserName?");
 			var username = C.ReadLine();
 			C.WriteLine("Password?");
 			var password = C.ReadLine();
 			var client = new RestClient(ThumbsUpsUrl);
-			var request = new RestRequest("user/authenticate", Method.POST);
+			var request = new RestRequest("login", Method.POST);
 			request.AddParameter("applicationid", ThumbsUpsApplicationId);
 			request.AddParameter("username", username);
 			request.AddParameter("password", password);
