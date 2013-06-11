@@ -14,7 +14,10 @@ namespace ThumbsUp
 		public void Start()
 		{
 			Log.Write("Starting ThumbsUp on " + ThumbsUpsUrl);
-			nancyHost = new NancyHost(new Uri(ThumbsUpsUrl));
+			var config = new HostConfiguration { 
+				UnhandledExceptionCallback = e => Log.Error("Self Host Exception", e) 
+			};
+			nancyHost = new NancyHost(config, new Uri(ThumbsUpsUrl));
 			nancyHost.Start();
 		}
 

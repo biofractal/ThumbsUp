@@ -6,17 +6,21 @@ namespace ThumbsUp
 {
 	public class Program
 	{
+		[STAThread]
 		public static void Main()
 		{
 			HostFactory.Run(config => {
 				config.Service<SelfHost>(service =>
 				{
-					service.ConstructUsing(name => new SelfHost());
-					service.WhenStarted(thumbsUp => thumbsUp.Start());
-					service.WhenStopped(thumbsUp => thumbsUp.Stop());
+					service.ConstructUsing(host => new SelfHost());
+					service.WhenStarted(host => host.Start());
+					service.WhenStopped(host => host.Stop());
 				});
 				config.RunAsLocalSystem();
 				config.StartAutomatically();
+				config.SetDescription("ThumbsUp - Central security hub for all GoodPractice services and applications");
+				config.SetDisplayName("ThumbsUp");
+				config.SetServiceName("ThumbsUp");
 			});
 		}
 	}
