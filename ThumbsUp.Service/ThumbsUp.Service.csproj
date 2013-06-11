@@ -75,13 +75,13 @@
     <Compile Include="Domain\Application.cs" />
     <Compile Include="Module\AdminModule.cs" />
     <Compile Include="Module\RootModule.cs" />
-    <Compile Include="SelfHost.cs" />
     <Compile Include="Raven\RavenIndexes.cs" />
     <Compile Include="Raven\RavenSessionProvider.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Module\SecurityModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SelfHost.cs" />
     <Compile Include="Service\ApplicationService.cs" />
     <Compile Include="Service\UserService.cs" />
   </ItemGroup>

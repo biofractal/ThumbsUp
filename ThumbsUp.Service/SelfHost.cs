@@ -1,4 +1,5 @@
 ﻿
+
 using Nancy.Helper;
 using Nancy.Hosting.Self;
 using System;
@@ -14,8 +15,9 @@ namespace ThumbsUp
 		public void Start()
 		{
 			Log.Write("Starting ThumbsUp on " + ThumbsUpsUrl);
-			var config = new HostConfiguration { 
-				UnhandledExceptionCallback = e => Log.Error("Self Host Exception", e) 
+			var config = new HostConfiguration
+			{
+				UnhandledExceptionCallback = e => Log.Error("Self Host Exception", e)
 			};
 			nancyHost = new NancyHost(config, new Uri(ThumbsUpsUrl));
 			nancyHost.Start();
