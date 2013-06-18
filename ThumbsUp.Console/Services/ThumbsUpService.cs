@@ -13,8 +13,11 @@ namespace ThumbsUp.Console.Services
 	{
 		public static void CheckServiceIsRunning()
 		{
-			C.WriteLine("Checking the ThumbsUp Service on " + ConfigurationManager.AppSettings["ThumbsUp.Url"]);
-			C.WriteLine(ThumbsUpApi.CheckServiceIsRunning() ? "Success: The service is running on " : "Failure: Cannot locate a running service at this address");
+			C.WriteLine("Checking the ThumbsUp Service");
+			var result = ThumbsUpApi.CheckServiceIsRunning();
+			var success = result.Item1;
+			var uri = result.Item2;
+			C.WriteLine( success? "Success: The service is running on " + uri : "Failure: Cannot locate a running service at " + uri);
 		}
 
 
