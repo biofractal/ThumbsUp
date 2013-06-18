@@ -39,13 +39,13 @@
     <StartupObject>ThumbsUp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Nancy, Version=0.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.0.17.0-Pre690\lib\net40\Nancy.dll</HintPath>
+      <HintPath>..\packages\Nancy.0.18.0-Pre698\lib\net40\Nancy.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Hosting.Self, Version=0.17.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy.Hosting.Self, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.Hosting.Self.0.17.0-Pre690\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+      <HintPath>..\packages\Nancy.Hosting.Self.0.18.0-Pre698\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions">
       <HintPath>..\packages\RavenDB.Client.2.0.2370\lib\net40\Raven.Abstractions.dll</HintPath>
@@ -73,11 +73,11 @@
   <ItemGroup>
     <Compile Include="Boot.cs" />
     <Compile Include="Domain\Application.cs" />
+    <Compile Include="Domain\User.cs" />
     <Compile Include="Module\AdminModule.cs" />
     <Compile Include="Module\RootModule.cs" />
     <Compile Include="Raven\RavenIndexes.cs" />
     <Compile Include="Raven\RavenSessionProvider.cs" />
-    <Compile Include="Domain\User.cs" />
     <Compile Include="Module\SecurityModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -86,11 +86,13 @@
     <Compile Include="Service\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SSL Setup.txt" />
+    <Content Include="SSL-Config.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Nancy.Helper\Nancy.Helper\Nancy.Helper.csproj">

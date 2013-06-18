@@ -11,6 +11,7 @@ namespace ThumbsUp.Service
 {
 	public class UserService
 	{
+		private readonly MemoryCache Cache = MemoryCache.Default;
 		private readonly ICryptoService Crypto;
 		private readonly IDocumentSession Db;
 		private static readonly int SlidingExpirationMinutes = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.SlidingExpiration.Minutes"]);
@@ -36,24 +37,39 @@ namespace ThumbsUp.Service
 			return password;
 		}
 
-		public Tuple<Guid, dynamic> GetUserAndKey(string username, string password)
+		public dynamic GetUserFromIdentifier(string key)
+		{
+			if (!Exists(key)) return null;
+			var user = (User)Cache[key];
+			return new {User= new {Id = user.Id, UserName = user.UserName, Email = user.Email }};
+		}
+
+		public dynamic ValidateUser(string username, string password)
 		{
 			var user = Db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName == username);
-			if (user == null) return null;
-			if (Crypto.Compute(password, user.Salt) != user.PasswordHash) return null;
-			var thumbKey = Guid.NewGuid();
-			MemoryCache.Default.Add(thumbKey.ToString(), user, new CacheItemPolicy() { SlidingExpiration = new TimeSpan(0, SlidingExpirationMinutes, 0) });
-			return new Tuple<Guid, dynamic>(thumbKey, new { Id=user.Id, UserName=user.UserName, Email=user.Email});
+			if (user == null || Crypto.Compute(password, user.Salt) != user.PasswordHash) return null;
+			var key= AddUserToCache(user);
+			return new { ThumbKey = key };
 		}
 
-		public bool Check(string identifier)
+		public string AddUserToCache(User user)
 		{
-			return MemoryCache.Default.Contains(identifier);
+			var key = Guid.NewGuid().ToString();
+			Cache.Add(key, user, new CacheItemPolicy() { SlidingExpiration = new TimeSpan(0, SlidingExpirationMinutes, 0) });
+			return key;
 		}
 
-		public void Remove(string identifier)
+		public bool Exists(string key)
 		{
-			if (MemoryCache.Default.Contains(identifier)) MemoryCache.Default.Remove(identifier);
+			return Cache.Contains(key);
 		}
+
+		public bool Remove(string key)
+		{
+			if (!Exists(key)) return false;
+			Cache.Remove(key);
+			return true;
+		}
+
 	}
 }

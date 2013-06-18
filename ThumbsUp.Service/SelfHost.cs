@@ -9,23 +9,23 @@ namespace ThumbsUp
 {
 	public class SelfHost
 	{
-		private static readonly string ThumbsUpsUrl = ConfigurationManager.AppSettings["ThumbsUp.Url"];
+		private static readonly string ServiceUrl = ConfigurationManager.AppSettings["Service.Url"];
 		private NancyHost nancyHost;
 
 		public void Start()
 		{
-			Log.Write("Starting ThumbsUp on " + ThumbsUpsUrl);
+			Log.Write("Starting on " + ServiceUrl);
 			var config = new HostConfiguration
 			{
 				UnhandledExceptionCallback = e => Log.Error("Self Host Exception", e)
 			};
-			nancyHost = new NancyHost(config, new Uri(ThumbsUpsUrl));
+			nancyHost = new NancyHost(config, new Uri(ServiceUrl));
 			nancyHost.Start();
 		}
 
 		public void Stop()
 		{
-			Log.Write("Stopping ThumbsUp");
+			Log.Write("Stopping");
 			nancyHost.Stop();
 		}
 	}

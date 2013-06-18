@@ -16,9 +16,11 @@ namespace ThumbsUp.Console
 				C.WriteLine();
 				C.WriteLine("   1 - Quit");
 				C.WriteLine("   2 - Check the service is running");
-				C.WriteLine("   3 - Check User Login");
-				C.WriteLine("   4 - Create a new User");
-				C.WriteLine("   5 - Register a new Application");
+				C.WriteLine("   3 - Register Application");
+				C.WriteLine("   4 - Register User");
+				C.WriteLine("   5 - User Login");
+				C.WriteLine("   6 - User From Key");
+				C.WriteLine("   7 - User Logout");
 				C.WriteLine();
 
 				switch (C.ReadLine())
@@ -31,13 +33,19 @@ namespace ThumbsUp.Console
 						ThumbsUpService.CheckServiceIsRunning();
 						break;			
 					case "3":
-						ThumbsUpService.CheckLogin();
+						ThumbsUpService.RegisterApplication();
 						break;
 					case "4":
-						ThumbsUpService.CreateUser();
+						ThumbsUpService.RegisterUser();
 						break;
 					case "5":
-						ThumbsUpService.CreateApplication();
+						ThumbsUpService.UserLogin();
+						break;
+					case "6":
+						ThumbsUpService.UserFromKey();
+						break;
+					case "7":
+						ThumbsUpService.UserLogout();
 						break;
 
 				}

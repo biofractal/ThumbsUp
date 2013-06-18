@@ -9,27 +9,28 @@ namespace ThumbsUp.Module
 	{
 		public SecurityModule(UserService userService, ApplicationService applicationService)
 		{
-			Post["/login"] = _ =>
+			Post["/validate-user"] = _ =>
 			{
 				var username = (string)Request.Form.username;
 				var password = (string)Request.Form.password;
-				var result = userService.GetUserAndKey(username, password);
-				if (result == null) return HttpStatusCode.Unauthorized;
-				return Response.AsJson(new { ThumbKey = result.Item1, User = result.Item2 });
+				var result = userService.ValidateUser(username, password);
+				if (result==null) return HttpStatusCode.Unauthorized;
+				return Response.AsJson((object)result);
 			};
 
-			Post["/check"] = _ =>
+			Post["/get-user-from-identifier"] = _ =>
 			{
 				var identifier = (string)Request.Form.identifier;
-				var isValid = userService.Check(identifier);
-				return Response.AsJson(new { IsValid = isValid});
+				var result = userService.GetUserFromIdentifier(identifier);
+				if (result == null) return HttpStatusCode.Unauthorized;
+				return Response.AsJson((object)result);
 			};
 
 			Post["/logout"] = _ =>
 			{
 				var identifier = (string)Request.Form.identifier;
-				userService.Remove(identifier);
-				return HttpStatusCode.OK;
+				var success = userService.Remove(identifier);
+				return (success)? HttpStatusCode.OK : HttpStatusCode.NotFound;
 			};
 
 		}
