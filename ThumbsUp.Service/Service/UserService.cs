@@ -22,7 +22,7 @@ namespace ThumbsUp.Service
 			Db = documentSessionProvider.Get();
 		}
 
-		public string Create(string username, string email)
+		public string CreateUser(string username, string email)
 		{
 			var password = RandomPassword.Generate(12);
 			var user = new User()
@@ -37,19 +37,28 @@ namespace ThumbsUp.Service
 			return password;
 		}
 
-		public dynamic GetUserFromIdentifier(string key)
+		public User GetUserFromIdentifier(string key)
 		{
-			if (!Exists(key)) return null;
-			var user = (User)Cache[key];
-			return new {User= new {Id = user.Id, UserName = user.UserName, Email = user.Email }};
+			if (!Cache.Contains(key)) return null;
+			return (User)Cache[key];
 		}
 
-		public dynamic ValidateUser(string username, string password)
+		public string ValidateUser(string username, string password)
 		{
-			var user = Db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName == username);
+			var user = GetUserByName(username);
 			if (user == null || Crypto.Compute(password, user.Salt) != user.PasswordHash) return null;
-			var key= AddUserToCache(user);
-			return new { ThumbKey = key };
+			return  AddUserToCache(user);
+		}
+
+		public bool ValidateIdentifier(string key)
+		{
+			return Cache.Contains(key);
+		}
+
+		public bool ValidateUserName(string username)
+		{
+			var user = GetUserByName(username);
+			return user == null;
 		}
 
 		public string AddUserToCache(User user)
@@ -59,17 +68,16 @@ namespace ThumbsUp.Service
 			return key;
 		}
 
-		public bool Exists(string key)
+		public bool RemoveUserFromCache(string key)
 		{
-			return Cache.Contains(key);
-		}
-
-		public bool Remove(string key)
-		{
-			if (!Exists(key)) return false;
+			if (!Cache.Contains(key)) return false;
 			Cache.Remove(key);
 			return true;
 		}
 
+		private User GetUserByName(string username)
+		{
+			return Db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName==username);
+		}
 	}
 }
