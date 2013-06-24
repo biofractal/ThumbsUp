@@ -24,6 +24,7 @@ namespace ThumbsUp.Console
 				C.WriteLine("   7 - User Logout");
 				C.WriteLine("   8 - Validate Key");
 				C.WriteLine("   9 - Validate UserName");
+				C.WriteLine("   a - Decode Error");
 				C.WriteLine();
 
 				switch (C.ReadLine())
@@ -55,6 +56,9 @@ namespace ThumbsUp.Console
 						break;
 					case "9":
 						ValidateUserName();
+						break;
+					case "a":
+						GetErrorMessage();
 						break;
 				}
 			}
@@ -135,6 +139,14 @@ namespace ThumbsUp.Console
 			var username = C.ReadLine();
 			var result = ThumbsUpApi.ValidateUserName(username);
 			if (!IsError(result)) C.WriteLine("The username is valid. It has not yet been used");
+		}
+
+		public static void GetErrorMessage()
+		{
+			C.WriteLine("Error Code?");
+			var errorCode = C.ReadLine();
+			var result = ThumbsUpApi.GetErrorMessage(int.Parse(errorCode));
+			if (!IsError(result)) C.WriteLine("Success. Message = " + result.Data.ErrorMessage);
 		}
 
 		private static Guid GetThumbKey()

@@ -32,6 +32,7 @@ namespace ThumbsUp.Service
 
 		public bool ApplicationDoesNotExist(string id)
 		{
+			if(string.IsNullOrEmpty(id)) return true;
 			return Get(id)==null;
 		}
 	}

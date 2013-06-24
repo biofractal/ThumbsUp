@@ -22,10 +22,8 @@ namespace ThumbsUp
 			pipelines.BeforeRequest += (ctx) =>
 			{
 				Log.Request(ctx.Request);
-				if (context.Request.Path == "/") return null;
 				var applicationService = container.Resolve<ApplicationService>();
-				var applicationId = (string)context.Request.Form.applicationid;
-				if (applicationService.ApplicationDoesNotExist(applicationId))
+				if (applicationService.ApplicationDoesNotExist(context.Request.GetParam("applicationid")))
 				{
 					return HttpStatusCode.Unauthorized;
 				}

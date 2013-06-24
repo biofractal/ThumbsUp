@@ -73,7 +73,7 @@
   <ItemGroup>
     <Compile Include="Boot.cs" />
     <Compile Include="Domain\Application.cs" />
-    <Compile Include="Domain\Error.cs" />
+    <Compile Include="Service\ErrorService.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Module\ApplicationModule.cs" />
     <Compile Include="Module\RootModule.cs" />
@@ -91,9 +91,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="SSL-Config.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Nancy.Helper\Nancy.Helper\Nancy.Helper.csproj">
