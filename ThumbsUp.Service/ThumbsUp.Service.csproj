@@ -73,6 +73,8 @@
   <ItemGroup>
     <Compile Include="Boot.cs" />
     <Compile Include="Domain\Application.cs" />
+    <Compile Include="Domain\Password.cs" />
+    <Compile Include="Service\PasswordService.cs" />
     <Compile Include="Service\ErrorService.cs" />
     <Compile Include="Domain\User.cs" />
     <Compile Include="Module\ApplicationModule.cs" />

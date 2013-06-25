@@ -1,6 +1,4 @@
 ﻿using Nancy;
-using Nancy.Helper;
-using System;
 using ThumbsUp.Domain;
 using ThumbsUp.Service;
 
@@ -8,8 +6,7 @@ namespace ThumbsUp.Module
 {
 	public class UserModule : NancyModule
 	{
-		public UserModule(UserService userService)
-			: base("/user")
+		public UserModule(UserService userService) : base("/user")
 		{
 			Post["/create"] = _ =>
 			{
@@ -47,6 +44,30 @@ namespace ThumbsUp.Module
 				var username = (string)Request.Form.username;
 				var isValid = userService.ValidateUserName(username);
 				return !isValid ? ErrorService.Generate(Response, 5) : HttpStatusCode.OK;
+			};
+
+			Post["/reset/password"] = _ =>
+			{
+				var username = (string)Request.Form.username;
+				var oldPassword = (string)Request.Form.password;
+				var newPassword = userService.ResetPassword(username, oldPassword);
+				return (newPassword == null) ? ErrorService.Generate(Response, 1) : Response.AsJson(new { Password = newPassword });
+			};
+
+			Post["/forgot-password/request"] = _ =>
+			{
+				var username = (string)Request.Form.username;
+				var email = (string)Request.Form.email;
+				var token = userService.ForgotPasswordRequest(username, email);
+				return (token == null) ? ErrorService.Generate(Response, 6) : Response.AsJson(new { Token = token });
+			};
+
+			Post["/forgot-password/reset"] = _ =>
+			{
+				var username = (string)Request.Form.username;
+				var token = (string)Request.Form.token;
+				var password = userService.ForgotPasswordReset(username, token);
+				return (password == null) ? ErrorService.Generate(Response, 7) : Response.AsJson(new { Password = password });
 			};
 
 			Post["/logout"] = _ =>

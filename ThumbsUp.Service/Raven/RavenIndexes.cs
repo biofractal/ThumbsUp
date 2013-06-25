@@ -14,7 +14,7 @@ namespace ThumbsUp.Raven
 				{
 					user.Id,
 					user.Salt,
-					user.PasswordHash,
+					PasswordHash = user.Hash,
 					user.Email,
 					user.UserName
 				});

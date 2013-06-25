@@ -18,7 +18,9 @@ namespace ThumbsUp.Domain
 			{2, new Error {Message = "Cannot locate a User for the supplied identifier", StatusCode = Nancy.HttpStatusCode.NotFound}},
 			{3, new Error {Message = "The UserName has already been taken", StatusCode = Nancy.HttpStatusCode.BadRequest}},
 			{4, new Error {Message = "The Thumbkey is not valid", StatusCode = Nancy.HttpStatusCode.NotFound}},
-			{5, new Error {Message = "The UserName is currently in use", StatusCode = Nancy.HttpStatusCode.Forbidden}}
+			{5, new Error {Message = "The UserName is currently in use", StatusCode = Nancy.HttpStatusCode.Forbidden}},
+			{6, new Error {Message = "Incorrect UserName or Email", StatusCode = Nancy.HttpStatusCode.Unauthorized}},
+			{7, new Error {Message = "Incorrect UserName or Forgot-Password Token", StatusCode = Nancy.HttpStatusCode.Unauthorized}},
 		};
 
 		public static Response Generate(IResponseFormatter response, int code)

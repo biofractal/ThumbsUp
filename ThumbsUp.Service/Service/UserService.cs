@@ -1,5 +1,4 @@
 ﻿using Raven.Client;
-using SimpleCrypto;
 using System;
 using System.Configuration;
 using System.Linq;
@@ -12,29 +11,65 @@ namespace ThumbsUp.Service
 	public class UserService
 	{
 		private readonly MemoryCache Cache = MemoryCache.Default;
-		private readonly ICryptoService Crypto;
 		private readonly IDocumentSession Db;
+		private readonly PasswordService Pwd;
 		private static readonly int SlidingExpirationMinutes = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.SlidingExpiration.Minutes"]);
+		private static readonly int PasswordCharactersCount = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
 
-		public UserService(ICryptoService cryptoService, RavenSessionProvider documentSessionProvider)
+		public UserService(RavenSessionProvider documentSessionProvider, PasswordService passwordService)
 		{
-			Crypto = cryptoService;
 			Db = documentSessionProvider.Get();
+			Pwd = passwordService;
 		}
 
 		public string CreateUser(string username, string email)
 		{
-			var password = RandomPassword.Generate(12);
+			var password = Pwd.Generate();
 			var user = new User()
 			{
 				Id = Guid.NewGuid().ToString(),
-				Salt = Crypto.GenerateSalt(),
-				PasswordHash = Crypto.Compute(password),
 				Email = email,
-				UserName = username
+				UserName = username,
+				Salt = password.Salt,
+				Hash = password.Hash
 			};
 			Db.Store(user);
-			return password;
+			return password.Clear;
+		}
+
+		public string ResetPassword(string username, string candidatePassword)
+		{
+			var user = GetUserByName(username);
+			if (user == null) return null;
+			if (!Pwd.IsPasswordValid(user, candidatePassword)) return null;
+			var password = Pwd.Generate();
+			user.Salt = password.Salt;
+			user.Hash = password.Hash;
+			Db.Store(user);
+			return password.Clear;
+		}
+
+		public string ForgotPasswordRequest(string username, string email)
+		{
+			var user = GetUserByName(username);
+			if (user == null || user.Email!=email) return null;
+			var token = Guid.NewGuid().ToString();
+			user.ForgotPasswordRequestToken = token;
+			user.ForgotPasswordRequestDate = DateTime.Now;
+			Db.Store(user);
+			return token;
+		}
+
+		public string ForgotPasswordReset(string username, string token)
+		{
+			var user = GetUserByName(username);
+			if (user == null || !Pwd.IsForgotPasswordTokenValid(user, token)) return null;
+			var password = Pwd.Generate();
+			user.Salt = password.Salt;
+			user.Hash = password.Hash;
+			user.ForgotPasswordRequestToken = string.Empty;
+			Db.Store(user);
+			return password.Clear;
 		}
 
 		public User GetUserFromIdentifier(string key)
@@ -43,10 +78,11 @@ namespace ThumbsUp.Service
 			return (User)Cache[key];
 		}
 
-		public string ValidateUser(string username, string password)
+		public string ValidateUser(string username, string candidatePassword)
 		{
 			var user = GetUserByName(username);
-			if (user == null || Crypto.Compute(password, user.Salt) != user.PasswordHash) return null;
+			if (user == null) return null;
+			if (!Pwd.IsPasswordValid(user, candidatePassword)) return null;
 			return  AddUserToCache(user);
 		}
 
@@ -79,5 +115,6 @@ namespace ThumbsUp.Service
 		{
 			return Db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName==username);
 		}
+
 	}
 }

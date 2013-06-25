@@ -25,13 +25,15 @@ namespace ThumbsUp.Console
 				C.WriteLine("   8 - Validate Key");
 				C.WriteLine("   9 - Validate UserName");
 				C.WriteLine("   a - Decode Error");
+				C.WriteLine("   b - User Reset Password");
+				C.WriteLine("   c - Forgot Password Request");
+				C.WriteLine("   d - Forgot Password Reset");
 				C.WriteLine();
 
 				switch (C.ReadLine())
 				{
 					case "1":
-						C.WriteLine("Quiting the Console");
-						Environment.Exit(0);
+						Quit();
 						break;
 					case "2":
 						CheckServiceIsRunning();
@@ -60,8 +62,24 @@ namespace ThumbsUp.Console
 					case "a":
 						GetErrorMessage();
 						break;
+					case "b":
+						UserResetPassword();
+						break;
+					case "c":
+						ForgotPasswordRequest();
+						break;
+					case "d":
+						ForgotPasswordReset();
+						break;
+
 				}
 			}
+		}
+
+		public static void Quit()
+		{
+			C.WriteLine("Quiting the Console");
+			Environment.Exit(0);
 		}
 
 		public static void CheckServiceIsRunning()
@@ -148,6 +166,49 @@ namespace ThumbsUp.Console
 			var result = ThumbsUpApi.GetErrorMessage(int.Parse(errorCode));
 			if (!IsError(result)) C.WriteLine("Success. Message = " + result.Data.ErrorMessage);
 		}
+
+		public static void UserResetPassword()
+		{
+			C.WriteLine("UserName?");
+			var username = C.ReadLine();
+			C.WriteLine("Password?");
+			var password = C.ReadLine();
+			var result = ThumbsUpApi.ResetPassword(username, password);
+			if (!IsError(result))
+			{
+				C.WriteLine("Success. The password has been reset");
+				CopyToClipboard((string)result.Data.Password, "password");
+			}
+		}
+
+		public static void ForgotPasswordRequest()
+		{
+			C.WriteLine("UserName?");
+			var username = C.ReadLine();
+			C.WriteLine("Email?");
+			var email = C.ReadLine();
+			var result = ThumbsUpApi.ForgotPasswordRequest(username, email);
+			if (!IsError(result))
+			{
+				C.WriteLine("Success. The request has been processed");
+				CopyToClipboard((string)result.Data.Token, "Request Token");
+			}
+		}
+
+		public static void ForgotPasswordReset()
+		{			
+			C.WriteLine("UserName?");
+			var username = C.ReadLine();
+			C.WriteLine("Request Token?");
+			var token = C.ReadLine();
+			var result = ThumbsUpApi.ForgotPasswordReset(username, token);
+			if (!IsError(result))
+			{
+				C.WriteLine("Success. The password has been reset");
+				CopyToClipboard((string)result.Data.Password, "Password");
+			}
+		}
+
 
 		private static Guid GetThumbKey()
 		{

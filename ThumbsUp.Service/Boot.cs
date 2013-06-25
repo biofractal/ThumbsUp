@@ -3,6 +3,7 @@ using Nancy.Bootstrapper;
 using Nancy.Helper;
 using Nancy.TinyIoc;
 using SimpleCrypto;
+using ThumbsUp.Domain;
 using ThumbsUp.Raven;
 using ThumbsUp.Service;
 
@@ -14,6 +15,7 @@ namespace ThumbsUp
 		{
 			container.Register<RavenSessionProvider>().AsSingleton();
 			container.Register<ICryptoService, PBKDF2>().AsSingleton();
+			container.Register<PasswordService>().AsSingleton();
 			base.ConfigureRequestContainer(container, context);
 		}
 
