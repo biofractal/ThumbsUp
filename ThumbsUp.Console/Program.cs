@@ -17,17 +17,18 @@ namespace ThumbsUp.Console
 				C.WriteLine();
 				C.WriteLine("   1 - Quit");
 				C.WriteLine("   2 - Check the service is running");
-				C.WriteLine("   3 - Register Application");
-				C.WriteLine("   4 - Register User");
-				C.WriteLine("   5 - User Login");
-				C.WriteLine("   6 - User From Key");
-				C.WriteLine("   7 - User Logout");
-				C.WriteLine("   8 - Validate Key");
-				C.WriteLine("   9 - Validate UserName");
-				C.WriteLine("   a - Decode Error");
-				C.WriteLine("   b - User Reset Password");
-				C.WriteLine("   c - Forgot Password Request");
-				C.WriteLine("   d - Forgot Password Reset");
+				C.WriteLine("   3 - Register New Application");
+				C.WriteLine("   4 - Register Existing Application");
+				C.WriteLine("   5 - Register User");
+				C.WriteLine("   6 - User Login");
+				C.WriteLine("   7 - User From Key");
+				C.WriteLine("   8 - User Logout");
+				C.WriteLine("   9 - Validate Key");
+				C.WriteLine("   a - Validate UserName");
+				C.WriteLine("   b - Decode Error");
+				C.WriteLine("   c - User Reset Password");
+				C.WriteLine("   d - Forgot Password Request");
+				C.WriteLine("   e - Forgot Password Reset");
 				C.WriteLine();
 
 				switch (C.ReadLine())
@@ -39,38 +40,42 @@ namespace ThumbsUp.Console
 						CheckServiceIsRunning();
 						break;
 					case "3":
-						RegisterApplication();
-						break;
+						RegisterNewApplication();
+						break;					
 					case "4":
-						RegisterUser();
+						RegisterExistingApplication();
 						break;
 					case "5":
-						UserLogin();
+						RegisterUser();
 						break;
 					case "6":
-						UserFromKey();
+						UserLogin();
 						break;
 					case "7":
-						UserLogout();
+						UserFromKey();
 						break;
 					case "8":
-						ValidateKey();
+						UserLogout();
 						break;
 					case "9":
-						ValidateUserName();
+						ValidateKey();
 						break;
 					case "a":
-						GetErrorMessage();
+						ValidateUserName();
 						break;
 					case "b":
-						UserResetPassword();
+						GetErrorMessage();
 						break;
 					case "c":
-						ForgotPasswordRequest();
+						UserResetPassword();
 						break;
 					case "d":
+						ForgotPasswordRequest();
+						break;
+					case "e":
 						ForgotPasswordReset();
 						break;
+
 
 				}
 			}
@@ -125,18 +130,30 @@ namespace ThumbsUp.Console
 			}
 		}
 
-		public static void RegisterApplication()
+		public static void RegisterNewApplication()
 		{
 			C.WriteLine("Application Name?");
 			var name = C.ReadLine();
-			var result = ThumbsUpApi.CreateApplication(name);
+			var result = ThumbsUpApi.RegisterNewApplication(name);
 			if (!IsError(result))
 			{
 				C.WriteLine("Success. The new Application has been registered");
 				CopyToClipboard((string)result.Data.ApplicationId, "Application Id");
 			}
 		}
-
+		public static void RegisterExistingApplication()
+		{
+			C.WriteLine("Application Name?");
+			var name = C.ReadLine();
+			C.WriteLine("Application Id?");
+			var applicationId = C.ReadLine();
+			var result = ThumbsUpApi.RegisterExistingApplication(name, applicationId);
+			if (!IsError(result))
+			{
+				C.WriteLine("Success. The existing Application has been registered");
+				CopyToClipboard((string)result.Data.ApplicationId, "Application Id");
+			}
+		}
 		public static void UserFromKey()
 		{
 			var thumbKey = GetThumbKey();

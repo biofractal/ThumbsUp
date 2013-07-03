@@ -14,11 +14,22 @@ namespace ThumbsUp.Service
 			Db = documentSessionProvider.Get();
 		}
 
-		public Application Create(string name)
+		public Application RegisterNew(string name)
 		{
 			var application = new Application()
 			{
 				Id = Guid.NewGuid().ToString(),
+				Name = name
+			};
+			Db.Store(application);
+			return application;
+		}
+
+		public Application RegisterExisting(string name, string id)
+		{
+			var application = new Application()
+			{
+				Id = id,
 				Name = name
 			};
 			Db.Store(application);

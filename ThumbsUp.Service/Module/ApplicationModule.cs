@@ -9,10 +9,17 @@ namespace ThumbsUp.Module
 	{
 		public ApplicationModule(ApplicationService applicationService)	: base("/application")
 		{
-			Post["/create"] = _ =>
+			Post["/register/new"] = _ =>
 			{
 				var name = (string)Request.Form.name;
-				var application = applicationService.Create(name);
+				var application = applicationService.RegisterNew(name);
+				return Response.AsJson(new { ApplicationId = application.Id });
+			};
+			Post["/register/existing"] = _ =>
+			{
+				var name = (string)Request.Form.name;
+				var id = (string)Request.Form.id;
+				var application = applicationService.RegisterExisting(name, id);
 				return Response.AsJson(new { ApplicationId = application.Id });
 			};
 		}
