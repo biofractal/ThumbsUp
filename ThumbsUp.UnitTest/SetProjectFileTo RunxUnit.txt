@@ -1,0 +1,8 @@
+﻿
+// 1. Unload the UnitTest project
+// 2. Edit the Project File
+// 3. Place the following at the bottom of the first PropertyGroup tag
+
+<StartAction>Program</StartAction>
+<StartProgram>F:\Development\ThumbsUp\packages\xunit.runners.1.9.1\tools\xunit.console.clr4.exe</StartProgram>
+<StartArguments>ThumbsUp.UnitTest.dll /wait</StartArguments>
