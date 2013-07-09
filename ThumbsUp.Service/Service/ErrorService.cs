@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace ThumbsUp.Domain
+namespace ThumbsUp.Service.Domain
 {
 	public static class ErrorService
 	{

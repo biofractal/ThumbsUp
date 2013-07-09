@@ -1,6 +1,6 @@
 ﻿using SimpleCrypto;
 
-namespace ThumbsUp.Domain
+namespace ThumbsUp.Service.Domain
 {
 	public class Password
 	{

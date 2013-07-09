@@ -1,8 +1,8 @@
 ﻿using Raven.Client.Indexes;
 using System.Linq;
-using ThumbsUp.Domain;
+using ThumbsUp.Service.Domain;
 
-namespace ThumbsUp.Raven
+namespace ThumbsUp.Service.Raven
 {
 	public class RavenIndexes
 	{

@@ -1,5 +1,5 @@
 ﻿
-namespace ThumbsUp.Domain
+namespace ThumbsUp.Service.Domain
 {
 	public class Application
 	{

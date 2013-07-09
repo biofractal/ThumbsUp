@@ -1,9 +1,9 @@
 ﻿using Nancy;
 using Nancy.Helper;
-using ThumbsUp.Domain;
+using ThumbsUp.Service.Domain;
 using ThumbsUp.Service;
 
-namespace ThumbsUp.Module
+namespace ThumbsUp.Service.Module
 {
 	public class RootModule : NancyModule
 	{

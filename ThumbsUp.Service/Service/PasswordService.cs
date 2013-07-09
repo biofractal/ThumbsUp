@@ -2,7 +2,7 @@
 using System;
 using System.Configuration;
 
-namespace ThumbsUp.Domain
+namespace ThumbsUp.Service.Domain
 {
 	public class PasswordService
 	{

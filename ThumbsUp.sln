@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Console", "ThumbsU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nancy.Helper", "..\Nancy.Helper\Nancy.Helper\Nancy.Helper.csproj", "{1561B149-5DCE-417A-BD61-3C6E37645468}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.UnitTest", "ThumbsUp.UnitTest\ThumbsUp.UnitTest.csproj", "{E5C36322-A4C7-4C92-8055-4712113B59EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{1561B149-5DCE-417A-BD61-3C6E37645468}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1561B149-5DCE-417A-BD61-3C6E37645468}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1561B149-5DCE-417A-BD61-3C6E37645468}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

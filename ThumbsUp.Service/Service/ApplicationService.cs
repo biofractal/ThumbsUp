@@ -1,15 +1,18 @@
-﻿using Raven.Client;
+﻿using Nancy.Helper;
+using Raven.Client;
 using SimpleCrypto;
 using System;
-using ThumbsUp.Domain;
-using ThumbsUp.Raven;
+using System.Configuration;
+using ThumbsUp.Service.Domain;
+using ThumbsUp.Service.Raven;
 
 namespace ThumbsUp.Service
 {
 	public class ApplicationService
 	{
+		private readonly string AdminId = "ac8dfe73-4cc2-409c-99bc-36e738f6e29c";
 		private readonly IDocumentSession Db;
-		public ApplicationService(RavenSessionProvider documentSessionProvider)
+		public ApplicationService(IRavenSessionProvider documentSessionProvider)
 		{
 			Db = documentSessionProvider.Get();
 		}
@@ -41,10 +44,11 @@ namespace ThumbsUp.Service
 			return Db.Load<Application>(id);
 		}
 
-		public bool ApplicationDoesNotExist(string id)
+		public bool ApplicationIsRegistered(string id)
 		{
-			if(string.IsNullOrEmpty(id)) return true;
-			return Get(id)==null;
+			if(string.IsNullOrEmpty(id)) return false;
+			if (id == AdminId) return true;
+			return Get(id)!=null;
 		}
 	}
 }

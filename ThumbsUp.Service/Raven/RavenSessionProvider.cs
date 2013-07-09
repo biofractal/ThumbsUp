@@ -8,9 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ThumbsUp.Raven
+namespace ThumbsUp.Service.Raven
 {
-	public class RavenSessionProvider
+	public interface IRavenSessionProvider
+	{ 
+		bool SessionInitialized { get; set; }
+		IDocumentSession Get();
+	}
+
+	public class RavenSessionProvider:IRavenSessionProvider
 	{
 		private static IDocumentStore documentStore;
 		private IDocumentSession documentSession;

@@ -2,7 +2,7 @@
 using ThumbsUp.Service;
 using Topshelf;
 
-namespace ThumbsUp
+namespace ThumbsUp.Service
 {
 	public class Program
 	{

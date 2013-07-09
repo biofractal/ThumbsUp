@@ -3,8 +3,8 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.Runtime.Caching;
-using ThumbsUp.Domain;
-using ThumbsUp.Raven;
+using ThumbsUp.Service.Domain;
+using ThumbsUp.Service.Raven;
 
 namespace ThumbsUp.Service
 {
@@ -16,7 +16,7 @@ namespace ThumbsUp.Service
 		private static readonly int SlidingExpirationMinutes = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.SlidingExpiration.Minutes"]);
 		private static readonly int PasswordCharactersCount = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
 
-		public UserService(RavenSessionProvider documentSessionProvider, PasswordService passwordService)
+		public UserService(IRavenSessionProvider documentSessionProvider, PasswordService passwordService)
 		{
 			Db = documentSessionProvider.Get();
 			Pwd = passwordService;

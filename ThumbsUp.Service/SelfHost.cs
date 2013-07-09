@@ -5,7 +5,7 @@ using Nancy.Hosting.Self;
 using System;
 using System.Configuration;
 
-namespace ThumbsUp
+namespace ThumbsUp.Service
 {
 	public class SelfHost
 	{

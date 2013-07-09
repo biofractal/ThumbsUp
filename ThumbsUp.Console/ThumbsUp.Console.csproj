@@ -7,7 +7,7 @@
     <ProjectGuid>{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ThumbsUp.Console</RootNamespace>
+    <RootNamespace>ThumbsUp.Service.Console</RootNamespace>
     <AssemblyName>ThumbsUp.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -38,11 +38,11 @@
   <ItemGroup>
     <Reference Include="Nancy, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.0.18.0-Pre721\lib\net40\Nancy.dll</HintPath>
+      <HintPath>..\packages\Nancy.0.18.0-Pre724\lib\net40\Nancy.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Authentication.Forms, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.Authentication.Forms.0.18.0-Pre721\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
+      <HintPath>..\packages\Nancy.Authentication.Forms.0.18.0-Pre724\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>

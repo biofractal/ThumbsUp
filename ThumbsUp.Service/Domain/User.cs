@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ThumbsUp.Domain
+namespace ThumbsUp.Service.Domain
 {
 	public class User
 	{		

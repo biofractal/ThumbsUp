@@ -3,7 +3,7 @@ using System;
 using System.Windows.Forms;
 using C = System.Console;
 
-namespace ThumbsUp.Console
+namespace ThumbsUp.Service.Console
 {
 	public class Program
 	{
