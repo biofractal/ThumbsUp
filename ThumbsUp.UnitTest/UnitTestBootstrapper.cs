@@ -21,7 +21,7 @@ namespace ThumbsUp.UnitTest
 		protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
 		{
 			base.ConfigureRequestContainer(container, context);
-			container.Register<IRavenSessionProvider, UnitTestRavenSessionProvider>();
+			container.Register<IRavenSessionProvider, UnitTestRavenSessionProvider>().AsSingleton();
 		}
 	}
 }

@@ -19,6 +19,7 @@ namespace ThumbsUp.Service
 
 		public Application RegisterNew(string name)
 		{
+			if (string.IsNullOrWhiteSpace(name)) return null;
 			var application = new Application()
 			{
 				Id = Guid.NewGuid().ToString(),
@@ -30,6 +31,7 @@ namespace ThumbsUp.Service
 
 		public Application RegisterExisting(string name, string id)
 		{
+			if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(id)) return null;
 			var application = new Application()
 			{
 				Id = id,
@@ -46,7 +48,7 @@ namespace ThumbsUp.Service
 
 		public bool ApplicationIsRegistered(string id)
 		{
-			if(string.IsNullOrEmpty(id)) return false;
+			if(string.IsNullOrWhiteSpace(id)) return false;
 			if (id == AdminId) return true;
 			return Get(id)!=null;
 		}

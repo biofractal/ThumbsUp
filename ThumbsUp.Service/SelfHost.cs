@@ -4,6 +4,7 @@ using Nancy.Helper;
 using Nancy.Hosting.Self;
 using System;
 using System.Configuration;
+using Topshelf;
 
 namespace ThumbsUp.Service
 {

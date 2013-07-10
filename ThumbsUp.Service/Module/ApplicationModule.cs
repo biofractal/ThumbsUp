@@ -2,26 +2,26 @@
 using Nancy.Helper;
 using System;
 using ThumbsUp.Service;
+using ThumbsUp.Service.Domain;
 
 namespace ThumbsUp.Service.Module
 {
-	public class ApplicationModule : NancyModule
+	public class ApplicationModule : _BaseModule
 	{
 		public ApplicationModule(ApplicationService applicationService)	: base("/application")
 		{
 			Post["/register/new"] = _ =>
 			{
-				var name = (string)Request.Form.name;
-				var application = applicationService.RegisterNew(name);
-				return Response.AsJson(new { ApplicationId = application.Id }).WithStatusCode(HttpStatusCode.OK);
+				if (Params.AreMissing("Name")) return Params.Missing(Response);
+				var application = applicationService.RegisterNew(Params.Name);
+				return (application == null) ? ErrorService.Generate(Response, ErrorCode.InvalidParameters) : Response.AsJson(new { ApplicationId = application.Id });
 			};
 
 			Post["/register/existing"] = _ =>
 			{
-				var name = (string)Request.Form.name;
-				var id = (string)Request.Form.id;
-				var application = applicationService.RegisterExisting(name, id);
-				return Response.AsJson(new { ApplicationId = application.Id }).WithStatusCode(HttpStatusCode.OK);
+				if (Params.AreMissing("Name", "Id")) return Params.Missing(Response);
+				var application = applicationService.RegisterExisting(Params.Name, Params.Id);
+				return (application == null) ? ErrorService.Generate(Response, ErrorCode.InvalidParameters) : Response.AsJson(new { ApplicationId = application.Id });
 			};
 		}
 	}

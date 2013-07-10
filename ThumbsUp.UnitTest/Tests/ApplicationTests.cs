@@ -17,6 +17,11 @@ namespace ThumbsUp.UnitTest.Tests
 {
 	public class ApplicationTests : BaseTest
 	{
+		[Fact]
+		public void Should_return_missing_params_error_when_new_application_is_registered_with_missing_params()
+		{
+			TestMissingParams("/application/register/new");
+		}
 
 		[Fact]
 		public void Should_return_new_applicationid_when_new_application_is_registered()
@@ -37,6 +42,13 @@ namespace ThumbsUp.UnitTest.Tests
 
 			var payload = result.Body.DeserializeJson<Dictionary<string, object>>();
 			payload["ApplicationId"].ToString().IsGuid().ShouldBe(true);
+		}
+
+
+		[Fact]
+		public void Should_return_missing_params_error_when_existing_application_is_registered_with_missing_params()
+		{
+			TestMissingParams("/application/register/existing");
 		}
 
 		[Fact]
@@ -61,6 +73,9 @@ namespace ThumbsUp.UnitTest.Tests
 			var payload = result.Body.DeserializeJson<Dictionary<string, object>>();
 			payload["ApplicationId"].ShouldBe(existingApplicationId);
 		}
+
+
+
 
 	}
 }

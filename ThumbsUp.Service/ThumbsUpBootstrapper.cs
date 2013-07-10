@@ -13,9 +13,9 @@ namespace ThumbsUp.Service
 	{
 		protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
 		{
-			container.Register<IRavenSessionProvider, RavenSessionProvider>();
-			container.Register<ICryptoService, PBKDF2>();
-			container.Register<PasswordService>();
+			container.Register<IRavenSessionProvider, RavenSessionProvider>().AsSingleton();
+			container.Register<ICryptoService, PBKDF2>().AsSingleton();
+			container.Register<PasswordService>().AsSingleton();
 			base.ConfigureRequestContainer(container, context);
 		}
 
@@ -42,7 +42,7 @@ namespace ThumbsUp.Service
 
 			pipelines.AfterRequest += (ctx) =>
 			{
-				var documentSessionProvider = container.Resolve<RavenSessionProvider>();
+				var documentSessionProvider = container.Resolve<IRavenSessionProvider>();
 				if (!documentSessionProvider.SessionInitialized) return;
 				var documentSession = documentSessionProvider.Get();
 				if (ctx.Response.StatusCode != HttpStatusCode.InternalServerError)

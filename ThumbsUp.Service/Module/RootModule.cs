@@ -5,7 +5,7 @@ using ThumbsUp.Service;
 
 namespace ThumbsUp.Service.Module
 {
-	public class RootModule : NancyModule
+	public class RootModule : _BaseModule
 	{
 		public RootModule()
 		{
@@ -16,8 +16,8 @@ namespace ThumbsUp.Service.Module
 
 			Get["/error/{code}"] = url =>
 			{
-				var code = (int)url.code;
-				return Response.AsJson(new { ErrorCode = code, ErrorMessage = ErrorService.Decode(code) });
+				if (Params.AreMissing("Code")) return Params.Missing(Response);
+				return Response.AsJson(new { ErrorCode = Params.Code, ErrorMessage = ErrorService.Decode(Params.Code)});
 			};
 
 		}

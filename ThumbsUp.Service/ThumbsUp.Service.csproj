@@ -41,11 +41,11 @@
   <ItemGroup>
     <Reference Include="Nancy, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.0.18.0-Pre724\lib\net40\Nancy.dll</HintPath>
+      <HintPath>..\..\Manage Users\packages\Nancy.0.18.0\lib\net40\Nancy.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Hosting.Self, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.Hosting.Self.0.18.0-Pre724\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+      <HintPath>..\..\Manage Users\packages\Nancy.Hosting.Self.0.18.0\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions">
       <HintPath>..\packages\RavenDB.Client.2.0.2375\lib\net40\Raven.Abstractions.dll</HintPath>
@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Module\_BaseModule.cs" />
     <Compile Include="ThumbsUpBootstrapper.cs" />
     <Compile Include="Domain\Application.cs" />
     <Compile Include="Domain\Password.cs" />

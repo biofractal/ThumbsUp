@@ -1,9 +1,20 @@
 ﻿using Nancy;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
 namespace ThumbsUp.Service.Domain
 {
+	public enum ErrorCode 
+	{ 
+		InternalError,
+		InvalidParameters,
+		MissingParameters,
+		UserNameTaken,
+		NoUserForCredentials,
+		NoUserForThumbkey
+	}
+
 	public static class ErrorService
 	{
 		private struct Error
@@ -12,31 +23,30 @@ namespace ThumbsUp.Service.Domain
 			public Nancy.HttpStatusCode StatusCode { get; set; }
 		}
 
-		private static readonly Dictionary<int, Error> Errors = new Dictionary<int, Error>{
-			{0, new Error {Message = "Unrecognised internal error", StatusCode = Nancy.HttpStatusCode.BadRequest}},
-			{1, new Error {Message = "Incorrect UserName or Password", StatusCode = Nancy.HttpStatusCode.Unauthorized}},
-			{2, new Error {Message = "Cannot locate a User for the supplied identifier", StatusCode = Nancy.HttpStatusCode.NotFound}},
-			{3, new Error {Message = "The UserName has already been taken", StatusCode = Nancy.HttpStatusCode.BadRequest}},
-			{4, new Error {Message = "The Thumbkey is not valid", StatusCode = Nancy.HttpStatusCode.NotFound}},
-			{5, new Error {Message = "The UserName is currently in use", StatusCode = Nancy.HttpStatusCode.Forbidden}},
-			{6, new Error {Message = "Incorrect UserName or Email", StatusCode = Nancy.HttpStatusCode.Unauthorized}},
-			{7, new Error {Message = "Incorrect UserName or Forgot-Password Token", StatusCode = Nancy.HttpStatusCode.Unauthorized}},
+		private static readonly Dictionary<ErrorCode, Error> Errors = new Dictionary<ErrorCode, Error>{
+			{ErrorCode.InternalError, new Error {Message = "Unrecognised internal error", StatusCode = Nancy.HttpStatusCode.BadRequest}},
+			{ErrorCode.InvalidParameters, new Error {Message = "One or more required values were invalid", StatusCode = Nancy.HttpStatusCode.BadRequest}},
+			{ErrorCode.MissingParameters, new Error {Message = "One or more required values were missing", StatusCode = Nancy.HttpStatusCode.BadRequest}},
+			{ErrorCode.UserNameTaken, new Error {Message = "The UserName has already been taken", StatusCode = Nancy.HttpStatusCode.BadRequest}},
+			{ErrorCode.NoUserForCredentials, new Error {Message = "No User could be found for the supplied credentials", StatusCode = Nancy.HttpStatusCode.NotFound}},
+			{ErrorCode.NoUserForThumbkey, new Error {Message = "The User could be found for the supplied ThumbKey", StatusCode = Nancy.HttpStatusCode.NotFound}}
 		};
 
-		public static Response Generate(IResponseFormatter response, int code)
+		public static Response Generate(IResponseFormatter response, ErrorCode code)
 		{
 			var error = (Errors.ContainsKey(code)) ? Errors[code] : Errors[0];
 			return response.AsJson(new
 			{
-				ErrorCode = code,
+				ErrorCode = (int)code,
 				ErrorMessage = error.Message
 			})
 			.WithStatusCode(error.StatusCode);
 		}
 
-		public static string Decode(int code)
+		public static string Decode(string code)
 		{
-			var error = (Errors.ContainsKey(code)) ? Errors[code] : Errors[0];
+			var key = (ErrorCode)int.Parse(code);
+			var error = (Errors.ContainsKey(key)) ? Errors[key] : Errors[0];
 			return error.Message;
 		}
 	}

@@ -4,77 +4,72 @@ using ThumbsUp.Service;
 
 namespace ThumbsUp.Service.Module
 {
-	public class UserModule : NancyModule
+	public class UserModule : _BaseModule
 	{
 		public UserModule(UserService userService) : base("/user")
 		{
 			Post["/create"] = _ =>
 			{
-				var username = (string)Request.Form.username;
-				if (!userService.ValidateUserName(username)) return ErrorService.Generate(Response, 3);
-				var email = (string)Request.Form.email;
-				var password = userService.CreateUser(username, email);
-				return Response.AsJson(new { Password = password });
+				if (Params.AreMissing("UserName")) return Params.Missing(Response);
+				if (!userService.ValidateUserName(Params.UserName)) return ErrorService.Generate(Response, ErrorCode.UserNameTaken);
+				var password = userService.CreateUser(Params.UserName, Params.Email);
+				return (string.IsNullOrWhiteSpace(password)) ? ErrorService.Generate(Response, ErrorCode.NoUserForCredentials) : Response.AsJson(new { Password = password });
 			};
 
 			Post["/get"] = _ =>
 			{
-				var thumbkey = (string)Request.Form.thumbkey;
-				var user = userService.GetUserFromIdentifier(thumbkey);
-				return (user == null) ? ErrorService.Generate(Response, 2) : Response.AsJson(new { User = new { Id = user.Id, UserName = user.UserName, Email = user.Email} });
+				if (Params.AreMissing("ThumbKey")) return Params.Missing(Response);
+				var user = userService.GetUserFromIdentifier(Params.ThumbKey);
+				return (user == null) ? ErrorService.Generate(Response, ErrorCode.NoUserForThumbkey) : Response.AsJson(new { User = new { Id = user.Id, UserName = user.UserName, Email = user.Email } });
 			};
 
 			Post["/validate"] = _ =>
 			{
-				var username = (string)Request.Form.username;
-				var password = (string)Request.Form.password;
-				var key = userService.ValidateUser(username, password);
-				return (key == null) ? ErrorService.Generate(Response, 1) : Response.AsJson( new { ThumbKey = key });
+				if (Params.AreMissing("UserName", "Password")) return Params.Missing(Response);
+				var key = userService.ValidateUser(Params.UserName, Params.Password);
+				return (key == null) ? ErrorService.Generate(Response, ErrorCode.NoUserForCredentials) : Response.AsJson(new { ThumbKey = key });
 			};
 
 			Post["/validate/thumbkey"] = _ =>
 			{
-				var thumbkey = (string)Request.Form.thumbkey;
-				var isValid = userService.ValidateIdentifier(thumbkey);
-				return !isValid ? ErrorService.Generate(Response, 4) : HttpStatusCode.OK;
+				if (Params.AreMissing("ThumbKey")) return Params.Missing(Response);
+				var isValid = userService.ValidateIdentifier(Params.ThumbKey);
+				return !isValid ? ErrorService.Generate(Response, ErrorCode.NoUserForThumbkey) : HttpStatusCode.OK;
 			};
 
 			Post["/validate/name"] = _ =>
 			{
-				var username = (string)Request.Form.username;
-				var isValid = userService.ValidateUserName(username);
-				return !isValid ? ErrorService.Generate(Response, 5) : HttpStatusCode.OK;
+				if (Params.AreMissing("UserName")) return Params.Missing(Response);
+				var isValid = userService.ValidateUserName(Params.UserName);
+				return !isValid ? ErrorService.Generate(Response, ErrorCode.UserNameTaken) : HttpStatusCode.OK;
 			};
 
 			Post["/reset/password"] = _ =>
 			{
-				var username = (string)Request.Form.username;
-				var oldPassword = (string)Request.Form.password;
-				var newPassword = userService.ResetPassword(username, oldPassword);
-				return (newPassword == null) ? ErrorService.Generate(Response, 1) : Response.AsJson(new { Password = newPassword });
+				if (Params.AreMissing("UserName", "Password")) return Params.Missing(Response);
+				var password = userService.ResetPassword(Params.UserName, Params.Password);
+				return (password == null) ? ErrorService.Generate(Response, ErrorCode.NoUserForCredentials) : Response.AsJson(new { Password = password });
 			};
 
 			Post["/forgot-password/request"] = _ =>
 			{
-				var username = (string)Request.Form.username;
-				var email = (string)Request.Form.email;
-				var token = userService.ForgotPasswordRequest(username, email);
-				return (token == null) ? ErrorService.Generate(Response, 6) : Response.AsJson(new { Token = token });
+				if (Params.AreMissing("UserName", "Email")) return Params.Missing(Response);
+				var token = userService.ForgotPasswordRequest(Params.UserName, Params.Email);
+				return (token == null) ? ErrorService.Generate(Response, ErrorCode.NoUserForCredentials) : Response.AsJson(new { Token = token });
 			};
 
 			Post["/forgot-password/reset"] = _ =>
 			{
-				var username = (string)Request.Form.username;
-				var token = (string)Request.Form.token;
-				var password = userService.ForgotPasswordReset(username, token);
-				return (password == null) ? ErrorService.Generate(Response, 7) : Response.AsJson(new { Password = password });
+				if (Params.AreMissing("UserName", "Token")) return Params.Missing(Response);
+				var password = userService.ForgotPasswordReset(Params.UserName, Params.Token);
+				return (password == null) ? ErrorService.Generate(Response, ErrorCode.NoUserForCredentials) : Response.AsJson(new { Password = password });
 			};
 
 			Post["/logout"] = _ =>
 			{
-				var thumbkey = (string)Request.Form.thumbkey;
-				var success = userService.RemoveUserFromCache(thumbkey);
-				return !success ? ErrorService.Generate(Response, 4) : HttpStatusCode.OK;
+				if (Params.AreMissing("ThumbKey")) return Params.Missing(Response);
+				var success = userService.RemoveUserFromCache(Params.ThumbKey);
+				return !success ? ErrorService.Generate(Response, ErrorCode.NoUserForThumbkey) : HttpStatusCode.OK;
 			};
 
 		}
