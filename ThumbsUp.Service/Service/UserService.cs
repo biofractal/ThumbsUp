@@ -5,25 +5,26 @@ using System.Linq;
 using System.Runtime.Caching;
 using ThumbsUp.Service.Domain;
 using ThumbsUp.Service.Raven;
+using Nancy.Helper;
 
 namespace ThumbsUp.Service
 {
 	public class UserService
 	{
-		private readonly MemoryCache Cache = MemoryCache.Default;
+		private readonly IUserCacheService Cache;
 		private readonly IDocumentSession Db;
 		private readonly PasswordService Pwd;
-		private static readonly int SlidingExpirationMinutes = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.SlidingExpiration.Minutes"]);
-		private static readonly int PasswordCharactersCount = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
 
-		public UserService(IRavenSessionProvider documentSessionProvider, PasswordService passwordService)
+		public UserService(IRavenSessionProvider documentSessionProvider, IUserCacheService cache, PasswordService passwordService)
 		{
 			Db = documentSessionProvider.Get();
 			Pwd = passwordService;
+			Cache = cache;
 		}
 
 		public string CreateUser(string username, string email)
 		{
+			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email)) return null;
 			var password = Pwd.Generate();
 			var user = new User()
 			{
@@ -39,6 +40,7 @@ namespace ThumbsUp.Service
 
 		public string ResetPassword(string username, string candidatePassword)
 		{
+			if (string.IsNullOrWhiteSpace(username)) return null;
 			var user = GetUserByName(username);
 			if (user == null) return null;
 			if (!Pwd.IsPasswordValid(user, candidatePassword)) return null;
@@ -51,6 +53,7 @@ namespace ThumbsUp.Service
 
 		public string ForgotPasswordRequest(string username, string email)
 		{
+			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email)) return null;
 			var user = GetUserByName(username);
 			if (user == null || user.Email!=email) return null;
 			var token = Guid.NewGuid().ToString();
@@ -62,6 +65,7 @@ namespace ThumbsUp.Service
 
 		public string ForgotPasswordReset(string username, string token)
 		{
+			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(token)) return null;
 			var user = GetUserByName(username);
 			if (user == null || !Pwd.IsForgotPasswordTokenValid(user, token)) return null;
 			var password = Pwd.Generate();
@@ -72,43 +76,20 @@ namespace ThumbsUp.Service
 			return password.Clear;
 		}
 
-		public User GetUserFromIdentifier(string key)
-		{
-			if (!Cache.Contains(key)) return null;
-			return (User)Cache[key];
-		}
-
 		public string ValidateUser(string username, string candidatePassword)
 		{
+			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(candidatePassword)) return null;
 			var user = GetUserByName(username);
 			if (user == null) return null;
 			if (!Pwd.IsPasswordValid(user, candidatePassword)) return null;
 			return  AddUserToCache(user);
 		}
 
-		public bool ValidateIdentifier(string key)
+		public bool IsValidUserName(string username)
 		{
-			return Cache.Contains(key);
-		}
-
-		public bool ValidateUserName(string username)
-		{
+			if (string.IsNullOrWhiteSpace(username) ) return false;
 			var user = GetUserByName(username);
 			return user == null;
-		}
-
-		public string AddUserToCache(User user)
-		{
-			var key = Guid.NewGuid().ToString();
-			Cache.Add(key, user, new CacheItemPolicy() { SlidingExpiration = new TimeSpan(0, SlidingExpirationMinutes, 0) });
-			return key;
-		}
-
-		public bool RemoveUserFromCache(string key)
-		{
-			if (!Cache.Contains(key)) return false;
-			Cache.Remove(key);
-			return true;
 		}
 
 		private User GetUserByName(string username)
@@ -116,5 +97,24 @@ namespace ThumbsUp.Service
 			return Db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName==username);
 		}
 
+		public User GetUserFromIdentifier(string thumbKey)
+		{
+			return Cache.GetUser(thumbKey);
+		}
+
+		public bool ValidateIdentifier(string thumbKey)
+		{
+			return Cache.Validate(thumbKey);
+		}
+
+		public string AddUserToCache(User user)
+		{
+			return Cache.Add(user);
+		}
+
+		public bool RemoveUserFromCache(string thumbKey)
+		{
+			return Cache.Remove(thumbKey);
+		}
 	}
 }

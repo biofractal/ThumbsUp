@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ThumbsUp.Service.Raven;
+using Nancy.Helper;
 
 namespace ThumbsUp.UnitTest
 {
@@ -23,6 +24,14 @@ namespace ThumbsUp.UnitTest
 			SessionInitialized = true;
 			documentSession = documentSession ?? (documentSession = DocumentStore.OpenSession());
 			return documentSession;
+		}
+
+		public void SaveChangesAfterRequest()
+		{
+			if (!this.SessionInitialized) return;
+			documentSession.SaveChanges();
+			documentSession.ClearStaleIndexes();
+			documentSession.Dispose();
 		}
 
 		private static IDocumentStore DocumentStore

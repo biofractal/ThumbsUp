@@ -5,7 +5,6 @@ using Nancy.TinyIoc;
 using SimpleCrypto;
 using ThumbsUp.Service.Domain;
 using ThumbsUp.Service.Raven;
-using ThumbsUp.Service;
 
 namespace ThumbsUp.Service
 {
@@ -14,8 +13,9 @@ namespace ThumbsUp.Service
 		protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
 		{
 			container.Register<IRavenSessionProvider, RavenSessionProvider>().AsSingleton();
-			container.Register<ICryptoService, PBKDF2>().AsSingleton();
-			container.Register<PasswordService>().AsSingleton();
+			container.Register<ICryptoService, PBKDF2>();
+			container.Register<IUserCacheService, UserCacheService>();
+			container.Register<PasswordService>();
 			base.ConfigureRequestContainer(container, context);
 		}
 
@@ -42,14 +42,7 @@ namespace ThumbsUp.Service
 
 			pipelines.AfterRequest += (ctx) =>
 			{
-				var documentSessionProvider = container.Resolve<IRavenSessionProvider>();
-				if (!documentSessionProvider.SessionInitialized) return;
-				var documentSession = documentSessionProvider.Get();
-				if (ctx.Response.StatusCode != HttpStatusCode.InternalServerError)
-				{
-					documentSession.SaveChanges();
-				}
-				documentSession.Dispose();
+				if (ctx.Response.StatusCode == HttpStatusCode.OK) container.Resolve<IRavenSessionProvider>().SaveChangesAfterRequest();
 				Log.Response(ctx.Response);
 			};
 

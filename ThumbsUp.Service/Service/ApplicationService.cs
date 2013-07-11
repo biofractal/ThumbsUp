@@ -31,7 +31,7 @@ namespace ThumbsUp.Service
 
 		public Application RegisterExisting(string name, string id)
 		{
-			if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(id)) return null;
+			if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(id) || !id.IsGuid()) return null;
 			var application = new Application()
 			{
 				Id = id,

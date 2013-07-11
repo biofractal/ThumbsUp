@@ -2,17 +2,14 @@
 using Raven.Client.Document;
 using Raven.Client.Indexes;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ThumbsUp.Service.Raven
 {
 	public interface IRavenSessionProvider
 	{ 
 		bool SessionInitialized { get; set; }
+		void SaveChangesAfterRequest();
 		IDocumentSession Get();
 	}
 
@@ -20,7 +17,6 @@ namespace ThumbsUp.Service.Raven
 	{
 		private static IDocumentStore documentStore;
 		private IDocumentSession documentSession;
-
 		public bool SessionInitialized { get; set; }
 
 		public IDocumentSession Get()
@@ -28,6 +24,13 @@ namespace ThumbsUp.Service.Raven
 			SessionInitialized = true;
 			documentSession = documentSession ?? (documentSession = DocumentStore.OpenSession());
 			return documentSession;
+		}
+	
+		public void SaveChangesAfterRequest()
+		{
+			if (!this.SessionInitialized) return;
+			documentSession.SaveChanges();
+			documentSession.Dispose();
 		}
 
 		private static IDocumentStore DocumentStore
@@ -59,5 +62,6 @@ namespace ThumbsUp.Service.Raven
 				return connectionStringName;
 			}
 		}
+
 	}
 }

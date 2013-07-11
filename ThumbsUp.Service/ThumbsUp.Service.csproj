@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Module\_BaseModule.cs" />
+    <Compile Include="Service\UserCacheService.cs" />
     <Compile Include="ThumbsUpBootstrapper.cs" />
     <Compile Include="Domain\Application.cs" />
     <Compile Include="Domain\Password.cs" />

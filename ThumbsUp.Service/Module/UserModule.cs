@@ -1,4 +1,5 @@
 ﻿using Nancy;
+using Nancy.Helper;
 using ThumbsUp.Service.Domain;
 using ThumbsUp.Service;
 
@@ -10,17 +11,11 @@ namespace ThumbsUp.Service.Module
 		{
 			Post["/create"] = _ =>
 			{
-				if (Params.AreMissing("UserName")) return Params.Missing(Response);
-				if (!userService.ValidateUserName(Params.UserName)) return ErrorService.Generate(Response, ErrorCode.UserNameTaken);
+				if (Params.AreMissing("UserName", "Email")) return Params.Missing(Response);
+				if (!userService.IsValidUserName(Params.UserName)) return ErrorService.Generate(Response, ErrorCode.UserNameTaken);
+				if (!Params.Email.IsEmail()) return ErrorService.Generate(Response, ErrorCode.InvalidParameters);
 				var password = userService.CreateUser(Params.UserName, Params.Email);
 				return (string.IsNullOrWhiteSpace(password)) ? ErrorService.Generate(Response, ErrorCode.NoUserForCredentials) : Response.AsJson(new { Password = password });
-			};
-
-			Post["/get"] = _ =>
-			{
-				if (Params.AreMissing("ThumbKey")) return Params.Missing(Response);
-				var user = userService.GetUserFromIdentifier(Params.ThumbKey);
-				return (user == null) ? ErrorService.Generate(Response, ErrorCode.NoUserForThumbkey) : Response.AsJson(new { User = new { Id = user.Id, UserName = user.UserName, Email = user.Email } });
 			};
 
 			Post["/validate"] = _ =>
@@ -30,9 +25,18 @@ namespace ThumbsUp.Service.Module
 				return (key == null) ? ErrorService.Generate(Response, ErrorCode.NoUserForCredentials) : Response.AsJson(new { ThumbKey = key });
 			};
 
+			Post["/get"] = _ =>
+			{
+				if (Params.AreMissing("ThumbKey")) return Params.Missing(Response);
+				if (!Params.ThumbKey.IsGuid()) return ErrorService.Generate(Response, ErrorCode.InvalidParameters);
+				var user = userService.GetUserFromIdentifier(Params.ThumbKey);
+				return (user == null) ? ErrorService.Generate(Response, ErrorCode.NoUserForThumbkey) : Response.AsJson(new { User = new { Id = user.Id, UserName = user.UserName, Email = user.Email } });
+			};
+
 			Post["/validate/thumbkey"] = _ =>
 			{
 				if (Params.AreMissing("ThumbKey")) return Params.Missing(Response);
+				if (!Params.ThumbKey.IsGuid()) return ErrorService.Generate(Response, ErrorCode.InvalidParameters);
 				var isValid = userService.ValidateIdentifier(Params.ThumbKey);
 				return !isValid ? ErrorService.Generate(Response, ErrorCode.NoUserForThumbkey) : HttpStatusCode.OK;
 			};
@@ -40,7 +44,7 @@ namespace ThumbsUp.Service.Module
 			Post["/validate/name"] = _ =>
 			{
 				if (Params.AreMissing("UserName")) return Params.Missing(Response);
-				var isValid = userService.ValidateUserName(Params.UserName);
+				var isValid = userService.IsValidUserName(Params.UserName);
 				return !isValid ? ErrorService.Generate(Response, ErrorCode.UserNameTaken) : HttpStatusCode.OK;
 			};
 
@@ -68,6 +72,7 @@ namespace ThumbsUp.Service.Module
 			Post["/logout"] = _ =>
 			{
 				if (Params.AreMissing("ThumbKey")) return Params.Missing(Response);
+				if (!Params.ThumbKey.IsGuid()) return ErrorService.Generate(Response, ErrorCode.InvalidParameters);
 				var success = userService.RemoveUserFromCache(Params.ThumbKey);
 				return !success ? ErrorService.Generate(Response, ErrorCode.NoUserForThumbkey) : HttpStatusCode.OK;
 			};

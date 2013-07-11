@@ -4,9 +4,9 @@ using System.Configuration;
 
 namespace ThumbsUp.Service.Domain
 {
+
 	public class PasswordService
 	{
-
 		private static readonly int PasswordCharactersCount = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
 		private static readonly int ForgotPasswordTimeLimitMinutes = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.ForgotPassword.TimeLimit.Minutes"]);
 
@@ -34,7 +34,7 @@ namespace ThumbsUp.Service.Domain
 				user != null &&
 				user.ForgotPasswordRequestToken == token && 
 				(DateTime.Now - user.ForgotPasswordRequestDate).Minutes < ForgotPasswordTimeLimitMinutes;
-		}	
+		}
 
 	}
 }

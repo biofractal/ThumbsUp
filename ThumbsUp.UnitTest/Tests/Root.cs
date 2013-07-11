@@ -12,14 +12,14 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Tests
 {
-	public class RootTests : BaseTest
+	public class Root : _BaseTest
 	{
 
 		[Fact]
 		public void Should_return_status_ok_when_applicationid_is_builtin_adminid()
 		{
 			// Given
-			var browser = NewBrowser();
+			var browser = StdBrowser();
 
 			// When
 			var result = browser.Get("/", with =>
@@ -33,11 +33,28 @@ namespace ThumbsUp.UnitTest.Tests
 			result.Body.AsString().ShouldBe("ThumbsUp Security Service is Running");
 		}
 
+		#region Errors
+		[Fact]
+		public void Should_return_status_unauthorized_when_applicationid_is_missing()
+		{
+			// Given
+			var browser = StdBrowser();
+
+			// When
+			var result = browser.Get("/", with =>
+			{
+				with.HttpRequest();
+			});
+
+			// Then
+			result.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+		}
+
 		[Fact]
 		public void Should_return_status_unauthorized_when_applicationid_is_not_registered()
 		{
 			// Given
-			var browser = NewBrowser();
+			var browser = StdBrowser();
 
 			// When
 			var result = browser.Get("/", with =>
@@ -49,6 +66,6 @@ namespace ThumbsUp.UnitTest.Tests
 			// Then
 			result.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
 		}
-
+		#endregion
 	}
 }
