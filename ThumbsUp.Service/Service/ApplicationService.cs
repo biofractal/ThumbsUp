@@ -8,7 +8,15 @@ using ThumbsUp.Service.Raven;
 
 namespace ThumbsUp.Service
 {
-	public class ApplicationService
+	public interface IApplicationService
+	{
+		Application RegisterNew(string name);
+		Application RegisterExisting(string name, string id);
+		Application Get(string id);
+		bool ApplicationIsRegistered(string id);
+	}
+
+	public class ApplicationService : IApplicationService
 	{
 		private readonly string AdminId = "ac8dfe73-4cc2-409c-99bc-36e738f6e29c";
 		private readonly IDocumentSession Db;

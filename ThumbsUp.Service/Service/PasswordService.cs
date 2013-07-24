@@ -4,8 +4,14 @@ using System.Configuration;
 
 namespace ThumbsUp.Service.Domain
 {
+	public interface IPasswordService
+	{
+		Password Generate();
+		bool IsPasswordValid(User user, string clear);
+		bool IsForgotPasswordTokenValid(User user, string token);
+	}
 
-	public class PasswordService
+	public class PasswordService : IPasswordService
 	{
 		private static readonly int PasswordCharactersCount = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
 		private static readonly int ForgotPasswordTimeLimitMinutes = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.ForgotPassword.TimeLimit.Minutes"]);

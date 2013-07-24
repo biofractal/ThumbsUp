@@ -12,24 +12,23 @@ using ThumbsUp.Service.Domain;
 using ThumbsUp.Service.Module;
 using Xunit;
 
-
 #endregion
 
 namespace ThumbsUp.UnitTest.Tests
 {
-	public class UserGet : _BaseTest
+	public class UserLogout : _BaseTest
 	{
 		[Fact]
-		public void Should_return_user_details_when_user_is_retrieved_with_valid_thumbkey()
+		public void Should_return_OK_when_valid_thumbkey_is_supplied()
 		{
 			// Given
-			var mockUserCacheService = A.Fake<IUserCacheService>();
-			A.CallTo(() => mockUserCacheService.GetUser(A<string>.Ignored)).Returns(new User { UserName="mock-user"});
-			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserCacheService: mockUserCacheService);
+			var mockUserService = A.Fake<IUserService>();
+			A.CallTo(() => mockUserService.RemoveUserFromCache(A<string>.Ignored)).Returns(true);
+			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserService: mockUserService);
 			var validGuid = Guid.NewGuid().ToString();
 
 			// When
-			var result = userTestBrowser.Post("/user/get", with =>
+			var result = userTestBrowser.Post("/user/logout", with =>
 			{
 				with.HttpRequest();
 				with.FormValue("thumbkey", validGuid);
@@ -37,40 +36,34 @@ namespace ThumbsUp.UnitTest.Tests
 
 			// Then
 			result.StatusCode.ShouldBe(HttpStatusCode.OK);
-
-			var payload = result.Body.DeserializeJson<Dictionary<string, object>>();
-			payload.ContainsItems("User").ShouldBe(true);
-			var user = payload["User"];
-			((Dictionary<string, object>)user)["UserName"].ShouldBe("mock-user");
 		}
-
 
 		#region Errors
 
 		[Fact]
 		public void Should_return_MissingParameters_error_when_user_is_retrieved_with_missing_params()
 		{
-			TestMissingParams<UserModule>("/user/get");
+			TestMissingParams<UserModule>("/user/logout");
 		}
 
 		[Fact]
 		public void Should_return_InvalidParameters_error_when_user_is_retrieved_with_invalid_thumbkey()
 		{
 			var formValues = new Dictionary<string, string>() { { "thumbkey", "<invalid-guid>" } };
-			TestInvalidParams<UserModule>("/user/get", formValues);
+			TestInvalidParams<UserModule>("/user/logout", formValues);
 		}
 
 		[Fact]
 		public void Should_return_NoUserForThumbkey_error_when_user_is_retrieved_with_valid_but_unknown_thumbkey()
 		{
 			// Given
-			var mockUserCacheService = A.Fake<IUserCacheService>();
-			A.CallTo(() => mockUserCacheService.GetUser(A<string>.Ignored)).Returns(null);
-			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserCacheService: mockUserCacheService);
+			var mockUserService = A.Fake<IUserService>();
+			A.CallTo(() => mockUserService.RemoveUserFromCache(A<string>.Ignored)).Returns(false);
+			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserService: mockUserService);
 			var unknownThumbkey = Guid.NewGuid().ToString();
 
 			// When
-			var result = userTestBrowser.Post("/user/get", with =>
+			var result = userTestBrowser.Post("/user/logout", with =>
 			{
 				with.HttpRequest();
 				with.FormValue("thumbkey", unknownThumbkey);

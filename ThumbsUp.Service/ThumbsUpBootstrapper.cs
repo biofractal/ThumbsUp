@@ -14,8 +14,10 @@ namespace ThumbsUp.Service
 		{
 			container.Register<IRavenSessionProvider, RavenSessionProvider>().AsSingleton();
 			container.Register<ICryptoService, PBKDF2>();
+			container.Register<IUserService, UserService>();
 			container.Register<IUserCacheService, UserCacheService>();
-			container.Register<PasswordService>();
+			container.Register<IApplicationService, ApplicationService>();
+			container.Register<IPasswordService, PasswordService>();
 			base.ConfigureRequestContainer(container, context);
 		}
 
@@ -24,7 +26,7 @@ namespace ThumbsUp.Service
 			pipelines.BeforeRequest += (ctx) =>
 			{
 				Log.Request(ctx.Request);
-				var applicationService = container.Resolve<ApplicationService>();
+				var applicationService = container.Resolve<IApplicationService>();
 				var applicationId = context.Request.GetParam("applicationid");
 				if (!applicationService.ApplicationIsRegistered(applicationId))
 				{

@@ -1,7 +1,5 @@
 ﻿using Nancy;
-using System;
 using System.Collections.Generic;
-using System.Net;
 
 namespace ThumbsUp.Service.Domain
 {
@@ -29,7 +27,7 @@ namespace ThumbsUp.Service.Domain
 			{ErrorCode.MissingParameters, new Error {Message = "One or more required values were missing", StatusCode = Nancy.HttpStatusCode.BadRequest}},
 			{ErrorCode.UserNameTaken, new Error {Message = "The UserName has already been taken", StatusCode = Nancy.HttpStatusCode.BadRequest}},
 			{ErrorCode.NoUserForCredentials, new Error {Message = "No User could be found for the supplied credentials", StatusCode = Nancy.HttpStatusCode.NotFound}},
-			{ErrorCode.NoUserForThumbkey, new Error {Message = "The User could be found for the supplied ThumbKey", StatusCode = Nancy.HttpStatusCode.NotFound}}
+			{ErrorCode.NoUserForThumbkey, new Error {Message = "No User could be found for the supplied ThumbKey", StatusCode = Nancy.HttpStatusCode.NotFound}}
 		};
 
 		public static Response Generate(IResponseFormatter response, ErrorCode code)

@@ -1,15 +1,16 @@
 ﻿#region Using
 
 using Nancy;
-using Nancy.Helper;
 using Nancy.Testing;
+using Nancy.Helper;
 using Shouldly;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
-using System.Dynamic;
+using ThumbsUp.Service.Module;
 using Xunit;
+using ThumbsUp.Service;
+using FakeItEasy;
+using ThumbsUp.Service.Domain;
 
 #endregion
 
@@ -21,14 +22,15 @@ namespace ThumbsUp.UnitTest.Tests
 		public void Should_return_existing_applicationid_when_existing_application_is_registered()
 		{
 			// Given
-			var browser = StdBrowser();
 			var existingApplicationId = Guid.NewGuid().ToString();
+			var mockApplicationService = A.Fake<IApplicationService>();
+			A.CallTo(() => mockApplicationService.RegisterExisting(A<string>.Ignored, A<string>.Ignored)).Returns(new Application { Id = existingApplicationId });
+			var applicationTestBrowser = MakeTestBrowser<ApplicationModule>(mockApplicationService: mockApplicationService);
 
 			// When
-			var result = browser.Post("/application/register/existing", with =>
+			var result = applicationTestBrowser.Post("/application/register/existing", with =>
 			{
 				with.HttpRequest();
-				with.FormValue("applicationid", ApplicationId);
 				with.FormValue("name", "Existing Application");
 				with.FormValue("id", existingApplicationId);
 			});
@@ -37,6 +39,7 @@ namespace ThumbsUp.UnitTest.Tests
 			result.StatusCode.ShouldBe(HttpStatusCode.OK);
 
 			var payload = result.Body.DeserializeJson<Dictionary<string, object>>();
+			payload.ContainsItems("ApplicationId").ShouldBe(true);
 			payload["ApplicationId"].ShouldBe(existingApplicationId);
 		}
 
@@ -44,14 +47,14 @@ namespace ThumbsUp.UnitTest.Tests
 		[Fact]
 		public void Should_return_MissingParameters_error_when_existing_application_is_registered_with_missing_params()
 		{
-			TestMissingParams("/application/register/existing");
+			TestMissingParams<ApplicationModule>("/application/register/existing");
 		}
 
 		[Fact]
 		public void Should_return_InvalidParameters_error_when_existing_application_is_registered_with_invalid_params()
 		{
 			var formValues = new Dictionary<string, string>() { { "name", "test"}, {"id", "<invalid>"} };
-			TestInvalidParams("/application/register/existing", formValues);
+			TestInvalidParams<ApplicationModule>("/application/register/existing", formValues);
 		}
 		#endregion
 	}

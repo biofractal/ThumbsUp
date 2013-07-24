@@ -7,7 +7,7 @@ namespace ThumbsUp.Service.Module
 {
 	public class UserModule : _BaseModule
 	{
-		public UserModule(UserService userService) : base("/user")
+		public UserModule(IUserService userService) : base("/user")
 		{
 			Post["/create"] = _ =>
 			{
@@ -15,7 +15,7 @@ namespace ThumbsUp.Service.Module
 				if (!userService.IsValidUserName(Params.UserName)) return ErrorService.Generate(Response, ErrorCode.UserNameTaken);
 				if (!Params.Email.IsEmail()) return ErrorService.Generate(Response, ErrorCode.InvalidParameters);
 				var password = userService.CreateUser(Params.UserName, Params.Email);
-				return (string.IsNullOrWhiteSpace(password)) ? ErrorService.Generate(Response, ErrorCode.NoUserForCredentials) : Response.AsJson(new { Password = password });
+				return (string.IsNullOrWhiteSpace(password)) ? ErrorService.Generate(Response, ErrorCode.InvalidParameters) : Response.AsJson(new { Password = password });
 			};
 
 			Post["/validate"] = _ =>

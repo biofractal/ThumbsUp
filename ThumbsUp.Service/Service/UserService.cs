@@ -9,13 +9,27 @@ using Nancy.Helper;
 
 namespace ThumbsUp.Service
 {
-	public class UserService
+	public interface IUserService
+	{
+		string CreateUser(string username, string email);
+		string ResetPassword(string username, string candidatePassword);
+		string ForgotPasswordRequest(string username, string email);
+		string ForgotPasswordReset(string username, string token);
+		string ValidateUser(string username, string candidatePassword);
+		bool IsValidUserName(string username);
+		User GetUserFromIdentifier(string thumbKey);
+		bool ValidateIdentifier(string thumbKey);
+		string AddUserToCache(User user);
+		bool RemoveUserFromCache(string thumbKey);
+	}
+
+	public class UserService : IUserService
 	{
 		private readonly IUserCacheService Cache;
 		private readonly IDocumentSession Db;
-		private readonly PasswordService Pwd;
+		private readonly IPasswordService Pwd;
 
-		public UserService(IRavenSessionProvider documentSessionProvider, IUserCacheService cache, PasswordService passwordService)
+		public UserService(IRavenSessionProvider documentSessionProvider, IUserCacheService cache, IPasswordService passwordService)
 		{
 			Db = documentSessionProvider.Get();
 			Pwd = passwordService;
@@ -55,7 +69,7 @@ namespace ThumbsUp.Service
 		{
 			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email)) return null;
 			var user = GetUserByName(username);
-			if (user == null || user.Email!=email) return null;
+			if (user == null || user.Email != email) return null;
 			var token = Guid.NewGuid().ToString();
 			user.ForgotPasswordRequestToken = token;
 			user.ForgotPasswordRequestDate = DateTime.Now;
@@ -82,19 +96,14 @@ namespace ThumbsUp.Service
 			var user = GetUserByName(username);
 			if (user == null) return null;
 			if (!Pwd.IsPasswordValid(user, candidatePassword)) return null;
-			return  AddUserToCache(user);
+			return AddUserToCache(user);
 		}
 
 		public bool IsValidUserName(string username)
 		{
-			if (string.IsNullOrWhiteSpace(username) ) return false;
+			if (string.IsNullOrWhiteSpace(username)) return false;
 			var user = GetUserByName(username);
 			return user == null;
-		}
-
-		private User GetUserByName(string username)
-		{
-			return Db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName==username);
 		}
 
 		public User GetUserFromIdentifier(string thumbKey)
@@ -115,6 +124,11 @@ namespace ThumbsUp.Service
 		public bool RemoveUserFromCache(string thumbKey)
 		{
 			return Cache.Remove(thumbKey);
+		}
+
+		private User GetUserByName(string username)
+		{
+			return Db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName == username);
 		}
 	}
 }

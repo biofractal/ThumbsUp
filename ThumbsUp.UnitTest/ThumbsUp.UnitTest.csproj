@@ -90,6 +90,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\UserLogout.cs" />
+    <Compile Include="Tests\UserValidateName.cs" />
+    <Compile Include="Tests\UserValidateThumbKey.cs" />
+    <Compile Include="Tests\UserValidate.cs" />
     <Compile Include="Tests\UserGet.cs" />
     <Compile Include="Tests\_BaseTest.cs" />
     <Compile Include="Tests\ApplicationCreateNew.cs" />
@@ -97,7 +101,6 @@
     <Compile Include="Tests\UserCreate.cs" />
     <Compile Include="Tests\Root.cs" />
     <Compile Include="UnitTestRavenSessionProvider.cs" />
-    <Compile Include="UnitTestBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

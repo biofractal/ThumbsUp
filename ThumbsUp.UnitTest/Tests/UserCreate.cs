@@ -1,43 +1,47 @@
 ﻿#region Using
 
+using FakeItEasy;
 using Nancy;
-using Nancy.Helper;
 using Nancy.Testing;
+using Nancy.Helper;
 using Shouldly;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
-using System.Dynamic;
+using ThumbsUp.Service;
+using ThumbsUp.Service.Module;
 using Xunit;
+using ThumbsUp.Service.Domain;
 
 #endregion
 
 namespace ThumbsUp.UnitTest.Tests
 {
 	public class UserCreate : _BaseTest
-	{		
+	{
 		[Fact]
 		public void Should_return_password_when_user_is_created()
 		{
 			// Given
-			var browser = StdBrowser();
+			var passwordLength = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
+			var mockUserService = A.Fake<IUserService>();
+			A.CallTo(() => mockUserService.IsValidUserName(A<string>.Ignored)).Returns(true);
+			A.CallTo(() => mockUserService.CreateUser(A<string>.Ignored, A<string>.Ignored)).Returns(new string('*', passwordLength));
+			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserService: mockUserService);
 
 			// When
-			var result = browser.Post("/user/create", with =>
+			var result = userTestBrowser.Post("/user/create", with =>
 			{
 				with.HttpRequest();
-				with.FormValue("applicationid", ApplicationId);
-				with.FormValue("username", "biofractal");
-				with.FormValue("email", "biofractal@email.com");
+				with.FormValue("username", "<username>");
+				with.FormValue("email", "valid@email.com");
 			});
 
 			// Then
 			result.StatusCode.ShouldBe(HttpStatusCode.OK);
 
 			var payload = result.Body.DeserializeJson<Dictionary<string, object>>();
-			payload["Password"].ShouldNotBe(null);
-			payload["Password"].ToString().Length.ShouldBe(int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]));
+			payload.ContainsItems("Password").ShouldBe(true);
+			payload["Password"].ToString().Length.ShouldBe(passwordLength);
 		}
 
 		#region Errors
@@ -45,44 +49,38 @@ namespace ThumbsUp.UnitTest.Tests
 		[Fact]
 		public void Should_return_MissingParameters_error_when_user_is_created_with_missing_params()
 		{
-			TestMissingParams("/user/create");
+			TestMissingParams<UserModule>("/user/create");
 		}
 
 		[Fact]
 		public void Should_return_InvalidParameters_error_when_user_is_created_with_invalid_email()
-		{
-			var formValues = new Dictionary<string, string>() { { "username", "<test>" }, { "email", "<invalid>" } };
-			TestInvalidParams("/user/create", formValues);
+		{	
+			var formValues = new Dictionary<string, string>() { { "username", "<username>" }, { "email", "<invalid-email>" } };
+			TestInvalidParams<UserModule>("/user/create", formValues);
 		}
 
 		[Fact]
-		public void Should_return_UserNameTaken_error_user_is_created_with_taken_username()
+		public void Should_return_UserNameTaken_error_when_user_is_created_with_existing_username()
 		{
 			// Given
-			var browser = StdBrowser();
-			browser.Post("/user/create", with =>
-			{
-				with.HttpRequest();
-				with.FormValue("applicationid", ApplicationId);
-				with.FormValue("username", "duplicate");
-				with.FormValue("email", "duplicate@email.com");
-			});
+			var mockUserService = A.Fake<IUserService>();
+			A.CallTo(() => mockUserService.IsValidUserName(A<string>.Ignored)).Returns(false);
+			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserService: mockUserService);
 			
 			// When
-			var result = browser.Post("/user/create", with =>
+			var result = userTestBrowser.Post("/user/create", with =>
 			{
 				with.HttpRequest();
-				with.FormValue("applicationid", ApplicationId);
-				with.FormValue("username", "duplicate");
-				with.FormValue("email", "duplicate@email.com");
+				with.FormValue("username", "<username>");
+				with.FormValue("email", "valid@email.com");
 			});
 
 			// Then
 			result.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
 			
 			var payload = result.Body.DeserializeJson<Dictionary<string, object>>();
-			payload["ErrorCode"].ShouldBe(3);
-			payload["ErrorMessage"].ShouldBe("The UserName has already been taken");
+			payload.ContainsItems("ErrorCode", "ErrorMessage").ShouldBe(true);
+			payload["ErrorCode"].ShouldBe((int)ErrorCode.UserNameTaken);
 		}		
 		#endregion
 	}

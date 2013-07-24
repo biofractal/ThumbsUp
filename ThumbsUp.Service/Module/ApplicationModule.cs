@@ -8,7 +8,7 @@ namespace ThumbsUp.Service.Module
 {
 	public class ApplicationModule : _BaseModule
 	{
-		public ApplicationModule(ApplicationService applicationService)	: base("/application")
+		public ApplicationModule(IApplicationService applicationService)	: base("/application")
 		{
 			Post["/register/new"] = _ =>
 			{

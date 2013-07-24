@@ -2,10 +2,12 @@
 
 using Nancy;
 using Nancy.Testing;
+using Nancy.TinyIoc;
 using Shouldly;
 using System;
-using System.Configuration;
-using System.Diagnostics;
+using ThumbsUp.Service;
+using ThumbsUp.Service.Module;
+using ThumbsUp.Service.Raven;
 using Xunit;
 
 #endregion
@@ -14,18 +16,29 @@ namespace ThumbsUp.UnitTest.Tests
 {
 	public class Root : _BaseTest
 	{
+		private class RootBootstrapper : ThumbsUpBootstrapper
+		{
+			protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
+			{
+				base.ConfigureRequestContainer(container, context);
+				container.Register<IRavenSessionProvider, UnitTestRavenSessionProvider>().AsSingleton();
+			}
+		}
+
+		// Given
+		private readonly Browser RootTestBrowser = new Browser(new RootBootstrapper());
 
 		[Fact]
 		public void Should_return_status_ok_when_applicationid_is_builtin_adminid()
 		{
-			// Given
-			var browser = StdBrowser();
+
+			var builtInApplicationId = "ac8dfe73-4cc2-409c-99bc-36e738f6e29c";
 
 			// When
-			var result = browser.Get("/", with =>
+			var result = RootTestBrowser.Get("/", with =>
 			{
 				with.HttpRequest();
-				with.Query("applicationid", ApplicationId);
+				with.Query("applicationid", builtInApplicationId);
 			});
 
 			// Then
@@ -37,11 +50,8 @@ namespace ThumbsUp.UnitTest.Tests
 		[Fact]
 		public void Should_return_status_unauthorized_when_applicationid_is_missing()
 		{
-			// Given
-			var browser = StdBrowser();
-
 			// When
-			var result = browser.Get("/", with =>
+			var result = RootTestBrowser.Get("/", with =>
 			{
 				with.HttpRequest();
 			});
@@ -54,13 +64,13 @@ namespace ThumbsUp.UnitTest.Tests
 		public void Should_return_status_unauthorized_when_applicationid_is_not_registered()
 		{
 			// Given
-			var browser = StdBrowser();
+			var unregisteredApplicationId = Guid.NewGuid().ToString();
 
 			// When
-			var result = browser.Get("/", with =>
+			var result = RootTestBrowser.Get("/", with =>
 			{
 				with.HttpRequest();
-				with.Query("applicationid", Guid.NewGuid().ToString());
+				with.Query("applicationid", unregisteredApplicationId);
 			});
 
 			// Then
