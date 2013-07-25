@@ -79,6 +79,9 @@
     <Reference Include="xunit">
       <HintPath>..\packages\xunit.1.9.1\lib\net20\xunit.dll</HintPath>
     </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\packages\xunit.extensions.1.9.1\lib\net20\xunit.extensions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -90,16 +93,32 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\UserLogout.cs" />
-    <Compile Include="Tests\UserValidateName.cs" />
-    <Compile Include="Tests\UserValidateThumbKey.cs" />
-    <Compile Include="Tests\UserValidate.cs" />
-    <Compile Include="Tests\UserGet.cs" />
-    <Compile Include="Tests\_BaseTest.cs" />
-    <Compile Include="Tests\ApplicationCreateNew.cs" />
-    <Compile Include="Tests\ApplicationRegisterExisting.cs" />
-    <Compile Include="Tests\UserCreate.cs" />
-    <Compile Include="Tests\Root.cs" />
+    <Compile Include="HttpAPI\UserForgotPasswordReset.cs" />
+    <Compile Include="HttpAPI\UserForgotPasswordRequest.cs" />
+    <Compile Include="HttpAPI\UserResetPassword.cs" />
+    <Compile Include="HttpAPI\UserLogout.cs" />
+    <Compile Include="HttpAPI\UserValidateName.cs" />
+    <Compile Include="HttpAPI\UserValidateThumbKey.cs" />
+    <Compile Include="HttpAPI\UserValidate.cs" />
+    <Compile Include="HttpAPI\UserGet.cs" />
+    <Compile Include="HttpAPI\_BaseHttpTest.cs" />
+    <Compile Include="HttpAPI\ApplicationCreateNew.cs" />
+    <Compile Include="HttpAPI\ApplicationRegisterExisting.cs" />
+    <Compile Include="HttpAPI\UserCreate.cs" />
+    <Compile Include="HttpAPI\Root.cs" />
+    <Compile Include="Services\ApplicationService_RegisterNew.cs" />
+    <Compile Include="Services\ApplicationService_RegisterExisting.cs" />
+    <Compile Include="Services\ApplicationService_Get.cs" />
+    <Compile Include="Services\ApplicationService_IsRegistered.cs" />
+    <Compile Include="Services\ErrorService_Generate.cs" />
+    <Compile Include="Services\UserCacheService_Add.cs" />
+    <Compile Include="Services\UserCacheService_Remove.cs" />
+    <Compile Include="Services\UserCacheService_Validate.cs" />
+    <Compile Include="Services\UserCacheService_GetUser.cs" />
+    <Compile Include="Services\PasswordService_IsForgotPasswordTokenValid.cs" />
+    <Compile Include="Services\PasswordService_IsPasswordValid.cs" />
+    <Compile Include="Services\PasswordService_Generate.cs" />
+    <Compile Include="Services\_BaseServiceTest.cs" />
     <Compile Include="UnitTestRavenSessionProvider.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +140,7 @@
   <ItemGroup>
     <Content Include="SetProjectFileTo RunxUnit.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

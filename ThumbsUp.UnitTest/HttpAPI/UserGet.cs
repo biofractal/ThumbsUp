@@ -15,17 +15,17 @@ using Xunit;
 
 #endregion
 
-namespace ThumbsUp.UnitTest.Tests
+namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserGet : _BaseTest
+	public class UserGet : _BaseHttpTest
 	{
 		[Fact]
 		public void Should_return_user_details_when_user_is_retrieved_with_valid_thumbkey()
 		{
 			// Given
-			var mockUserCacheService = A.Fake<IUserCacheService>();
-			A.CallTo(() => mockUserCacheService.GetUser(A<string>.Ignored)).Returns(new User { UserName="mock-user"});
-			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserCacheService: mockUserCacheService);
+			var fakeUserCacheService = A.Fake<IUserCacheService>();
+			A.CallTo(() => fakeUserCacheService.GetUser(A<string>.Ignored)).Returns(new User { UserName="fake-user"});
+			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserCacheService: fakeUserCacheService);
 			var validGuid = Guid.NewGuid().ToString();
 
 			// When
@@ -41,20 +41,20 @@ namespace ThumbsUp.UnitTest.Tests
 			var payload = result.Body.DeserializeJson<Dictionary<string, object>>();
 			payload.ContainsItems("User").ShouldBe(true);
 			var user = payload["User"];
-			((Dictionary<string, object>)user)["UserName"].ShouldBe("mock-user");
+			((Dictionary<string, object>)user)["UserName"].ShouldBe("fake-user");
 		}
 
 
 		#region Errors
 
 		[Fact]
-		public void Should_return_MissingParameters_error_when_user_is_retrieved_with_missing_params()
+		public void Should_return_MissingParameters_error_when_endpoint_is_hit_with_missing_params()
 		{
 			TestMissingParams<UserModule>("/user/get");
 		}
 
 		[Fact]
-		public void Should_return_InvalidParameters_error_when_user_is_retrieved_with_invalid_thumbkey()
+		public void Should_return_InvalidParameters_error_when_endpoint_is_hit_with_invalid_params()
 		{
 			var formValues = new Dictionary<string, string>() { { "thumbkey", "<invalid-guid>" } };
 			TestInvalidParams<UserModule>("/user/get", formValues);
@@ -64,9 +64,9 @@ namespace ThumbsUp.UnitTest.Tests
 		public void Should_return_NoUserForThumbkey_error_when_user_is_retrieved_with_valid_but_unknown_thumbkey()
 		{
 			// Given
-			var mockUserCacheService = A.Fake<IUserCacheService>();
-			A.CallTo(() => mockUserCacheService.GetUser(A<string>.Ignored)).Returns(null);
-			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserCacheService: mockUserCacheService);
+			var fakeUserCacheService = A.Fake<IUserCacheService>();
+			A.CallTo(() => fakeUserCacheService.GetUser(A<string>.Ignored)).Returns(null);
+			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserCacheService: fakeUserCacheService);
 			var unknownThumbkey = Guid.NewGuid().ToString();
 
 			// When

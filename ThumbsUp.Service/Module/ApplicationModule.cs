@@ -8,20 +8,20 @@ namespace ThumbsUp.Service.Module
 {
 	public class ApplicationModule : _BaseModule
 	{
-		public ApplicationModule(IApplicationService applicationService)	: base("/application")
+		public ApplicationModule(IApplicationService applicationService) : base("/application")
 		{
 			Post["/register/new"] = _ =>
 			{
 				if (Params.AreMissing("Name")) return Params.Missing(Response);
 				var application = applicationService.RegisterNew(Params.Name);
-				return (application == null) ? ErrorService.Generate(Response, ErrorCode.InvalidParameters) : Response.AsJson(new { ApplicationId = application.Id });
+				return (application == null) ? Params.Invalid(Response) : Response.AsJson(new { ApplicationId = application.Id });
 			};
 
 			Post["/register/existing"] = _ =>
 			{
 				if (Params.AreMissing("Name", "Id")) return Params.Missing(Response);
 				var application = applicationService.RegisterExisting(Params.Name, Params.Id);
-				return (application == null) ? ErrorService.Generate(Response, ErrorCode.InvalidParameters) : Response.AsJson(new { ApplicationId = application.Id });
+				return (application == null) ? Params.Invalid(Response) : Response.AsJson(new { ApplicationId = application.Id });
 			};
 		}
 	}

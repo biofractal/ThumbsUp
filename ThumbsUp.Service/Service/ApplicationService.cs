@@ -13,12 +13,12 @@ namespace ThumbsUp.Service
 		Application RegisterNew(string name);
 		Application RegisterExisting(string name, string id);
 		Application Get(string id);
-		bool ApplicationIsRegistered(string id);
+		bool IsRegistered(string id);
 	}
 
 	public class ApplicationService : IApplicationService
 	{
-		private readonly string AdminId = "ac8dfe73-4cc2-409c-99bc-36e738f6e29c";
+		public const string AdminId = "ac8dfe73-4cc2-409c-99bc-36e738f6e29c";
 		private readonly IDocumentSession Db;
 		public ApplicationService(IRavenSessionProvider documentSessionProvider)
 		{
@@ -54,7 +54,7 @@ namespace ThumbsUp.Service
 			return Db.Load<Application>(id);
 		}
 
-		public bool ApplicationIsRegistered(string id)
+		public bool IsRegistered(string id)
 		{
 			if(string.IsNullOrWhiteSpace(id)) return false;
 			if (id == AdminId) return true;

@@ -13,7 +13,13 @@ namespace ThumbsUp.Service.Domain
 		NoUserForThumbkey
 	}
 
-	public static class ErrorService
+	public interface IErrorService
+	{
+		Response Generate(IResponseFormatter response, ErrorCode code);
+		string Decode(string code);
+	}
+
+	public class ErrorService : IErrorService
 	{
 		private struct Error
 		{
@@ -21,7 +27,7 @@ namespace ThumbsUp.Service.Domain
 			public Nancy.HttpStatusCode StatusCode { get; set; }
 		}
 
-		private static readonly Dictionary<ErrorCode, Error> Errors = new Dictionary<ErrorCode, Error>{
+		private readonly Dictionary<ErrorCode, Error> Errors = new Dictionary<ErrorCode, Error>{
 			{ErrorCode.InternalError, new Error {Message = "Unrecognised internal error", StatusCode = Nancy.HttpStatusCode.BadRequest}},
 			{ErrorCode.InvalidParameters, new Error {Message = "One or more required values were invalid", StatusCode = Nancy.HttpStatusCode.BadRequest}},
 			{ErrorCode.MissingParameters, new Error {Message = "One or more required values were missing", StatusCode = Nancy.HttpStatusCode.BadRequest}},
@@ -30,7 +36,7 @@ namespace ThumbsUp.Service.Domain
 			{ErrorCode.NoUserForThumbkey, new Error {Message = "No User could be found for the supplied ThumbKey", StatusCode = Nancy.HttpStatusCode.NotFound}}
 		};
 
-		public static Response Generate(IResponseFormatter response, ErrorCode code)
+		public Response Generate(IResponseFormatter response, ErrorCode code)
 		{
 			var error = (Errors.ContainsKey(code)) ? Errors[code] : Errors[0];
 			return response.AsJson(new
@@ -41,7 +47,7 @@ namespace ThumbsUp.Service.Domain
 			.WithStatusCode(error.StatusCode);
 		}
 
-		public static string Decode(string code)
+		public string Decode(string code)
 		{
 			var key = (ErrorCode)int.Parse(code);
 			var error = (Errors.ContainsKey(key)) ? Errors[key] : Errors[0];

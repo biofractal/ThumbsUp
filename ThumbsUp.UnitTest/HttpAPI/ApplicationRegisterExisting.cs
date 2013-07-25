@@ -14,18 +14,18 @@ using ThumbsUp.Service.Domain;
 
 #endregion
 
-namespace ThumbsUp.UnitTest.Tests
+namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class ApplicationRegisterExisting : _BaseTest
+	public class ApplicationRegisterExisting : _BaseHttpTest
 	{
 		[Fact]
 		public void Should_return_existing_applicationid_when_existing_application_is_registered()
 		{
 			// Given
 			var existingApplicationId = Guid.NewGuid().ToString();
-			var mockApplicationService = A.Fake<IApplicationService>();
-			A.CallTo(() => mockApplicationService.RegisterExisting(A<string>.Ignored, A<string>.Ignored)).Returns(new Application { Id = existingApplicationId });
-			var applicationTestBrowser = MakeTestBrowser<ApplicationModule>(mockApplicationService: mockApplicationService);
+			var fakeApplicationService = A.Fake<IApplicationService>();
+			A.CallTo(() => fakeApplicationService.RegisterExisting(A<string>.Ignored, A<string>.Ignored)).Returns(new Application { Id = existingApplicationId });
+			var applicationTestBrowser = MakeTestBrowser<ApplicationModule>(fakeApplicationService: fakeApplicationService);
 
 			// When
 			var result = applicationTestBrowser.Post("/application/register/existing", with =>
@@ -45,13 +45,13 @@ namespace ThumbsUp.UnitTest.Tests
 
 		#region Errors
 		[Fact]
-		public void Should_return_MissingParameters_error_when_existing_application_is_registered_with_missing_params()
+		public void Should_return_MissingParameters_error_when_endpoint_is_hit_with_missing_params()
 		{
 			TestMissingParams<ApplicationModule>("/application/register/existing");
 		}
 
 		[Fact]
-		public void Should_return_InvalidParameters_error_when_existing_application_is_registered_with_invalid_params()
+		public void Should_return_InvalidParameters_error_when_endpoint_is_hit_with_invalid_params()
 		{
 			var formValues = new Dictionary<string, string>() { { "name", "test"}, {"id", "<invalid>"} };
 			TestInvalidParams<ApplicationModule>("/application/register/existing", formValues);

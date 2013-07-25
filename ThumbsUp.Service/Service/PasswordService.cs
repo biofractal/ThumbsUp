@@ -1,6 +1,7 @@
 ﻿using SimpleCrypto;
 using System;
 using System.Configuration;
+using Nancy.Helper;
 
 namespace ThumbsUp.Service.Domain
 {
@@ -13,10 +14,10 @@ namespace ThumbsUp.Service.Domain
 
 	public class PasswordService : IPasswordService
 	{
-		private static readonly int PasswordCharactersCount = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
-		private static readonly int ForgotPasswordTimeLimitMinutes = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.ForgotPassword.TimeLimit.Minutes"]);
+		public static readonly int PasswordCharactersCount = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
+		public static readonly int ForgotPasswordTimeLimitMinutes = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.ForgotPassword.TimeLimit.Minutes"]);
 
-		private readonly ICryptoService Crypto;	
+		private readonly ICryptoService Crypto;
 
 		public PasswordService(ICryptoService cryptoService)
 		{
@@ -30,16 +31,17 @@ namespace ThumbsUp.Service.Domain
 
 		public bool IsPasswordValid(User user, string clear)
 		{
-			if (user == null) return false;
+			if (user == null || string.IsNullOrWhiteSpace(user.Salt) || string.IsNullOrWhiteSpace(user.Hash) || string.IsNullOrWhiteSpace(clear)) return false;
 			return Crypto.Compute(clear, user.Salt) == user.Hash;
 		}
-	
+
 		public bool IsForgotPasswordTokenValid(User user, string token)
 		{
-			return 
-				user != null &&
-				user.ForgotPasswordRequestToken == token && 
-				(DateTime.Now - user.ForgotPasswordRequestDate).Minutes < ForgotPasswordTimeLimitMinutes;
+			if (user == null || string.IsNullOrWhiteSpace(token) || !token.IsGuid()) return false;
+			if (user.ForgotPasswordRequestToken != token) return false;
+
+			var minutesElapsedSinceTokenRequested = (DateTime.Now - user.ForgotPasswordRequestDate).TotalMinutes;
+			return minutesElapsedSinceTokenRequested < ForgotPasswordTimeLimitMinutes;
 		}
 
 	}

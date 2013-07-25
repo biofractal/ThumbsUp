@@ -7,7 +7,7 @@ namespace ThumbsUp.Service.Module
 {
 	public class RootModule : _BaseModule
 	{
-		public RootModule()
+		public RootModule(IErrorService errorService)
 		{
 			Get["/"] = _ =>
 			{
@@ -17,7 +17,7 @@ namespace ThumbsUp.Service.Module
 			Get["/error/{code}"] = url =>
 			{
 				if (Params.AreMissing("Code")) return Params.Missing(Response);
-				return Response.AsJson(new { ErrorCode = Params.Code, ErrorMessage = ErrorService.Decode(Params.Code)});
+				return Response.AsJson(new { ErrorCode = Params.Code, ErrorMessage = errorService.Decode(Params.Code)});
 			};
 
 		}

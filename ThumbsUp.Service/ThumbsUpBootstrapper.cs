@@ -18,6 +18,7 @@ namespace ThumbsUp.Service
 			container.Register<IUserCacheService, UserCacheService>();
 			container.Register<IApplicationService, ApplicationService>();
 			container.Register<IPasswordService, PasswordService>();
+			container.Register<IErrorService, ErrorService>();
 			base.ConfigureRequestContainer(container, context);
 		}
 
@@ -28,7 +29,7 @@ namespace ThumbsUp.Service
 				Log.Request(ctx.Request);
 				var applicationService = container.Resolve<IApplicationService>();
 				var applicationId = context.Request.GetParam("applicationid");
-				if (!applicationService.ApplicationIsRegistered(applicationId))
+				if (!applicationService.IsRegistered(applicationId))
 				{
 					Log.Write("Warning: Unauthorized Access Attempt. ApplicationId = " + applicationId);
 					return HttpStatusCode.Unauthorized;

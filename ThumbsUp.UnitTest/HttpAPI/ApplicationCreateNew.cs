@@ -14,18 +14,18 @@ using Xunit;
 
 #endregion
 
-namespace ThumbsUp.UnitTest.Tests
+namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class ApplicationCreateNew : _BaseTest
+	public class ApplicationCreateNew : _BaseHttpTest
 	{
 		[Fact]
 		public void Should_return_new_applicationid_when_new_application_is_registered()
 		{
 			// Given
 			var applicationId = Guid.NewGuid().ToString();
-			var mockApplicationService = A.Fake<IApplicationService>();
-			A.CallTo(() => mockApplicationService.RegisterNew(A<string>.Ignored)).Returns(new Application { Id = applicationId});
-			var applicationTestBrowser = MakeTestBrowser<ApplicationModule>(mockApplicationService: mockApplicationService);
+			var fakeApplicationService = A.Fake<IApplicationService>();
+			A.CallTo(() => fakeApplicationService.RegisterNew(A<string>.Ignored)).Returns(new Application { Id = applicationId});
+			var applicationTestBrowser = MakeTestBrowser<ApplicationModule>(fakeApplicationService: fakeApplicationService);
 
 			// When
 			var result = applicationTestBrowser.Post("/application/register/new", with =>
@@ -44,7 +44,7 @@ namespace ThumbsUp.UnitTest.Tests
 
 		#region Errors
 		[Fact]
-		public void Should_return_MissingParameters_error_when_new_application_is_registered_with_missing_params()
+		public void Should_return_MissingParameters_error_when_endpoint_is_hit_with_missing_params()
 		{
 			TestMissingParams<ApplicationModule>("/application/register/new");
 		}

@@ -14,17 +14,17 @@ using Xunit;
 
 #endregion
 
-namespace ThumbsUp.UnitTest.Tests
+namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserValidateThumbKey : _BaseTest
+	public class UserValidateThumbKey : _BaseHttpTest
 	{
 		[Fact]
 		public void Should_return_OK_when_valid_thumbkey_is_supplied()
 		{
 			// Given
-			var mockUserService = A.Fake<IUserService>();
-			A.CallTo(() => mockUserService.ValidateIdentifier(A<string>.Ignored)).Returns(true);
-			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserService: mockUserService);
+			var fakeUserService = A.Fake<IUserService>();
+			A.CallTo(() => fakeUserService.ValidateIdentifier(A<string>.Ignored)).Returns(true);
+			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService);
 			var validThumbkey = Guid.NewGuid().ToString();
 
 			// When
@@ -41,13 +41,13 @@ namespace ThumbsUp.UnitTest.Tests
 		#region Errors
 
 		[Fact]
-		public void Should_return_MissingParameters_error_when_user_is_retrieved_with_missing_params()
+		public void Should_return_MissingParameters_error_when_endpoint_is_hit_with_missing_params()
 		{
 			TestMissingParams<UserModule>("/user/validate/thumbkey");
 		}
 
 		[Fact]
-		public void Should_return_InvalidParameters_error_when_user_is_retrieved_with_invalid_thumbkey()
+		public void Should_return_InvalidParameters_error_when_endpoint_is_hit_with_invalid_params()
 		{
 			var formValues = new Dictionary<string, string>() { { "thumbkey", "<invalid-guid>" } };
 			TestInvalidParams<UserModule>("/user/validate/thumbkey", formValues);
@@ -57,9 +57,9 @@ namespace ThumbsUp.UnitTest.Tests
 		public void Should_return_NoUserForThumbkey_error_when_valid_but_unknown_thumbkey_is_supplied()
 		{
 			// Given
-			var mockUserService = A.Fake<IUserService>();
-			A.CallTo(() => mockUserService.ValidateIdentifier(A<string>.Ignored)).Returns(false);
-			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserService: mockUserService);
+			var fakeUserService = A.Fake<IUserService>();
+			A.CallTo(() => fakeUserService.ValidateIdentifier(A<string>.Ignored)).Returns(false);
+			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService);
 			var unknownThumbkey = Guid.NewGuid().ToString();
 
 			// When

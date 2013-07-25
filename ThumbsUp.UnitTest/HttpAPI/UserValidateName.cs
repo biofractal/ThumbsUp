@@ -14,17 +14,17 @@ using Xunit;
 
 #endregion
 
-namespace ThumbsUp.UnitTest.Tests
+namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserValidateName : _BaseTest
+	public class UserValidateName : _BaseHttpTest
 	{
 		[Fact]
 		public void Should_return_OK_when_unused_username_is_supplied()
 		{
 			// Given
-			var mockUserService = A.Fake<IUserService>();
-			A.CallTo(() => mockUserService.IsValidUserName(A<string>.Ignored)).Returns(true);
-			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserService: mockUserService);
+			var fakeUserService = A.Fake<IUserService>();
+			A.CallTo(() => fakeUserService.IsValidUserName(A<string>.Ignored)).Returns(true);
+			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService);
 
 			// When
 			var result = userTestBrowser.Post("/user/validate/name", with =>
@@ -40,7 +40,7 @@ namespace ThumbsUp.UnitTest.Tests
 		#region Errors
 
 		[Fact]
-		public void Should_return_MissingParameters_error_when_user_is_retrieved_with_missing_params()
+		public void Should_return_MissingParameters_error_when_endpoint_is_hit_with_missing_params()
 		{
 			TestMissingParams<UserModule>("/user/validate/name");
 		}
@@ -49,9 +49,9 @@ namespace ThumbsUp.UnitTest.Tests
 		public void Should_return_UserNameTaken_error_when_existing_username_is_supplied()
 		{
 			// Given
-			var mockUserService = A.Fake<IUserService>();
-			A.CallTo(() => mockUserService.IsValidUserName(A<string>.Ignored)).Returns(false);
-			var userTestBrowser = MakeTestBrowser<UserModule>(mockUserService: mockUserService);
+			var fakeUserService = A.Fake<IUserService>();
+			A.CallTo(() => fakeUserService.IsValidUserName(A<string>.Ignored)).Returns(false);
+			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService);
 
 			// When
 			var result = userTestBrowser.Post("/user/validate/name", with =>
