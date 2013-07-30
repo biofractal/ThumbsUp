@@ -110,6 +110,8 @@
     <Compile Include="Services\ApplicationService_RegisterExisting.cs" />
     <Compile Include="Services\ApplicationService_Get.cs" />
     <Compile Include="Services\ApplicationService_IsRegistered.cs" />
+    <Compile Include="Services\UserService_CreateUser.cs" />
+    <Compile Include="Services\ErrorService_Decode.cs" />
     <Compile Include="Services\ErrorService_Generate.cs" />
     <Compile Include="Services\UserCacheService_Add.cs" />
     <Compile Include="Services\UserCacheService_Remove.cs" />
@@ -162,6 +164,7 @@
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="$(SolutionDir)\.octopack\OctoPack.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

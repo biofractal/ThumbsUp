@@ -7,7 +7,7 @@ namespace ThumbsUp.Service.Domain
 {
 	public interface IPasswordService
 	{
-		Password Generate();
+		IPassword Generate();
 		bool IsPasswordValid(User user, string clear);
 		bool IsForgotPasswordTokenValid(User user, string token);
 	}
@@ -24,7 +24,7 @@ namespace ThumbsUp.Service.Domain
 			Crypto = cryptoService;
 		}
 
-		public Password Generate()
+		public IPassword Generate()
 		{
 			return new Password(Crypto, PasswordCharactersCount);
 		}

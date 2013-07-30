@@ -38,6 +38,7 @@ namespace ThumbsUp.UnitTest.HttpAPI
 				with.Dependency<IPasswordService>(typeof(PasswordService));
 				with.Dependency<IRavenSessionProvider>(A.Dummy<IRavenSessionProvider>());
 				with.Dependency<ICryptoService>(typeof(PBKDF2));
+				with.Dependency<IErrorService>(typeof(ErrorService));
 			});
 			return new Browser(bootstrapper);
 		}

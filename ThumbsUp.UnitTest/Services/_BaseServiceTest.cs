@@ -18,6 +18,9 @@ namespace ThumbsUp.UnitTest.Services
 		public const string ValidHash = "W5OS/v3YxIEYRvMtYc7TYDFbbvucPaqwuThGe2wbXlVkmfkHh7InpXfcw0V8ansVDdqA2zhAooKkVKIjv3x14g==";
 		public const string ValidSalt = "100000.4n9+TkbFFA7Do1QBbHgkWb4dM5WL5iLJLgpwEarnJnNoNw==";
 		public const string ValidPassword = "2Qr}b8_N$yZ6";
+		public const string ValidUsername= "<valid-username>";
+		public const string ValidEmail= "valid@email.com";
+		public const string InvalidEmail= "<invalid-email>";
 
 		public IRavenSessionProvider MakeFakeRavenSessionProvider<T>(T instanceToLoad)
 		{

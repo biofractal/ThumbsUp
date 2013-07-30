@@ -2,7 +2,14 @@
 
 namespace ThumbsUp.Service.Domain
 {
-	public class Password
+	public interface IPassword
+	{		
+		string Clear { get; set; }
+		string Hash { get; set; }
+		string Salt { get; set; }
+	}
+
+	public class Password:IPassword
 	{
 		public Password(ICryptoService crypto, int characterCount)
 		{

@@ -16,6 +16,10 @@ namespace ThumbsUp.Service.Domain
 	public interface IErrorService
 	{
 		Response Generate(IResponseFormatter response, ErrorCode code);
+		Response MissingParameters(IResponseFormatter response);
+		Response InvalidParameters(IResponseFormatter response);
+		Response NoUserForCredentials(IResponseFormatter response);
+		Response NoUserForThumbkey(IResponseFormatter response);
 		string Decode(string code);
 	}
 
@@ -36,9 +40,29 @@ namespace ThumbsUp.Service.Domain
 			{ErrorCode.NoUserForThumbkey, new Error {Message = "No User could be found for the supplied ThumbKey", StatusCode = Nancy.HttpStatusCode.NotFound}}
 		};
 
+		public Response MissingParameters(IResponseFormatter response)
+		{
+			return Generate(response, ErrorCode.MissingParameters);
+		}
+
+		public Response InvalidParameters(IResponseFormatter response)
+		{
+			return Generate(response, ErrorCode.InvalidParameters);
+		}
+
+		public Response NoUserForCredentials(IResponseFormatter response)
+		{
+			return Generate(response, ErrorCode.NoUserForCredentials);
+		}
+
+		public Response NoUserForThumbkey(IResponseFormatter response)
+		{
+			return Generate(response, ErrorCode.NoUserForThumbkey);
+		}
+
 		public Response Generate(IResponseFormatter response, ErrorCode code)
 		{
-			var error = (Errors.ContainsKey(code)) ? Errors[code] : Errors[0];
+			var error = Errors[code];
 			return response.AsJson(new
 			{
 				ErrorCode = (int)code,
@@ -47,11 +71,15 @@ namespace ThumbsUp.Service.Domain
 			.WithStatusCode(error.StatusCode);
 		}
 
-		public string Decode(string code)
+		public string Decode(string candidate)
 		{
-			var key = (ErrorCode)int.Parse(code);
-			var error = (Errors.ContainsKey(key)) ? Errors[key] : Errors[0];
-			return error.Message;
+			int code;
+			if (int.TryParse(candidate, out code))
+			{ 
+				var key = (ErrorCode)code;
+				if(Errors.ContainsKey(key)) return Errors[key].Message;
+			}
+			return Errors[0].Message;
 		}
 	}
 }

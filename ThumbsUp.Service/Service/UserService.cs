@@ -38,7 +38,7 @@ namespace ThumbsUp.Service
 
 		public string CreateUser(string username, string email)
 		{
-			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email)) return null;
+			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email) || !email.IsEmail()) return null;
 			var password = Pwd.Generate();
 			var user = new User()
 			{

@@ -22,12 +22,6 @@ namespace ThumbsUp.Service.Module
 			public string Email { get; set; }
 			public string Token { get; set; }
 			public string Code { get; set; }
-			private IErrorService ErrorService { get; set; }
-
-			public ParameterBag(IErrorService errorService)
-			{
-				ErrorService = errorService;
-			}
 
 			public bool AreMissing(params string[] names) 
 			{
@@ -42,16 +36,6 @@ namespace ThumbsUp.Service.Module
 					}
 				}
 				return false;
-			}
-
-			public dynamic Missing(IResponseFormatter Response)
-			{
-				return ErrorService.Generate(Response, ErrorCode.MissingParameters);
-			}
-
-			public dynamic Invalid(IResponseFormatter Response)
-			{
-				return ErrorService.Generate(Response, ErrorCode.InvalidParameters);
 			}
 		}
 
