@@ -1,5 +1,6 @@
 ﻿#region Using
 using FakeItEasy;
+using Raven.Client;
 using Shouldly;
 using SimpleCrypto;
 using System;
@@ -8,49 +9,46 @@ using ThumbsUp.Service.Domain;
 using ThumbsUp.Service.Raven;
 using Xunit;
 using Xunit.Extensions;
-
+using System.Linq;
+using System.Linq.Expressions;
+using Raven.Client.Linq;
+using System.Collections;
 #endregion
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserService_CreateUser : _BaseTest
+	public class UserService_ResetPassword : _BaseTest
 	{
 		[Fact]
-		public void Should_return_password_when_valid_username_and_password_are_supplied()
+		public void Should_return_password_when_valid_user_and_password_are_supplied()
 		{
-			// Given
-
-
+			// Given	
+			var user = new User();
 			var fakePasswordService = MakeFakePasswordService();
+			A.CallTo(() => fakePasswordService.IsPasswordValid(A<User>.Ignored, A<string>.Ignored)).Returns(true);
 			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IUserCacheService>(), fakePasswordService);
-			var username = ValidUsername;
-			var email = ValidEmail;
 
 			// When
-			var password = userService.CreateUser(username, email);
+
+			var password = userService.ResetPassword(user);
 
 			// Then
 			password.ShouldNotBe(null);
 			password.Length.ShouldBe(PasswordService.PasswordCharactersCount);
 		}
 
-
-		[
-			Theory(),
-			InlineData("", ""),
-			InlineData(null, null),
-			InlineData(ValidUsername, InvalidEmail)
-		]
-		public void Should_return_null_when_parameters_are_missing_or_invalid(string username, string email)
+		public void Should_return_null_when_user_is_null()
 		{
 			// Given
+			User user = null;
 			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IUserCacheService>(), A.Dummy<IPasswordService>());
 
 			// When
-			var password = userService.CreateUser(username, email);
+			var password = userService.ResetPassword(user);
 
 			// Then
 			password.ShouldBe(null);
 		}
+
 	}
 }

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserCacheService_Add : _BaseServiceTest
+	public class UserCacheService_Add : _BaseTest
 	{
 		[Fact]
 		public void Should_return_valid_key_when_user_is_added()

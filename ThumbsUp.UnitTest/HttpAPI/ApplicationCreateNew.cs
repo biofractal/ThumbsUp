@@ -16,7 +16,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class ApplicationCreateNew : _BaseHttpTest
+	public class ApplicationCreateNew : _BaseTest
 	{
 		[Fact]
 		public void Should_return_new_applicationid_when_new_application_is_registered()

@@ -12,12 +12,13 @@ namespace ThumbsUp.Service
 	public interface IUserService
 	{
 		string CreateUser(string username, string email);
-		string ResetPassword(string username, string candidatePassword);
-		string ForgotPasswordRequest(string username, string email);
+		string ResetPassword(User user);
+		string ForgotPasswordRequest(User user, string email);
 		string ForgotPasswordReset(string username, string token);
 		string ValidateUser(string username, string candidatePassword);
 		bool IsValidUserName(string username);
 		User GetUserFromIdentifier(string thumbKey);
+		User GetUserByName(string username);
 		bool ValidateIdentifier(string thumbKey);
 		string AddUserToCache(User user);
 		bool RemoveUserFromCache(string thumbKey);
@@ -25,21 +26,21 @@ namespace ThumbsUp.Service
 
 	public class UserService : IUserService
 	{
-		private readonly IUserCacheService Cache;
-		private readonly IDocumentSession Db;
-		private readonly IPasswordService Pwd;
+		private readonly IUserCacheService cacheService;
+		private readonly IDocumentSession db;
+		private readonly IPasswordService passwordService;
 
-		public UserService(IRavenSessionProvider documentSessionProvider, IUserCacheService cache, IPasswordService passwordService)
+		public UserService(IRavenSessionProvider documentSessionProvider, IUserCacheService cache, IPasswordService pwd)
 		{
-			Db = documentSessionProvider.Get();
-			Pwd = passwordService;
-			Cache = cache;
+			db = documentSessionProvider.Get();
+			passwordService = pwd;
+			cacheService = cache;
 		}
 
 		public string CreateUser(string username, string email)
 		{
 			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email) || !email.IsEmail()) return null;
-			var password = Pwd.Generate();
+			var password = passwordService.Generate();
 			var user = new User()
 			{
 				Id = Guid.NewGuid().ToString(),
@@ -48,32 +49,27 @@ namespace ThumbsUp.Service
 				Salt = password.Salt,
 				Hash = password.Hash
 			};
-			Db.Store(user);
+			db.Store(user);
 			return password.Clear;
 		}
 
-		public string ResetPassword(string username, string candidatePassword)
+		public string ResetPassword(User user)
 		{
-			if (string.IsNullOrWhiteSpace(username)) return null;
-			var user = GetUserByName(username);
-			if (user == null) return null;
-			if (!Pwd.IsPasswordValid(user, candidatePassword)) return null;
-			var password = Pwd.Generate();
+			if (user==null) return null;
+			var password = passwordService.Generate();
 			user.Salt = password.Salt;
 			user.Hash = password.Hash;
-			Db.Store(user);
+			db.Store(user);
 			return password.Clear;
 		}
 
-		public string ForgotPasswordRequest(string username, string email)
+		public string ForgotPasswordRequest(User user, string email)
 		{
-			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email)) return null;
-			var user = GetUserByName(username);
-			if (user == null || user.Email != email) return null;
+			if (user==null || string.IsNullOrWhiteSpace(email) || user.Email != email) return null;
 			var token = Guid.NewGuid().ToString();
 			user.ForgotPasswordRequestToken = token;
 			user.ForgotPasswordRequestDate = DateTime.Now;
-			Db.Store(user);
+			db.Store(user);
 			return token;
 		}
 
@@ -81,12 +77,12 @@ namespace ThumbsUp.Service
 		{
 			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(token)) return null;
 			var user = GetUserByName(username);
-			if (user == null || !Pwd.IsForgotPasswordTokenValid(user, token)) return null;
-			var password = Pwd.Generate();
+			if (user == null || !passwordService.IsForgotPasswordTokenValid(user, token)) return null;
+			var password = passwordService.Generate();
 			user.Salt = password.Salt;
 			user.Hash = password.Hash;
 			user.ForgotPasswordRequestToken = string.Empty;
-			Db.Store(user);
+			db.Store(user);
 			return password.Clear;
 		}
 
@@ -95,7 +91,7 @@ namespace ThumbsUp.Service
 			if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(candidatePassword)) return null;
 			var user = GetUserByName(username);
 			if (user == null) return null;
-			if (!Pwd.IsPasswordValid(user, candidatePassword)) return null;
+			if (!passwordService.IsPasswordValid(user, candidatePassword)) return null;
 			return AddUserToCache(user);
 		}
 
@@ -108,27 +104,27 @@ namespace ThumbsUp.Service
 
 		public User GetUserFromIdentifier(string thumbKey)
 		{
-			return Cache.GetUser(thumbKey);
+			return cacheService.GetUser(thumbKey);
 		}
 
 		public bool ValidateIdentifier(string thumbKey)
 		{
-			return Cache.Validate(thumbKey);
+			return cacheService.Validate(thumbKey);
 		}
 
 		public string AddUserToCache(User user)
 		{
-			return Cache.Add(user);
+			return cacheService.Add(user);
 		}
 
 		public bool RemoveUserFromCache(string thumbKey)
 		{
-			return Cache.Remove(thumbKey);
+			return cacheService.Remove(thumbKey);
 		}
 
-		private User GetUserByName(string username)
+		public User GetUserByName(string username)
 		{
-			return Db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName == username);
+			return db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName == username);
 		}
 	}
 }

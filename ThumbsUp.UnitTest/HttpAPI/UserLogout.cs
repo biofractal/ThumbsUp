@@ -16,7 +16,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserLogout : _BaseHttpTest
+	public class UserLogout : _BaseTest
 	{
 		[Fact]
 		public void Should_return_OK_when_valid_thumbkey_is_supplied()

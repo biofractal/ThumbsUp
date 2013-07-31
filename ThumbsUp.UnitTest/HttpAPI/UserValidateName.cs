@@ -16,7 +16,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserValidateName : _BaseHttpTest
+	public class UserValidateName : _BaseTest
 	{
 		[Fact]
 		public void Should_return_OK_when_unused_username_is_supplied()

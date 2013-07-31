@@ -16,7 +16,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserValidate : _BaseHttpTest
+	public class UserValidate : _BaseTest
 	{
 		[Fact]
 		public void Should_return_thumbkey_when_valid_user_credentials_are_supplied()

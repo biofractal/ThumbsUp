@@ -11,7 +11,7 @@ using Xunit.Extensions;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserCacheService_GetUser : _BaseServiceTest
+	public class UserCacheService_GetUser : _BaseTest
 	{
 		[Fact]
 		public void Should_return_user_when_key_is_known()

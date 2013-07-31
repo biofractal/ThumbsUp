@@ -16,7 +16,7 @@ using ThumbsUp.Service.Domain;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserCreate : _BaseHttpTest
+	public class UserCreate : _BaseTest
 	{
 		[Fact]
 		public void Should_return_password_when_user_is_created()

@@ -10,7 +10,8 @@ namespace ThumbsUp.Service.Domain
 		MissingParameters,
 		UserNameTaken,
 		NoUserForCredentials,
-		NoUserForThumbkey
+		NoUserForThumbkey,
+		NoUserForEmail
 	}
 
 	public interface IErrorService
@@ -20,6 +21,7 @@ namespace ThumbsUp.Service.Domain
 		Response InvalidParameters(IResponseFormatter response);
 		Response NoUserForCredentials(IResponseFormatter response);
 		Response NoUserForThumbkey(IResponseFormatter response);
+		Response NoUserForEmail(IResponseFormatter response);
 		string Decode(string code);
 	}
 
@@ -37,7 +39,8 @@ namespace ThumbsUp.Service.Domain
 			{ErrorCode.MissingParameters, new Error {Message = "One or more required values were missing", StatusCode = Nancy.HttpStatusCode.BadRequest}},
 			{ErrorCode.UserNameTaken, new Error {Message = "The UserName has already been taken", StatusCode = Nancy.HttpStatusCode.BadRequest}},
 			{ErrorCode.NoUserForCredentials, new Error {Message = "No User could be found for the supplied credentials", StatusCode = Nancy.HttpStatusCode.NotFound}},
-			{ErrorCode.NoUserForThumbkey, new Error {Message = "No User could be found for the supplied ThumbKey", StatusCode = Nancy.HttpStatusCode.NotFound}}
+			{ErrorCode.NoUserForThumbkey, new Error {Message = "No User could be found for the supplied ThumbKey", StatusCode = Nancy.HttpStatusCode.NotFound}},
+			{ErrorCode.NoUserForEmail, new Error {Message = "No User could be found for the supplied Email", StatusCode = Nancy.HttpStatusCode.NotFound}}
 		};
 
 		public Response MissingParameters(IResponseFormatter response)
@@ -58,6 +61,11 @@ namespace ThumbsUp.Service.Domain
 		public Response NoUserForThumbkey(IResponseFormatter response)
 		{
 			return Generate(response, ErrorCode.NoUserForThumbkey);
+		}
+
+		public Response NoUserForEmail(IResponseFormatter response)
+		{
+			return Generate(response, ErrorCode.NoUserForEmail);
 		}
 
 		public Response Generate(IResponseFormatter response, ErrorCode code)

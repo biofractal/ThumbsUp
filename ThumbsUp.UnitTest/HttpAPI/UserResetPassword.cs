@@ -17,16 +17,18 @@ using System.Configuration;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserResetPassword : _BaseHttpTest
+	public class UserResetPassword : _BaseTest
 	{
 		[Fact]
 		public void Should_return_new_password_when_valid_credentials_are_supplied()
 		{
 			// Given
-			var passwordLength = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
-			var fakeUserService = A.Fake<IUserService>();
-			A.CallTo(() => fakeUserService.ResetPassword(A<string>.Ignored, A<string>.Ignored)).Returns(new string('*', passwordLength));
-			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService);
+			var passwordLength = PasswordService.PasswordCharactersCount;
+			var fakeUserService = MakeFakeUserService(new User());
+			A.CallTo(() => fakeUserService.ResetPassword(A<User>.Ignored)).Returns(new string('*', passwordLength));
+			var fakePasswordService = MakeFakePasswordService();
+			A.CallTo(() => fakePasswordService.IsPasswordValid(A<User>.Ignored, A<string>.Ignored)).Returns(true);
+			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService, fakePasswordService: fakePasswordService);
 
 			// When
 			var result = userTestBrowser.Post("/user/reset/password", with =>
@@ -53,11 +55,10 @@ namespace ThumbsUp.UnitTest.HttpAPI
 		}
 
 		[Fact]
-		public void Should_return_NoUserForCredentials_error_when_unknown_user_credentials_are_supplied()
+		public void Should_return_NoUserForCredentials_error_when_unknown_username_is_supplied()
 		{
 			// Given
-			var fakeUserService = A.Fake<IUserService>();
-			A.CallTo(() => fakeUserService.ResetPassword(A<string>.Ignored, A<string>.Ignored)).Returns(null);
+			var fakeUserService = MakeFakeUserService(new User());
 			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService);
 
 			// When
@@ -65,6 +66,32 @@ namespace ThumbsUp.UnitTest.HttpAPI
 			{
 				with.HttpRequest();
 				with.FormValue("username", "<unknown-username>");
+				with.FormValue("password", "<valid-password>");
+			});
+
+			// Then
+			result.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+
+			var payload = result.Body.DeserializeJson<Dictionary<string, object>>();
+			payload.ContainsItems("ErrorCode", "ErrorMessage").ShouldBe(true);
+			payload["ErrorCode"].ShouldBe((int)ErrorCode.NoUserForCredentials);
+		}
+
+		[Fact]
+		public void Should_return_NoUserForCredentials_error_when_unknown_password_is_supplied()
+		{
+			// Given
+
+			var fakeUserService = MakeFakeUserService(new User());
+			var fakePasswordService = MakeFakePasswordService();
+			A.CallTo(() => fakePasswordService.IsPasswordValid(A<User>.Ignored, A<string>.Ignored)).Returns(false);
+			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService, fakePasswordService: fakePasswordService);
+
+			// When
+			var result = userTestBrowser.Post("/user/reset/password", with =>
+			{
+				with.HttpRequest();
+				with.FormValue("username", "<valid-username>");
 				with.FormValue("password", "<unknown-password>");
 			});
 
@@ -75,6 +102,7 @@ namespace ThumbsUp.UnitTest.HttpAPI
 			payload.ContainsItems("ErrorCode", "ErrorMessage").ShouldBe(true);
 			payload["ErrorCode"].ShouldBe((int)ErrorCode.NoUserForCredentials);
 		}
+
 		#endregion
 	}
 }

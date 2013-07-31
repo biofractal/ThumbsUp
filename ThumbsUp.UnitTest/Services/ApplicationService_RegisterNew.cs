@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ApplicationService_RegisterNew : _BaseServiceTest
+	public class ApplicationService_RegisterNew : _BaseTest
 	{
 		[Fact]
 		public void Should_return_new_Application_when_new_application_is_registered()

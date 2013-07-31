@@ -11,7 +11,7 @@ using Xunit.Extensions;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class PasswordService_IsForgotPasswordTokenValid : _BaseServiceTest
+	public class PasswordService_IsForgotPasswordTokenValid : _BaseTest
 	{
 		[Fact]
 		public void Should_return_true_when_password_matches_user_password()

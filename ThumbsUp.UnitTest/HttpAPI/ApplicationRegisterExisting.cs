@@ -16,7 +16,7 @@ using ThumbsUp.Service.Domain;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class ApplicationRegisterExisting : _BaseHttpTest
+	public class ApplicationRegisterExisting : _BaseTest
 	{
 		[Fact]
 		public void Should_return_existing_applicationid_when_existing_application_is_registered()

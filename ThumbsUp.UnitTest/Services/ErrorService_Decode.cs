@@ -11,7 +11,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ErrorService_Decode : _BaseServiceTest
+	public class ErrorService_Decode : _BaseTest
 	{
 		[Fact]
 		public void Should_return_correct_error_message_for_the_requested_error_code()

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ApplicationService_Get : _BaseServiceTest
+	public class ApplicationService_Get : _BaseTest
 	{
 		[Fact]
 		public void Should_return_application_when_known_applicationid_is_supplied()

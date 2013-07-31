@@ -10,7 +10,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ApplicationService_IsRegistered : _BaseServiceTest
+	public class ApplicationService_IsRegistered : _BaseTest
 	{
 		[Fact]
 		public void Should_return_true_when_applicationid_is_known()

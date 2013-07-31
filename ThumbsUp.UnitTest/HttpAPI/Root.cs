@@ -15,7 +15,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class Root : _BaseHttpTest
+	public class Root : _BaseTest
 	{
 		private class RootBootstrapper : ThumbsUpBootstrapper
 		{

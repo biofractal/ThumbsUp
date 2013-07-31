@@ -17,7 +17,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserGet : _BaseHttpTest
+	public class UserGet : _BaseTest
 	{
 		[Fact]
 		public void Should_return_user_details_when_user_is_retrieved_with_valid_thumbkey()

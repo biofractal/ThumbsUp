@@ -17,7 +17,7 @@ using System.Configuration;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserForgotPasswordReset : _BaseHttpTest
+	public class UserForgotPasswordReset : _BaseTest
 	{
 		[Fact]
 		public void Should_return_new_password_when_valid_credentials_are_supplied()

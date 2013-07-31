@@ -7,7 +7,7 @@ namespace ThumbsUp.Service.Module
 {
 	public class UserModule : _BaseModule
 	{
-		public UserModule(IUserService userService, IErrorService error) : base("/user")
+		public UserModule(IUserService userService, IErrorService error, IPasswordService passwordSevice) : base("/user")
 		{
 			Post["/create"] = _ =>
 			{
@@ -51,16 +51,20 @@ namespace ThumbsUp.Service.Module
 			Post["/reset/password"] = _ =>
 			{
 				if (Params.AreMissing("UserName", "Password")) return error.MissingParameters(Response);
-				var password = userService.ResetPassword(Params.UserName, Params.Password);
-				return (password == null) ? error.NoUserForCredentials(Response) : Response.AsJson(new { Password = password });
+				var user = userService.GetUserByName(Params.UserName);
+				if (user == null || !passwordSevice.IsPasswordValid(user, Params.Password)) return error.NoUserForCredentials(Response);
+				var password = userService.ResetPassword(user);
+				return (password == null) ? error.InvalidParameters(Response) : Response.AsJson(new { Password = password });
 			};
 
 			Post["/forgot-password/request"] = _ =>
 			{
 				if (Params.AreMissing("UserName", "Email")) return error.MissingParameters(Response);
 				if (!Params.Email.IsEmail()) return error.InvalidParameters(Response);
-				var token = userService.ForgotPasswordRequest(Params.UserName, Params.Email);
-				return (token == null) ? error.NoUserForCredentials(Response) : Response.AsJson(new { Token = token });
+				var user = userService.GetUserByName(Params.UserName);
+				if (user == null) return error.NoUserForCredentials(Response);
+				var token = userService.ForgotPasswordRequest(user, Params.Email);
+				return (token == null) ? error.NoUserForEmail(Response) : Response.AsJson(new { Token = token });
 			};
 
 			Post["/forgot-password/reset"] = _ =>

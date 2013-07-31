@@ -17,7 +17,7 @@ using System.Configuration;
 
 namespace ThumbsUp.UnitTest.HttpAPI
 {
-	public class UserForgotPasswordRequest : _BaseHttpTest
+	public class UserForgotPasswordRequest : _BaseTest
 	{
 		[Fact]
 		public void Should_return_new_password_when_valid_credentials_are_supplied()
@@ -25,7 +25,7 @@ namespace ThumbsUp.UnitTest.HttpAPI
 			// Given
 			var fakeToken = Guid.NewGuid().ToString();
 			var fakeUserService = A.Fake<IUserService>();
-			A.CallTo(() => fakeUserService.ForgotPasswordRequest(A<string>.Ignored, A<string>.Ignored)).Returns(fakeToken);
+			A.CallTo(() => fakeUserService.ForgotPasswordRequest(A<User>.Ignored, A<string>.Ignored)).Returns(fakeToken);
 			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService);
 
 			// When
@@ -60,11 +60,11 @@ namespace ThumbsUp.UnitTest.HttpAPI
 		}
 
 		[Fact]
-		public void Should_return_NoUserForCredentials_error_when_unknown_user_credentials_are_supplied()
+		public void Should_return_NoUserForCredentials_error_when_unknown_username_is_supplied()
 		{
 			// Given
 			var fakeUserService = A.Fake<IUserService>();
-			A.CallTo(() => fakeUserService.ForgotPasswordRequest(A<string>.Ignored, A<string>.Ignored)).Returns(null);
+			A.CallTo(() => fakeUserService.GetUserByName(A<string>.Ignored)).Returns(null);
 			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService);
 
 			// When
@@ -72,7 +72,7 @@ namespace ThumbsUp.UnitTest.HttpAPI
 			{
 				with.HttpRequest();
 				with.FormValue("username", "<unknown-username>");
-				with.FormValue("email", "unknown@email.com");
+				with.FormValue("email", "valid@email.com");
 			});
 
 			// Then
@@ -82,6 +82,31 @@ namespace ThumbsUp.UnitTest.HttpAPI
 			payload.ContainsItems("ErrorCode", "ErrorMessage").ShouldBe(true);
 			payload["ErrorCode"].ShouldBe((int)ErrorCode.NoUserForCredentials);
 		}
+
+		[Fact]
+		public void Should_return_NoUserForEmail_error_when_unknown_email_is_supplied()
+		{
+			// Given
+			var fakeUserService = A.Fake<IUserService>();
+			A.CallTo(() => fakeUserService.ForgotPasswordRequest(A<User>.Ignored, A<string>.Ignored)).Returns(null);
+			var userTestBrowser = MakeTestBrowser<UserModule>(fakeUserService: fakeUserService);
+
+			// When
+			var result = userTestBrowser.Post("/user/forgot-password/request", with =>
+			{
+				with.HttpRequest();
+				with.FormValue("username", "<valid-username>");
+				with.FormValue("email", "unknown@email.com");
+			});
+
+			// Then
+			result.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+
+			var payload = result.Body.DeserializeJson<Dictionary<string, object>>();
+			payload.ContainsItems("ErrorCode", "ErrorMessage").ShouldBe(true);
+			payload["ErrorCode"].ShouldBe((int)ErrorCode.NoUserForEmail);
+		}
+
 		#endregion
 	}
 }

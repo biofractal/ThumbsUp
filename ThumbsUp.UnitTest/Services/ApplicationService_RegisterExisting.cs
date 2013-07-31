@@ -11,7 +11,7 @@ using Xunit.Extensions;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ApplicationService_RegisterExisting : _BaseServiceTest
+	public class ApplicationService_RegisterExisting : _BaseTest
 	{
 		[Fact]
 		public void Should_return_new_Application_when_application_is_registered_with_existing_applicationid()
