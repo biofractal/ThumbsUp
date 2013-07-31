@@ -27,7 +27,6 @@ namespace ThumbsUp.UnitTest.Services
 			message.ShouldBe("The UserName has already been taken");
 		}
 
-
 		[Fact]
 		public void Should_return_InternalError_if_error_code_is_integer_but_unknown()
 		{
