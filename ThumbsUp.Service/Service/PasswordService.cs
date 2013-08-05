@@ -17,22 +17,22 @@ namespace ThumbsUp.Service.Domain
 		public static readonly int PasswordCharactersCount = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.PasswordCharacters.Count"]);
 		public static readonly int ForgotPasswordTimeLimitMinutes = int.Parse(ConfigurationManager.AppSettings["ThumbsUp.ForgotPassword.TimeLimit.Minutes"]);
 
-		private readonly ICryptoService Crypto;
+		private readonly ICryptoService cryptoService;
 
-		public PasswordService(ICryptoService cryptoService)
+		public PasswordService(ICryptoService crypto)
 		{
-			Crypto = cryptoService;
+			cryptoService = crypto;
 		}
 
 		public IPassword Generate()
 		{
-			return new Password(Crypto, PasswordCharactersCount);
+			return new Password(cryptoService, PasswordCharactersCount);
 		}
 
 		public bool IsPasswordValid(User user, string clear)
 		{
 			if (user == null || string.IsNullOrWhiteSpace(user.Salt) || string.IsNullOrWhiteSpace(user.Hash) || string.IsNullOrWhiteSpace(clear)) return false;
-			return Crypto.Compute(clear, user.Salt) == user.Hash;
+			return cryptoService.Compute(clear, user.Salt) == user.Hash;
 		}
 
 		public bool IsForgotPasswordTokenValid(User user, string token)
