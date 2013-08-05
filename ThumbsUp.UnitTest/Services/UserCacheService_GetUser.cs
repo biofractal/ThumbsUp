@@ -11,14 +11,14 @@ using Xunit.Extensions;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserCacheService_GetUser : _BaseTest
+	public class UserCacheService_GetUser
 	{
 		[Fact]
 		public void Should_return_user_when_key_is_known()
 		{
 			// Given
+			var userId = MakeFake.Guid;
 			var userCacheService = new UserCacheService();
-			var userId = ValidGuid;
 			var key = userCacheService.Add(new User() { Id = userId });
 
 			// When
@@ -33,9 +33,9 @@ namespace ThumbsUp.UnitTest.Services
 		public void Should_return_null_when_key_is_unknown()
 		{
 			// Given
+			var userId = MakeFake.Guid;
 			var userCacheService = new UserCacheService();
-			var userId = ValidGuid;
-			var unknownKey = Guid.NewGuid().ToString();
+			var unknownKey = MakeFake.Guid;
 			userCacheService.Add(new User() { Id = userId });
 
 			// When
@@ -48,7 +48,7 @@ namespace ThumbsUp.UnitTest.Services
 		[
 			Theory(),
 			InlineData(""),
-			InlineData(InvalidGuid),
+			InlineData(MakeFake.InvalidGuid),
 		]
 		public void Should_return_null_when_parameters_are_missing_or_invalid(string key)
 		{

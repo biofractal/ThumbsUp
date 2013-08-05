@@ -1,4 +1,5 @@
 ﻿#region Using
+using Nancy.Helper;
 using FakeItEasy;
 using Raven.Client;
 using Shouldly;
@@ -17,37 +18,53 @@ using System.Collections;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserService_ResetPassword
+	public class UserService_ForgotPasswordReset
 	{
 		[Fact]
-		public void Should_return_password_when_valid_user_and_password_are_supplied()
+		public void Should_return_valid_password_when_valid_user_and_email_are_supplied()
 		{
-			// Given	
+			// Given
+
 			var user = new User();
 			var fakePasswordService = MakeFake.PasswordService();
-			A.CallTo(() => fakePasswordService.IsPasswordValid(A<User>.Ignored, A<string>.Ignored)).Returns(true);
 			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), fakePasswordService);
 
 			// When
-			var password = userService.ResetPassword(user);
+			var password = userService.ForgotPasswordReset(user);
 
 			// Then
 			password.ShouldNotBe(null);
 			password.Length.ShouldBe(PasswordService.PasswordCharactersCount);
 		}
 
-		public void Should_return_null_when_user_is_null()
+		[Fact]
+		public void Should_set_user_properties_when_valid_user_and_email_are_supplied()
+		{
+			// Given
+
+			var user = new User() { ForgotPasswordRequestToken = MakeFake.Guid };
+			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IPasswordService>());
+
+			// When
+			userService.ForgotPasswordReset(user);
+
+			// Then
+			user.Salt.ShouldNotBe(null);
+			user.Hash.ShouldNotBe(null);
+			user.ForgotPasswordRequestToken.ShouldBe(string.Empty);
+		}
+
+		public void Should_return_null_token_when_user_is_null()
 		{
 			// Given
 			User user = null;
 			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IPasswordService>());
 
 			// When
-			var password = userService.ResetPassword(user);
+			var password = userService.ForgotPasswordReset(user);
 
 			// Then
 			password.ShouldBe(null);
 		}
-
 	}
 }

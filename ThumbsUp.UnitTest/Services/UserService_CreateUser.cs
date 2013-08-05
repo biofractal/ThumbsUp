@@ -13,18 +13,16 @@ using Xunit.Extensions;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserService_CreateUser : _BaseTest
+	public class UserService_CreateUser
 	{
 		[Fact]
 		public void Should_return_password_when_valid_username_and_password_are_supplied()
 		{
 			// Given
-
-
-			var fakePasswordService = MakeFakePasswordService();
-			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IUserCacheService>(), fakePasswordService);
-			var username = ValidUsername;
-			var email = ValidEmail;
+			var username = MakeFake.Username;
+			var email = MakeFake.Email;
+			var fakePasswordService = MakeFake.PasswordService();
+			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), fakePasswordService);
 
 			// When
 			var password = userService.CreateUser(username, email);
@@ -39,12 +37,12 @@ namespace ThumbsUp.UnitTest.Services
 			Theory(),
 			InlineData("", ""),
 			InlineData(null, null),
-			InlineData(ValidUsername, InvalidEmail)
+			InlineData(MakeFake.Username, MakeFake.InvalidEmail)
 		]
 		public void Should_return_null_when_parameters_are_missing_or_invalid(string username, string email)
 		{
 			// Given
-			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IUserCacheService>(), A.Dummy<IPasswordService>());
+			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IPasswordService>());
 
 			// When
 			var password = userService.CreateUser(username, email);

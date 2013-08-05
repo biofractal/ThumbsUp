@@ -11,15 +11,15 @@ using Xunit.Extensions;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserCacheService_Validate : _BaseTest
+	public class UserCacheService_Validate
 	{
 		[Fact]
 		public void Should_return_true_when_key_is_known()
 		{
 			// Given
+			var user = new User() { Id = MakeFake.Guid };
 			var userCacheService = new UserCacheService();
-			var userId = ValidGuid;
-			var key = userCacheService.Add(new User() { Id = userId });
+			var key = userCacheService.Add(user);
 
 			// When
 			var isValid = userCacheService.Validate(key);
@@ -32,10 +32,10 @@ namespace ThumbsUp.UnitTest.Services
 		public void Should_return_false_when_key_is_unknown()
 		{
 			// Given
+			var user = new User() { Id = MakeFake.Guid };
+			var unknownKey = MakeFake.Guid;
 			var userCacheService = new UserCacheService();
-			var userId = ValidGuid;
-			var unknownKey = Guid.NewGuid().ToString();
-			userCacheService.Add(new User() { Id = userId });
+			userCacheService.Add(user);
 
 			// When
 			var isValid = userCacheService.Validate(unknownKey);
@@ -47,7 +47,7 @@ namespace ThumbsUp.UnitTest.Services
 		[
 			Theory(),
 			InlineData(""),
-			InlineData(InvalidGuid),
+			InlineData(MakeFake.InvalidGuid),
 		]
 		public void Should_return_false_when_parameters_are_missing_or_invalid(string key)
 		{

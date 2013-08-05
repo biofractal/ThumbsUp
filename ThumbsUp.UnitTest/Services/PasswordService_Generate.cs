@@ -10,7 +10,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class PasswordService_Generate : _BaseTest
+	public class PasswordService_Generate
 	{
 		[Fact]
 		public void Should_return_generated_password_of_correct_length()

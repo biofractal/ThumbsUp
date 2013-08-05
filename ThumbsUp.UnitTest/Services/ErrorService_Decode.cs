@@ -11,7 +11,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ErrorService_Decode : _BaseTest
+	public class ErrorService_Decode
 	{
 		[Fact]
 		public void Should_return_correct_error_message_for_the_requested_error_code()
@@ -46,7 +46,7 @@ namespace ThumbsUp.UnitTest.Services
 		{
 			// Given
 			var errorService = new ErrorService();
-			var code = "<invalid>";
+			var code = "<invalid-code>";
 
 			// When
 			var message = errorService.Decode(code);

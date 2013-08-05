@@ -11,7 +11,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ErrorService_Generate : _BaseTest
+	public class ErrorService_Generate
 	{
 		[Fact]
 		public void Should_return_valid_NancyResponse_containing_the_message_and_code_corresponding_to_the_requested_error()

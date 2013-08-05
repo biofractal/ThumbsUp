@@ -8,20 +8,19 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserCacheService_Add : _BaseTest
+	public class UserCacheService_Add
 	{
 		[Fact]
 		public void Should_return_valid_key_when_user_is_added()
 		{
 			// Given
+			var user = new User() { Id = MakeFake.Guid };
 			var userCacheService = new UserCacheService();
-			var userId = ValidGuid;
 			
 			// When
-			var key = userCacheService.Add(new User() { Id = userId });
+			var key = userCacheService.Add(user);
 			
 			// Then
-
 			key.ShouldNotBe(null);
 			key.IsGuid().ShouldBe(true);
 		}
@@ -30,8 +29,8 @@ namespace ThumbsUp.UnitTest.Services
 		public void Should_return_null_key_when_user_is_null()
 		{
 			// Given
-			var userCacheService = new UserCacheService();
 			User user = null;
+			var userCacheService = new UserCacheService();
 
 			// When
 			var key = userCacheService.Add(user);

@@ -11,46 +11,59 @@ using Xunit.Extensions;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserCacheService_Remove : _BaseTest
+	public class UserCacheService_Remove
 	{
 		[Fact]
-		public void Should_return_true_when_key_is_known()
+		public void Should_return_success_is_true_when_removing_known_key()
 		{
 			// Given
+			var user = new User() { Id = MakeFake.Guid };
 			var userCacheService = new UserCacheService();
-			var userId = ValidGuid;
-			var key = userCacheService.Add(new User() { Id = userId });
-
+			var key = userCacheService.Add(user);
+			
 			// When
 			var success = userCacheService.Remove(key);
-			var user = userCacheService.GetUser(key);
 
 			// Then
 			success.ShouldBe(true);
+		}
+
+		[Fact]
+		public void Should_return_null_user_after_user_is_removed()
+		{
+			// Given
+			var userId = MakeFake.Guid;
+			var userCacheService = new UserCacheService();
+			var key = userCacheService.Add(new User() { Id = userId });
+			
+			// When
+			userCacheService.Remove(key);
+			var user = userCacheService.GetUser(key);
+
+			// Then
 			user.ShouldBe(null);
 		}
 
 		[Fact]
-		public void Should_return_false_when_key_is_unknown()
+		public void Should_return_success_is_false_when_key_is_unknown()
 		{
 			// Given
+			var user = new User() { Id = MakeFake.Guid };
+			var unknownKey = MakeFake.Guid;
 			var userCacheService = new UserCacheService();
-			var userId = ValidGuid;
-			var unknownKey = Guid.NewGuid().ToString();
-			var key = userCacheService.Add(new User() { Id = userId });
+			var key = userCacheService.Add(user);
 
 			// When
 			var success = userCacheService.Remove(unknownKey);
-			var user = userCacheService.GetUser(key);
+
 			// Then
 			success.ShouldBe(false);
-			user.ShouldNotBe(null);
 		}
 
 		[
 			Theory(),
 			InlineData(""),
-			InlineData(InvalidGuid),
+			InlineData(MakeFake.InvalidGuid),
 		]
 		public void Should_return_false_when_parameters_are_missing_or_invalid(string key)
 		{

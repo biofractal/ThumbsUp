@@ -9,16 +9,16 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ApplicationService_Get : _BaseTest
+	public class ApplicationService_Get
 	{
 		[Fact]
 		public void Should_return_application_when_known_applicationid_is_supplied()
 		{
 			// Given
-			var applicationId = Guid.NewGuid().ToString();
-			var applicationName = "<application-name>";
+			var applicationId = MakeFake.Guid;
+			var applicationName = MakeFake.Name;
 			var instanceToLoad = new Application() { Id = applicationId, Name = applicationName };
-			var fakeRavenSessionProvider = MakeFakeRavenSessionProvider<Application>(instanceToLoad);
+			var fakeRavenSessionProvider = MakeFake.RavenSessionProvider<Application>(instanceToLoad);
 			var applicationService = new ApplicationService(fakeRavenSessionProvider);
 
 			// When

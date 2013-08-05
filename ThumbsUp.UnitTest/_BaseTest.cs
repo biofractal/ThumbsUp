@@ -27,57 +27,38 @@ namespace ThumbsUp.UnitTest
 
 	public class _BaseTest
 	{
-		public readonly IRavenSessionProvider DummyRavenSessionProvider = A.Dummy<IRavenSessionProvider>();
-		public const string ValidGuid = "0e2ae555-9fc7-4b89-8ea4-a8b63097c50a";
-		public const string InvalidGuid = "<invalid-guid>";
-
-
-		public const string ValidHash = "W5OS/v3YxIEYRvMtYc7TYDFbbvucPaqwuThGe2wbXlVkmfkHh7InpXfcw0V8ansVDdqA2zhAooKkVKIjv3x14g==";
-		public const string ValidSalt = "100000.4n9+TkbFFA7Do1QBbHgkWb4dM5WL5iLJLgpwEarnJnNoNw==";
-		public const string ValidPassword = "2Qr}b8_N$yZ6";
-		public const string ValidUsername = "<valid-username>";
-		public const string ValidEmail = "valid@email.com";
-		public const string InvalidEmail = "<invalid-email>";
-
-		public IRavenSessionProvider MakeFakeRavenSessionProvider<T>(T instanceToLoad)
-		{
-			var fakeDocumentSession = A.Fake<IDocumentSession>();
-			A.CallTo(() => fakeDocumentSession.Load<T>(A<string>.Ignored)).Returns(instanceToLoad);
-			var fakeRavenSessionProvider = A.Fake<IRavenSessionProvider>();
-			A.CallTo(() => fakeRavenSessionProvider.Get()).Returns(fakeDocumentSession);
-			return fakeRavenSessionProvider;
-		}
-
-		public IUserService MakeFakeUserService(User userToReturn=null)
-		{
-			var fakeUserService = A.Fake<IUserService>();
-			A.CallTo(() => fakeUserService.GetUserByName(A<string>.Ignored)).Returns(userToReturn);
-			return fakeUserService;
-		}
-
-		public IPasswordService MakeFakePasswordService()
-		{
-			var fakePassword = A.Fake<IPassword>();
-			A.CallTo(() => fakePassword.Clear).Returns(ValidPassword);
-			var fakePasswordService = A.Fake<IPasswordService>();
-			A.CallTo(() => fakePasswordService.Generate()).Returns(fakePassword);
-			return fakePasswordService;
-		}
-
-		public static Browser MakeTestBrowser<T>(IUserService fakeUserService = null, IUserCacheService fakeUserCacheService = null, IApplicationService fakeApplicationService = null, IPasswordService fakePasswordService = null) where T : INancyModule
+		public static Browser MakeTestBrowser<T>(
+			IUserService fakeUserService = null, 
+			IUserCacheService fakeUserCacheService = null, 
+			IApplicationService fakeApplicationService = null, 
+			IPasswordService fakePasswordService = null, 
+			ICryptoService fakeCryptoService = null, 
+			IErrorService fakeErrorService = null) where T : INancyModule
 		{
 			var bootstrapper = new ConfigurableBootstrapper(with =>
 			{
 				with.Module<T>();
-				if (fakeUserService == null) with.Dependency<IUserService>(typeof(UserService)); else with.Dependency<IUserService>(fakeUserService);
-				if (fakeUserCacheService == null) with.Dependency<IUserCacheService>(typeof(UserCacheService)); else with.Dependency<IUserCacheService>(fakeUserCacheService);
-				if (fakeApplicationService == null) with.Dependency<IApplicationService>(typeof(ApplicationService)); else with.Dependency<IApplicationService>(fakeApplicationService);
-				if (fakePasswordService == null) with.Dependency<IPasswordService>(typeof(PasswordService)); else with.Dependency<IPasswordService>(fakePasswordService);
 				with.Dependency<IRavenSessionProvider>(A.Dummy<IRavenSessionProvider>());
-				with.Dependency<ICryptoService>(typeof(PBKDF2));
-				with.Dependency<IErrorService>(typeof(ErrorService));
+
+				if (fakeUserService == null) with.Dependency<IUserService>(A.Dummy<IUserService>()); else with.Dependency<IUserService>(fakeUserService);
+				if (fakeUserCacheService == null) with.Dependency<IUserCacheService>(A.Dummy<IUserCacheService>()); else with.Dependency<IUserCacheService>(fakeUserCacheService);
+				if (fakeApplicationService == null) with.Dependency<IApplicationService>(A.Dummy<IApplicationService>()); else with.Dependency<IApplicationService>(fakeApplicationService);
+				if (fakePasswordService == null) with.Dependency<IPasswordService>(A.Dummy<IPasswordService>()); else with.Dependency<IPasswordService>(fakePasswordService);
+				if (fakeCryptoService == null) with.Dependency<ICryptoService>(A.Dummy<ICryptoService>()); else with.Dependency<ICryptoService>(fakeCryptoService);
+				if (fakeErrorService == null) with.Dependency<IErrorService>(A.Dummy<IErrorService>()); else with.Dependency<IErrorService>(fakeErrorService);
 			});
 			return new Browser(bootstrapper);
+		}
+
+		public static Browser MakeTestErrorBrowser<T>(
+			IUserService fakeUserService = null,
+			IUserCacheService fakeUserCacheService = null,
+			IApplicationService fakeApplicationService = null,
+			IPasswordService fakePasswordService = null,
+			ICryptoService fakeCryptoService = null) where T : INancyModule
+		{
+			var errorService = new ErrorService();
+			return MakeTestBrowser<T>(fakeUserService, fakeUserCacheService, fakeApplicationService, fakePasswordService, fakeCryptoService, errorService);
 		}
 
 		public void TestMissingParams<T>(string url, HttpMethod method = HttpMethod.POST, Browser browser = null) where T : INancyModule
@@ -103,7 +84,7 @@ namespace ThumbsUp.UnitTest
 		private BrowserResponse TestParams<T>(string url, HttpMethod method = HttpMethod.POST, Dictionary<string, string> formValues = null, Browser browser = null) where T : INancyModule
 		{
 			// Given
-			var testBrowser = browser ?? MakeTestBrowser<T>();
+			var testBrowser = browser ?? MakeTestErrorBrowser<T>();
 			var action = new Action<BrowserContext>(with =>
 			{
 				with.HttpRequest();

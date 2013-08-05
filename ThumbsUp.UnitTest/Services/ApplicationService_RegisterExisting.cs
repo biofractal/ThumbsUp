@@ -4,6 +4,7 @@ using Nancy.Helper;
 using Shouldly;
 using System;
 using ThumbsUp.Service;
+using ThumbsUp.Service.Domain;
 using ThumbsUp.Service.Raven;
 using Xunit;
 using Xunit.Extensions;
@@ -11,15 +12,17 @@ using Xunit.Extensions;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ApplicationService_RegisterExisting : _BaseTest
+	public class ApplicationService_RegisterExisting
 	{
 		[Fact]
 		public void Should_return_new_Application_when_application_is_registered_with_existing_applicationid()
 		{
 			// Given
-			var applicationService = new ApplicationService(DummyRavenSessionProvider);
-			var applicationName = "<application-name>";
-			var applicationId = Guid.NewGuid().ToString();
+			var applicationName = MakeFake.Name;
+			var applicationId = MakeFake.Guid;
+			var instanceToLoad = new Application() { Id = applicationId, Name = applicationName };
+			var fakeRavenSessionProvider = MakeFake.RavenSessionProvider<Application>(instanceToLoad);
+			var applicationService = new ApplicationService(fakeRavenSessionProvider);
 
 			// When
 			var application = applicationService.RegisterExisting(applicationName, applicationId);
@@ -31,15 +34,15 @@ namespace ThumbsUp.UnitTest.Services
 
 		[
 			Theory,
-			InlineData("", ValidGuid),
-			InlineData("<application-name>", ""),
+			InlineData("", MakeFake.Guid),
+			InlineData(MakeFake.Name, ""),
 			InlineData("", ""),
-			InlineData("<application-name>", InvalidGuid)
+			InlineData(MakeFake.Name, MakeFake.InvalidGuid)
 		]
 		public void Should_return_null_when_parameters_are_missing_or_invalid(string applicationName, string applicationId)
 		{
 			// Given
-			var applicationService = new ApplicationService(DummyRavenSessionProvider);
+			var applicationService = new ApplicationService(A.Dummy<IRavenSessionProvider>());
 
 			// When
 			var application = applicationService.RegisterExisting(applicationName, applicationId);

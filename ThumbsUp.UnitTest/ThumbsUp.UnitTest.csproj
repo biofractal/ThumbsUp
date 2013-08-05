@@ -114,23 +114,25 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="MakeFake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HttpAPI\UserForgotPasswordReset.cs" />
-    <Compile Include="HttpAPI\UserForgotPasswordRequest.cs" />
-    <Compile Include="HttpAPI\UserResetPassword.cs" />
-    <Compile Include="HttpAPI\UserLogout.cs" />
-    <Compile Include="HttpAPI\UserValidateName.cs" />
-    <Compile Include="HttpAPI\UserValidateThumbKey.cs" />
-    <Compile Include="HttpAPI\UserValidate.cs" />
-    <Compile Include="HttpAPI\UserGet.cs" />
-    <Compile Include="HttpAPI\ApplicationCreateNew.cs" />
-    <Compile Include="HttpAPI\ApplicationRegisterExisting.cs" />
-    <Compile Include="HttpAPI\UserCreate.cs" />
-    <Compile Include="HttpAPI\Root.cs" />
+    <Compile Include="API\Http_UserForgotPasswordReset.cs" />
+    <Compile Include="API\Http_UserForgotPasswordRequest.cs" />
+    <Compile Include="API\Http_UserResetPassword.cs" />
+    <Compile Include="API\Http_UserLogout.cs" />
+    <Compile Include="API\Http_UserValidateName.cs" />
+    <Compile Include="API\Http_UserValidateThumbKey.cs" />
+    <Compile Include="API\Http_UserValidate.cs" />
+    <Compile Include="API\Http_UserGet.cs" />
+    <Compile Include="API\Http_ApplicationCreateNew.cs" />
+    <Compile Include="API\Http_ApplicationRegisterExisting.cs" />
+    <Compile Include="API\Http_UserCreate.cs" />
+    <Compile Include="API\Http_Root.cs" />
     <Compile Include="Services\ApplicationService_RegisterNew.cs" />
     <Compile Include="Services\ApplicationService_RegisterExisting.cs" />
     <Compile Include="Services\ApplicationService_Get.cs" />
     <Compile Include="Services\ApplicationService_IsRegistered.cs" />
+    <Compile Include="Services\UserService_ForgotPasswordReset.cs" />
     <Compile Include="Services\UserService_ForgotPasswordRequest.cs" />
     <Compile Include="Services\UserService_ResetPassword.cs" />
     <Compile Include="Services\UserService_CreateUser.cs" />

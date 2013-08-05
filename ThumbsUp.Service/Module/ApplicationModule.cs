@@ -20,6 +20,7 @@ namespace ThumbsUp.Service.Module
 			Post["/register/existing"] = _ =>
 			{
 				if (Params.AreMissing("Name", "Id")) return error.MissingParameters(Response);
+				if (!Params.Id.IsGuid()) return error.InvalidParameters(Response);
 				var application = applicationService.RegisterExisting(Params.Name, Params.Id);
 				return (application == null) ? error.InvalidParameters(Response) : Response.AsJson(new { ApplicationId = application.Id });
 			};

@@ -18,18 +18,18 @@ using System.Collections;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class UserService_ForgotPasswordRequest : _BaseTest
+	public class UserService_ForgotPasswordRequest
 	{
 		[Fact]
 		public void Should_return_token_when_valid_user_and_email_are_supplied()
 		{
 			// Given
-			var email = ValidEmail;
-			var user = new User() { Email=email};
-			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IUserCacheService>(), A.Dummy<IPasswordService>());
+
+			var user = new User();
+			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IPasswordService>());
 
 			// When
-			var token = userService.ForgotPasswordRequest(user, email);
+			var token = userService.ForgotPasswordRequest(user);
 
 			// Then
 			token.ShouldNotBe(null);
@@ -38,36 +38,17 @@ namespace ThumbsUp.UnitTest.Services
 			user.ForgotPasswordRequestDate.Ticks.ShouldBeLessThan(DateTime.Now.AddSeconds(1).Ticks);
 		}
 
-		public void Should_return_null_Token_when_user_is_null()
+		public void Should_return_null_token_when_user_is_null()
 		{
 			// Given
-			var email = ValidEmail;
 			User user = null;
-			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IUserCacheService>(), A.Dummy<IPasswordService>());
+			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IPasswordService>());
 
 			// When
-			var token = userService.ForgotPasswordRequest(user, email);
+			var token = userService.ForgotPasswordRequest(user);
 
 			// Then
 			token.ShouldBe(null);
-		}
-
-		[
-			Theory(),
-			InlineData(null),
-			InlineData(""),
-		]
-		public void Should_return_null_Token_when_email_is_null_or_missing(string email)
-		{
-			// Given
-			User user = null;
-			var userService = new UserService(A.Dummy<IRavenSessionProvider>(), A.Dummy<IUserCacheService>(), A.Dummy<IPasswordService>());
-
-			// When
-			var password = userService.ForgotPasswordRequest(user, email);
-
-			// Then
-			password.ShouldBe(null);
 		}
 	}
 }
