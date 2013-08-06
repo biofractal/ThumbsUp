@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2012 for Web
+# Visual Studio Express 2013 for Web
+VisualStudioVersion = 12.0.20623.1 VSUPREVIEW
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{723FA2AD-147A-4520-8E24-BBA003BB52D9}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -15,6 +17,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nancy.Helper", "..\Nancy.Helper\Nancy.Helper\Nancy.Helper.csproj", "{1561B149-5DCE-417A-BD61-3C6E37645468}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.UnitTest", "ThumbsUp.UnitTest\ThumbsUp.UnitTest.csproj", "{E5C36322-A4C7-4C92-8055-4712113B59EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Helper", "ThumbsUp.Helper\ThumbsUp.Helper.csproj", "{A99FB1C2-2DD3-4E74-8180-F04DAADEBC77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +42,10 @@ Global
 		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A99FB1C2-2DD3-4E74-8180-F04DAADEBC77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A99FB1C2-2DD3-4E74-8180-F04DAADEBC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A99FB1C2-2DD3-4E74-8180-F04DAADEBC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A99FB1C2-2DD3-4E74-8180-F04DAADEBC77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

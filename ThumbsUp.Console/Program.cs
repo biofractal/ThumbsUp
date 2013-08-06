@@ -1,6 +1,7 @@
 ﻿using Nancy.Helper;
 using System;
 using System.Windows.Forms;
+using ThumbsUp.Helper;
 using C = System.Console;
 
 namespace ThumbsUp.Service.Console
@@ -75,8 +76,6 @@ namespace ThumbsUp.Service.Console
 					case "e":
 						ForgotPasswordReset();
 						break;
-
-
 				}
 			}
 		}
@@ -246,7 +245,7 @@ namespace ThumbsUp.Service.Console
 			C.WriteLine(string.Format("This {0} has been copied to the clipboard : {1}", name, item));
 		}
 
-		private static bool IsError(ThumbsUpApi.ThumbsUpResult result)
+		private static bool IsError(ThumbsUpResult result)
 		{
 			var isError = !result.Success;
 			if (isError) C.WriteLine("Failure: " + result.Data.ErrorMessage);
