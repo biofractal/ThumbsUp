@@ -1,0 +1,22 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+@{
+	Layout = "_Master.cshtml";
+}
+
+
+<div class="span4 offset4 well" style="padding-top: 40px;">
+	@if (ViewBag.HasMessage)
+{
+	<div class="alert @(ViewBag.Success ? "alert-success" : "alert-error")">@ViewBag.Message</div>
+}
+	<form method="post">
+		<input type="text" name="username" class="span4" placeholder="Username">
+		<input type="password" name="password" class="span4" placeholder="Password">
+		<div class="text-center" style="padding-top: 10px;">
+			<input type="submit" class="btn btn-primary pull-left" value="Sign in" />
+			<a href="/password-request" class="pull-right" style="padding-top:7px">Forgot Password</a>
+		</div>
+	</form>
+		
+</div>
+
