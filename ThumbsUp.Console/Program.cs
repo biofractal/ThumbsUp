@@ -1,5 +1,7 @@
 ﻿using Nancy.Helper;
 using System;
+using System.Diagnostics;
+using System.Text;
 using System.Windows.Forms;
 using ThumbsUp.Helper;
 using C = System.Console;
@@ -13,68 +15,79 @@ namespace ThumbsUp.Service.Console
 		{
 			while (true)
 			{
+				C.WriteLine("ThumbsUp Security Service");
+				C.WriteLine("=========================");
 				C.WriteLine();
-				C.WriteLine("Select an Action");
+				C.WriteLine("   0 - Quit");
+				C.WriteLine("   1 - Check the service is running");
+				C.WriteLine("   2 - Register New Application");
+				C.WriteLine("   3 - Register Existing Application");
+				C.WriteLine("   4 - Register User");
+				C.WriteLine("   5 - User Login");
+				C.WriteLine("   6 - User From Key");
+				C.WriteLine("   7 - User Logout");
+				C.WriteLine("   8 - Validate Key");
+				C.WriteLine("   9 - Validate UserName");
+				C.WriteLine("   a - Decode Error");
+				C.WriteLine("   b - User Reset Password");
+				C.WriteLine("   c - Forgot Password Request");
+				C.WriteLine("   d - Forgot Password Reset");
 				C.WriteLine();
-				C.WriteLine("   1 - Quit");
-				C.WriteLine("   2 - Check the service is running");
-				C.WriteLine("   3 - Register New Application");
-				C.WriteLine("   4 - Register Existing Application");
-				C.WriteLine("   5 - Register User");
-				C.WriteLine("   6 - User Login");
-				C.WriteLine("   7 - User From Key");
-				C.WriteLine("   8 - User Logout");
-				C.WriteLine("   9 - Validate Key");
-				C.WriteLine("   a - Validate UserName");
-				C.WriteLine("   b - Decode Error");
-				C.WriteLine("   c - User Reset Password");
-				C.WriteLine("   d - Forgot Password Request");
-				C.WriteLine("   e - Forgot Password Reset");
+				C.WriteLine("   ------------------------------------");
+				C.WriteLine();
+				C.WriteLine("   y - Install Service");
+				C.WriteLine("   z - Uninstall Service");
 				C.WriteLine();
 
 				switch (C.ReadLine())
 				{
-					case "1":
+					case "0":
 						Quit();
 						break;
-					case "2":
+					case "1":
 						CheckServiceIsRunning();
 						break;
-					case "3":
+					case "2":
 						RegisterNewApplication();
 						break;					
-					case "4":
+					case "3":
 						RegisterExistingApplication();
 						break;
-					case "5":
+					case "4":
 						RegisterUser();
 						break;
-					case "6":
+					case "5":
 						UserLogin();
 						break;
-					case "7":
+					case "6":
 						UserFromKey();
 						break;
-					case "8":
+					case "7":
 						UserLogout();
 						break;
-					case "9":
+					case "8":
 						ValidateKey();
 						break;
-					case "a":
+					case "9":
 						ValidateUserName();
 						break;
-					case "b":
+					case "a":
 						GetErrorMessage();
 						break;
-					case "c":
+					case "b":
 						UserResetPassword();
 						break;
-					case "d":
+					case "c":
 						ForgotPasswordRequest();
 						break;
-					case "e":
+					case "d":
 						ForgotPasswordReset();
+						break;
+					case "y":
+						ServiceCommand("install --autostart");
+						break;
+					case "z":
+						ServiceCommand("uninstall");
 						break;
 				}
 			}
@@ -225,6 +238,11 @@ namespace ThumbsUp.Service.Console
 			}
 		}
 
+		public static void ServiceCommand(string arguments)
+		{
+			var stdOut = ExternalProcess.Run("ThumbsUp.Service.exe", arguments);
+			C.WriteLine(stdOut);
+		}
 
 		private static Guid GetThumbKey()
 		{
@@ -251,5 +269,6 @@ namespace ThumbsUp.Service.Console
 			if (isError) C.WriteLine("Failure: " + result.Data.ErrorMessage);
 			return isError;
 		}
+
 	}
 }
