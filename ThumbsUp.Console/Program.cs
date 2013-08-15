@@ -1,4 +1,5 @@
-﻿using Nancy.Helper;
+﻿
+using Nancy.Helper;
 using System;
 using System.Diagnostics;
 using System.Text;
@@ -15,6 +16,7 @@ namespace ThumbsUp.Service.Console
 		{
 			while (true)
 			{
+				C.WriteLine();
 				C.WriteLine("ThumbsUp Security Service");
 				C.WriteLine("=========================");
 				C.WriteLine();
@@ -33,13 +35,15 @@ namespace ThumbsUp.Service.Console
 				C.WriteLine("   c - Forgot Password Request");
 				C.WriteLine("   d - Forgot Password Reset");
 				C.WriteLine();
+				C.WriteLine("   y - Install & Start the Service");
+				C.WriteLine("   z - Uninstall the Service");
+				C.WriteLine();
+				var option = C.ReadLine();
+
+				C.WriteLine();
 				C.WriteLine("   ------------------------------------");
 				C.WriteLine();
-				C.WriteLine("   y - Install Service");
-				C.WriteLine("   z - Uninstall Service");
-				C.WriteLine();
-
-				switch (C.ReadLine())
+				switch (option)
 				{
 					case "0":
 						Quit();
@@ -49,7 +53,7 @@ namespace ThumbsUp.Service.Console
 						break;
 					case "2":
 						RegisterNewApplication();
-						break;					
+						break;
 					case "3":
 						RegisterExistingApplication();
 						break;
@@ -84,12 +88,20 @@ namespace ThumbsUp.Service.Console
 						ForgotPasswordReset();
 						break;
 					case "y":
-						ServiceCommand("install --autostart");
+						ServiceCommand("install start");
 						break;
 					case "z":
 						ServiceCommand("uninstall");
 						break;
 				}
+
+				C.WriteLine();
+				C.WriteLine("   ------------------------------------");
+				C.WriteLine();
+				C.WriteLine("   0 - Quit");
+				C.WriteLine("   1 - Back to Main Menu");
+				C.WriteLine();
+				if (C.ReadLine() == "0") Quit();
 			}
 		}
 
@@ -225,7 +237,7 @@ namespace ThumbsUp.Service.Console
 		}
 
 		public static void ForgotPasswordReset()
-		{			
+		{
 			C.WriteLine("UserName?");
 			var username = C.ReadLine();
 			C.WriteLine("Request Token?");

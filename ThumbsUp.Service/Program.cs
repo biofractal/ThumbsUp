@@ -22,7 +22,7 @@ namespace ThumbsUp.Service
 				});
 				config.RunAsLocalSystem();
 				config.StartAutomatically();
-				config.SetDescription("ThumbsUp - A central security hub for all GoodPractice http services and applications");
+				config.SetDescription("ThumbsUp - A central security hub for http services and applications");
 				config.SetDisplayName("ThumbsUp Security Service");
 				config.SetServiceName("ThumbsUp");
 			});

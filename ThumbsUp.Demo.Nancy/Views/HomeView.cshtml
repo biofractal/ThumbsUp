@@ -1,0 +1,23 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+	@{
+	Layout = "_Master.cshtml";
+	}
+	@section NavMenus{
+	<a href="/logout" class="btn btn-primary pull-right"><i class="icon-off icon-white"></i> Sign Out</a>
+	}
+	<div class="row">
+		<h3 class="well">Welcome @Html.GetUser().UserName</h3>
+	</div>
+	<div class="row">
+		<h4>What would you like to do?</h4>
+		<button data-toggle="modal" data-target="#user-create-modal" class="btn"><i class="icon-user"></i> Create New User</button>
+	</div>
+	@section Partial
+	{
+	@Html.Partial("Partials/UserCreateModal")
+	}
+	@section JS
+	{
+	<script src="/Scripts/home.min.js"></script>
+	}
+

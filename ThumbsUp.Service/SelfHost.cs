@@ -49,8 +49,8 @@ namespace ThumbsUp.Service
 		{
 			try
 			{
-				Log.Write("Stopping");
 				nancyHost.Stop();
+				Log.Write("Stopped");
 			}
 			catch (Exception ex)
 			{

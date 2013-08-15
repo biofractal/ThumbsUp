@@ -26,9 +26,15 @@
             @RenderBody()
         </div>
     </div>
+
+    @RenderSection("Partial", required: false) 
+
     <script src="/Scripts/jquery-2.0.3.min.js"></script>
-    <script src="/Scripts/jqBootstrapValidation.min.js"></script>
+    <script src="/Scripts/jqBootstrapValidation.js"></script>
 	<script src="/Scripts/bootstrap.min.js"></script>
+	<script src="/Scripts/bootbox.min.js"></script>
+
 	@RenderSection("JS", required: false)
+
 </body>
 </html>

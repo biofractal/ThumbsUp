@@ -14,8 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Service", "ThumbsU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Console", "ThumbsUp.Console\ThumbsUp.Console.csproj", "{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nancy.Helper", "..\Nancy.Helper\Nancy.Helper\Nancy.Helper.csproj", "{1561B149-5DCE-417A-BD61-3C6E37645468}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.UnitTest", "ThumbsUp.UnitTest\ThumbsUp.UnitTest.csproj", "{E5C36322-A4C7-4C92-8055-4712113B59EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Helper", "ThumbsUp.Helper\ThumbsUp.Helper.csproj", "{A99FB1C2-2DD3-4E74-8180-F04DAADEBC77}"
@@ -36,10 +34,6 @@ Global
 		{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1561B149-5DCE-417A-BD61-3C6E37645468}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1561B149-5DCE-417A-BD61-3C6E37645468}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1561B149-5DCE-417A-BD61-3C6E37645468}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1561B149-5DCE-417A-BD61-3C6E37645468}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5C36322-A4C7-4C92-8055-4712113B59EB}.Release|Any CPU.ActiveCfg = Release|Any CPU

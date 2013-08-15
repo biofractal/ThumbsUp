@@ -81,9 +81,15 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="Scripts\bootbox.js" />
+    <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Partials\UserCreateModal.cshtml" />
+    <Content Include="Coffee\utilities.coffee" />
+    <Content Include="Coffee\home.coffee" />
     <None Include="Scripts\jquery-2.0.3.intellisense.js" />
+    <Content Include="Scripts\home.min.js" />
     <Content Include="Scripts\jqBootstrapValidation.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
@@ -94,8 +100,10 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Gmail.cs" />
+    <Compile Include="Modules\UserModule.cs" />
     <Compile Include="Modules\LoginModule.cs" />
-    <Compile Include="Modules\RootModule.cs" />
+    <Compile Include="Modules\HomeModule.cs" />
+    <Compile Include="NancyExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modules\_BaseModule.cs" />
   </ItemGroup>
@@ -106,7 +114,7 @@
     <Content Include="Views\PasswordRequestView.cshtml" />
     <Content Include="Views\_Master.cshtml" />
     <Content Include="Scripts\jquery-2.0.3.min.map" />
-    <Content Include="Views\ProtectedView.cshtml" />
+    <Content Include="Views\HomeView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -153,6 +161,10 @@ if $(ConfigurationName) == Debug (
 xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.0.18.0\BuildProviders\Nancy.ViewEngines.Razor.BuildProviders.dll" "$(ProjectDir)bin\"
 xcopy /s /y /R "$(SolutionDir)packages\Nancy.Viewengines.Razor.0.18.0\lib\Net40\Nancy.ViewEngines.Razor.dll" "$(ProjectDir)bin\"
 )</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>CD "$(SolutionDir)packages\jurassic-coffee.0.26\Lib\net40"
+CALL JurassicCoffee.exe "$(ProjectDir)Coffee" -c -o "$(ProjectDir)Scripts"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

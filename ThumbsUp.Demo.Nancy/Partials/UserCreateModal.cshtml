@@ -1,0 +1,27 @@
+﻿<div id="user-create-modal" class="modal hide fade" tabindex="-1" role="dialog">
+	<form id="user-create-form" action="/user/create" class="form-horizontal" method="POST">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="user-create-modal-label">Create New User</h3>
+		</div>
+		<div class="modal-body">
+			<div class="control-group">
+				<label class="control-label label-left" for="username">UserName</label>
+				<div class="controls">
+					<input class="input-xlarge span4" type="text" id="username" name="username" placeholder="UserName" required>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label label-left" for="email">Email</label>
+				<div class="controls">
+					<input class="input-xlarge span4" type="email" id="email" name="email" placeholder="Email" required>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+			<button class="btn btn-primary submit" id="user-create-submit">Create</button>
+		</div>
+	</form>
+</div>
+
