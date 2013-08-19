@@ -102,7 +102,7 @@ namespace ThumbsUp.Console
 				C.WriteLine();
 				C.WriteLine("   0   - Quit");
 				C.WriteLine();
-				C.WriteLine("   <Hit any other key for Main Menu>");
+				C.WriteLine("  [ Press any other key for Main Menu ]");
 				C.WriteLine();
 				if (C.ReadLine() == "0") Quit();
 			}

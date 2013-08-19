@@ -93,7 +93,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SSL-Config.txt" />
