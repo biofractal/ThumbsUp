@@ -12,7 +12,7 @@ using Xunit.Extensions;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ApplicationService_RegisterExisting
+	public class ApplicationService_Transfer
 	{
 		[Fact]
 		public void Should_return_new_Application_when_application_is_registered_with_existing_applicationid()
@@ -25,7 +25,7 @@ namespace ThumbsUp.UnitTest.Services
 			var applicationService = new ApplicationService(fakeRavenSessionProvider);
 
 			// When
-			var application = applicationService.RegisterExisting(applicationName, applicationId);
+			var application = applicationService.Transfer(applicationName, applicationId);
 
 			// Then
 			application.Name.ShouldBe(applicationName);
@@ -45,7 +45,7 @@ namespace ThumbsUp.UnitTest.Services
 			var applicationService = new ApplicationService(A.Dummy<IRavenSessionProvider>());
 
 			// When
-			var application = applicationService.RegisterExisting(applicationName, applicationId);
+			var application = applicationService.Transfer(applicationName, applicationId);
 
 			// Then
 			application.ShouldBe(null);

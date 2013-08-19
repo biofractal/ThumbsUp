@@ -16,21 +16,24 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.API
 {
-	public class Http_ApplicationCreateNew : _BaseTest
+	public class Http_ApplicationRegister : _BaseTest
 	{
 		[Fact]
 		public void Should_return_new_applicationid_when_new_application_is_registered()
 		{
 			// Given
 			var applicationId = MakeFake.Guid;
+			var singleUseToken = MakeFake.Guid;
 			var fakeApplicationService = A.Fake<IApplicationService>();
-			A.CallTo(() => fakeApplicationService.RegisterNew(A<string>.Ignored)).Returns(new Application { Id = applicationId});
+			A.CallTo(() => fakeApplicationService.IsRegistered(A<string>.Ignored)).Returns(true);
+			A.CallTo(() => fakeApplicationService.Register(A<string>.Ignored)).Returns(new Application { Id = applicationId });
 			var applicationTestBrowser = MakeTestBrowser<ApplicationModule>(fakeApplicationService: fakeApplicationService);
 
 			// When
-			var result = applicationTestBrowser.Post("/application/register/new", with =>
+			var result = applicationTestBrowser.Post("/application/register", with =>
 			{
 				with.HttpRequest();
+				with.FormValue("singleUseToken", singleUseToken);
 				with.FormValue("name", "New Application");
 			});
 
@@ -46,7 +49,7 @@ namespace ThumbsUp.UnitTest.API
 		[Fact]
 		public void Should_return_MissingParameters_error_when_endpoint_is_hit_with_missing_params()
 		{
-			TestMissingParams<ApplicationModule>("/application/register/new");
+			TestMissingParams<ApplicationModule>("/application/register");
 		}
 		#endregion
 	}

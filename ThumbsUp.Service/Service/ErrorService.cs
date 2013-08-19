@@ -12,7 +12,8 @@ namespace ThumbsUp.Service.Domain
 		NoUserForCredentials,
 		NoUserForThumbkey,
 		NoUserForEmail,
-		InvalidForgotPasswordToken
+		InvalidForgotPasswordToken,
+		PermissionDenied
 	}
 
 	public interface IErrorService
@@ -25,6 +26,7 @@ namespace ThumbsUp.Service.Domain
 		Response NoUserForEmail(IResponseFormatter response);
 		Response InvalidForgotPasswordToken(IResponseFormatter Response);
 		Response UserNameTaken(IResponseFormatter Response);
+		Response PermissionDenied(IResponseFormatter Response);
 		string Decode(string code);
 
 		
@@ -46,7 +48,8 @@ namespace ThumbsUp.Service.Domain
 			{ErrorCode.NoUserForCredentials, new Error {Message = "No User could be found for the supplied credentials", StatusCode = Nancy.HttpStatusCode.NotFound}},
 			{ErrorCode.NoUserForThumbkey, new Error {Message = "No User could be found for the supplied ThumbKey", StatusCode = Nancy.HttpStatusCode.NotFound}},
 			{ErrorCode.NoUserForEmail, new Error {Message = "No User could be found for the supplied Email", StatusCode = Nancy.HttpStatusCode.NotFound}},
-			{ErrorCode.InvalidForgotPasswordToken, new Error {Message = "The Forgot Password token is out of date or otherwise invalid", StatusCode = Nancy.HttpStatusCode.BadRequest}}
+			{ErrorCode.InvalidForgotPasswordToken, new Error {Message = "The Forgot Password token is out of date or otherwise invalid", StatusCode = Nancy.HttpStatusCode.BadRequest}},
+			{ErrorCode.PermissionDenied, new Error {Message = "You do not have permission to perform the requested action", StatusCode = Nancy.HttpStatusCode.Unauthorized}}
 		};
 
 		public Response MissingParameters(IResponseFormatter response)
@@ -82,6 +85,11 @@ namespace ThumbsUp.Service.Domain
 		public Response UserNameTaken(IResponseFormatter response)
 		{
 			return Generate(response, ErrorCode.UserNameTaken);
+		}
+
+		public Response PermissionDenied(IResponseFormatter response)
+		{
+			return Generate(response, ErrorCode.PermissionDenied);
 		}
 
 		public Response Generate(IResponseFormatter response, ErrorCode code)

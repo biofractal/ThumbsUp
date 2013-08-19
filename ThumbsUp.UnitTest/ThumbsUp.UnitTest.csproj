@@ -70,9 +70,9 @@
     <Reference Include="Nancy.Authentication.Forms">
       <HintPath>..\packages\Nancy.Authentication.Forms.0.18.0\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Helper, Version=1.0.0.19689, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy.Helper, Version=1.0.0.25573, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.Helper.1.0.0.19689\lib\net45\Nancy.Helper.dll</HintPath>
+      <HintPath>..\packages\Nancy.Helper.1.0.0.25573\lib\net45\Nancy.Helper.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Testing, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -146,12 +146,12 @@
     <Compile Include="API\Http_UserValidateThumbKey.cs" />
     <Compile Include="API\Http_UserValidate.cs" />
     <Compile Include="API\Http_UserGet.cs" />
-    <Compile Include="API\Http_ApplicationCreateNew.cs" />
-    <Compile Include="API\Http_ApplicationRegisterExisting.cs" />
+    <Compile Include="API\Http_ApplicationRegister.cs" />
+    <Compile Include="API\Http_ApplicationTransfer.cs" />
     <Compile Include="API\Http_UserCreate.cs" />
     <Compile Include="API\Http_Root.cs" />
-    <Compile Include="Services\ApplicationService_RegisterNew.cs" />
-    <Compile Include="Services\ApplicationService_RegisterExisting.cs" />
+    <Compile Include="Services\ApplicationService_Register.cs" />
+    <Compile Include="Services\ApplicationService_Transfer.cs" />
     <Compile Include="Services\ApplicationService_Get.cs" />
     <Compile Include="Services\ApplicationService_IsRegistered.cs" />
     <Compile Include="Services\UserService_ForgotPasswordReset.cs" />

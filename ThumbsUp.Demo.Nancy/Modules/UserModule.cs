@@ -11,7 +11,7 @@ namespace ThumbsUp.Demo.Nancy.Module
 		{
 			this.RequiresAuthentication();
 
-			Post["/create"] = _ => Response.AsJson(ThumbsUpApi.CreateUser(Params.UserName, Params.Email).Data);
+			Post["/create"] = _ => Response.AsJson(ThumbsUpApi.CreateUser(ThumbsUpApplicationId, Params.UserName, Params.Email).Data);
 		}
 	}
 }

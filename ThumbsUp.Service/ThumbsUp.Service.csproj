@@ -47,9 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.Authentication.Forms.0.18.0\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Helper, Version=1.0.0.19393, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy.Helper, Version=1.0.0.25573, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.Helper.1.0.0.19393\lib\net45\Nancy.Helper.dll</HintPath>
+      <HintPath>..\packages\Nancy.Helper.1.0.0.25573\lib\net45\Nancy.Helper.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Hosting.Self, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

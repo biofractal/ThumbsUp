@@ -20,6 +20,15 @@ namespace ThumbsUp.Service.Raven
 				});
 			}
 		}
-
+		public class Application_ByName : AbstractIndexCreationTask<Application>
+		{
+			public Application_ByName()
+			{
+				Map = applications => applications.Select(application => new
+				{
+					application.Name
+				});
+			}
+		}
 	}
 }

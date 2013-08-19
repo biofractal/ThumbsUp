@@ -7,7 +7,7 @@
     <ProjectGuid>{CEE7F542-32AC-4E55-8DFB-BFBA0E173835}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ThumbsUp.Service.Console</RootNamespace>
+    <RootNamespace>ThumbsUp.Console</RootNamespace>
     <AssemblyName>ThumbsUp.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -44,9 +44,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.Authentication.Forms.0.18.0\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Helper, Version=1.0.0.19448, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Nancy.Helper, Version=1.0.0.25573, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Nancy.Helper.1.0.0.19448\lib\net45\Nancy.Helper.dll</HintPath>
+      <HintPath>..\packages\Nancy.Helper.1.0.0.25573\lib\net45\Nancy.Helper.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.ViewEngines.Razor, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -92,6 +92,10 @@
     <ProjectReference Include="..\ThumbsUp.Helper\ThumbsUp.Helper.csproj">
       <Project>{a99fb1c2-2dd3-4e74-8180-f04daadebc77}</Project>
       <Name>ThumbsUp.Helper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ThumbsUp.Service\ThumbsUp.Service.csproj">
+      <Project>{49f56a22-5de0-4fd6-90d3-5c0474936951}</Project>
+      <Name>ThumbsUp.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

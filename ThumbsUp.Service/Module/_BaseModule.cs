@@ -14,6 +14,7 @@ namespace ThumbsUp.Service.Module
 	{
 		public class ParameterBag
 		{
+			public string SingleUseToken { get; set; }
 			public string ThumbKey { get; set; }
 			public string Name { get; set; }
 			public string Id { get; set; }

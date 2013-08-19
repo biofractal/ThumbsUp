@@ -10,7 +10,7 @@ using Xunit;
 
 namespace ThumbsUp.UnitTest.Services
 {
-	public class ApplicationService_RegisterNew
+	public class ApplicationService_Register
 	{
 		[Fact]
 		public void Should_return_new_Application_when_new_application_is_registered()
@@ -22,7 +22,7 @@ namespace ThumbsUp.UnitTest.Services
 			var applicationService = new ApplicationService(fakeRavenSessionProvider);
 
 			// When
-			var application = applicationService.RegisterNew(applicationName);
+			var application = applicationService.Register(applicationName);
 
 			// Then
 			application.Name.ShouldBe(applicationName);
@@ -37,7 +37,7 @@ namespace ThumbsUp.UnitTest.Services
 			var applicationService = new ApplicationService(A.Dummy<IRavenSessionProvider>());
 
 			// When
-			var application = applicationService.RegisterNew(name);
+			var application = applicationService.Register(name);
 
 			// Then
 			application.ShouldBe(null);

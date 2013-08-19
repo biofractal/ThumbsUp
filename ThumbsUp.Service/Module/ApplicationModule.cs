@@ -8,21 +8,29 @@ namespace ThumbsUp.Service.Module
 {
 	public class ApplicationModule : _BaseModule
 	{
-		public ApplicationModule(IApplicationService applicationService, IErrorService error) : base("/application")
+		public ApplicationModule(IApplicationService applicationService, IErrorService error)
+			: base("/application")
 		{
-			Post["/register/new"] = _ =>
+			Post["/register"] = _ =>
 			{
-				if (Params.AreMissing("Name")) return error.MissingParameters(Response);
-				var application = applicationService.RegisterNew(Params.Name);
+				if (Params.AreMissing("SingleUseToken", "Name")) return error.MissingParameters(Response);
+				if (!Params.SingleUseToken.IsGuid()) return error.InvalidParameters(Response);
+				if (!applicationService.AuthoriseSingleUseToken(Params.SingleUseToken)) return error.PermissionDenied(Response);
+
+				var application = applicationService.Register(Params.Name);
 				return (application == null) ? error.InvalidParameters(Response) : Response.AsJson(new { ApplicationId = application.Id });
+
 			};
 
-			Post["/register/existing"] = _ =>
+			Post["/transfer"] = _ =>
 			{
-				if (Params.AreMissing("Name", "Id")) return error.MissingParameters(Response);
-				if (!Params.Id.IsGuid()) return error.InvalidParameters(Response);
-				var application = applicationService.RegisterExisting(Params.Name, Params.Id);
+				if (Params.AreMissing("SingleUseToken", "Name", "Id")) return error.MissingParameters(Response);
+				if (!Params.Id.IsGuid() || !Params.SingleUseToken.IsGuid()) return error.InvalidParameters(Response);
+				if (!applicationService.AuthoriseSingleUseToken(Params.SingleUseToken)) return error.PermissionDenied(Response);
+
+				var application = applicationService.Transfer(Params.Name, Params.Id);
 				return (application == null) ? error.InvalidParameters(Response) : Response.AsJson(new { ApplicationId = application.Id });
+
 			};
 		}
 	}

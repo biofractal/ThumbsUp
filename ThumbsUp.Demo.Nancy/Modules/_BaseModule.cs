@@ -2,6 +2,7 @@
 
 using Nancy;
 using Nancy.ModelBinding;
+using System.Configuration;
 using System.Dynamic;
 
 #endregion
@@ -12,12 +13,16 @@ namespace ThumbsUp.Demo.Nancy.Module
 	{
 		public class ParameterBag
 		{
+			
 			public string UserName { get; set; }
 			public string Password { get; set; }
 			public string Email { get; set; }
 			public string Token { get; set; }
+			public string Name { get; set; }
+			public string Id { get; set; }
 		}
 
+		public string ThumbsUpApplicationId = ConfigurationManager.AppSettings["ThumbsUp.Application.Id"];
 		public ParameterBag Params;
 		public _BaseModule() : this("")
 		{}

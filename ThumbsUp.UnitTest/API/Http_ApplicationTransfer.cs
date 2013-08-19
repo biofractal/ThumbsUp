@@ -16,21 +16,24 @@ using ThumbsUp.Service.Domain;
 
 namespace ThumbsUp.UnitTest.API
 {
-	public class Http_ApplicationRegisterExisting : _BaseTest
+	public class Http_ApplicationTransfer : _BaseTest
 	{
 		[Fact]
 		public void Should_return_existing_applicationid_when_existing_application_is_registered()
 		{
 			// Given
+			var singleUseToken = MakeFake.Guid;
 			var existingApplicationId = MakeFake.Guid;
 			var fakeApplicationService = MakeFake.ApplicationService();
-			A.CallTo(() => fakeApplicationService.RegisterExisting(A<string>.Ignored, A<string>.Ignored)).Returns(new Application { Id = existingApplicationId });
+			A.CallTo(() => fakeApplicationService.IsRegistered(A<string>.Ignored)).Returns(true);
+			A.CallTo(() => fakeApplicationService.Transfer(A<string>.Ignored, A<string>.Ignored)).Returns(new Application { Id = existingApplicationId });
 			var applicationTestBrowser = MakeTestBrowser<ApplicationModule>(fakeApplicationService: fakeApplicationService);
 
 			// When
-			var result = applicationTestBrowser.Post("/application/register/existing", with =>
+			var result = applicationTestBrowser.Post("/application/transfer", with =>
 			{
 				with.HttpRequest();
+				with.FormValue("singleUseToken", singleUseToken);
 				with.FormValue("name", "Existing Application");
 				with.FormValue("id", existingApplicationId);
 			});
@@ -47,14 +50,14 @@ namespace ThumbsUp.UnitTest.API
 		[Fact]
 		public void Should_return_MissingParameters_error_when_endpoint_is_hit_with_missing_params()
 		{
-			TestMissingParams<ApplicationModule>("/application/register/existing");
+			TestMissingParams<ApplicationModule>("/application/transfer");
 		}
 
 		[Fact]
 		public void Should_return_InvalidParameters_error_when_endpoint_is_hit_with_invalid_params()
 		{
-			var formValues = new Dictionary<string, string>() { { "name", MakeFake.Name}, {"id", MakeFake.InvalidGuid} };
-			TestInvalidParams<ApplicationModule>("/application/register/existing", formValues);
+			var formValues = new Dictionary<string, string>() { {"singleUseToken", MakeFake.Guid}, { "name", MakeFake.Name}, {"id", MakeFake.InvalidGuid} };
+			TestInvalidParams<ApplicationModule>("/application/transfer", formValues);
 		}
 		#endregion
 	}

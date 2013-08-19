@@ -18,13 +18,13 @@ namespace ThumbsUp.Demo.Nancy.Module
 			Get["/logout"] = url =>
 			{
 				var user = Context.CurrentUser as ThumbsUpUser;
-				if (user != null) ThumbsUpApi.Logout(user.ThumbKey);
+				if (user != null) ThumbsUpApi.Logout(ThumbsUpApplicationId, user.ThumbKey);
 				return this.LogoutAndRedirect("~/");
 			};
 
 			Post["/login"] = _ =>
 			{
-				var result = ThumbsUpApi.ValidateUser(Params.UserName, Params.Password);
+				var result = ThumbsUpApi.ValidateUser(ThumbsUpApplicationId, Params.UserName, Params.Password);
 				if (result.Success) return this.LoginAndRedirect(result.Data.ThumbKey.Value);
 
 				SetMessageError(result.GetMessage());
@@ -38,7 +38,7 @@ namespace ThumbsUp.Demo.Nancy.Module
 
 			Post["/password-request"] = _ =>
 			{
-				var result = ThumbsUpApi.ForgotPasswordRequest(Params.UserName, Params.Email);
+				var result = ThumbsUpApi.ForgotPasswordRequest(ThumbsUpApplicationId, Params.UserName, Params.Email);
 				if (result.Success)
 				{
 					var token = result.Data.Token;
@@ -68,7 +68,7 @@ namespace ThumbsUp.Demo.Nancy.Module
 
 			Post["/password-generate/{token}"] = _ =>
 			{
-				var result = ThumbsUpApi.ForgotPasswordReset(Params.UserName, Params.Token);
+				var result = ThumbsUpApi.ForgotPasswordReset(ThumbsUpApplicationId, Params.UserName, Params.Token);
 				if (result.Success)
 				{
 					SetMessageSuccess("Success. Your new password is shown below");
