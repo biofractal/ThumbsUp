@@ -4,8 +4,8 @@ using Nancy.Helper;
 using Shouldly;
 using System;
 using ThumbsUp.Service;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service.Raven;
+using ThumbsUp.Domain;
+
 using Xunit;
 using Xunit.Extensions;
 #endregion

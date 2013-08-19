@@ -1,24 +1,23 @@
 ﻿
 
-namespace ThumbsUp.Helper
+namespace ThumbsUp.Client
 {
 	using Nancy;
 	using Nancy.Authentication.Forms;
 	using Nancy.Security;
 	using RestSharp;
 	using System;
-	using System.Collections.Generic;
 	using System.Configuration;
 
 	public class ThumbsUpApi : IUserMapper
 	{
 		private static readonly string ThumbsUpsUrl = ConfigurationManager.AppSettings["ThumbsUp.Service.Uri"];
+		private static readonly string ThumbsUpsApplicationId = ConfigurationManager.AppSettings["ThumbsUp.Application.Id"];
 		private static readonly RestClient Client = new RestClient(ThumbsUpsUrl);
 
 		public IUserIdentity GetUserFromIdentifier(Guid thumbKey, NancyContext context)
-		{
-			var applicationId = GetParam(context.Request, "applicationid");
-			var response = ThumbsUpApi.GetUserFromIdentifier(applicationId, thumbKey);
+		{	
+			var response = ThumbsUpApi.GetUserFromIdentifier(thumbKey);
 			if (!response.Success) return null;
 			var user = response.Data.User;
 			user.ThumbKey = thumbKey;
@@ -32,7 +31,7 @@ namespace ThumbsUp.Helper
 			return string.Empty;
 		}
 
-		public static ThumbsUpResult CheckServiceIsRunning(string applicationId)
+		public static ThumbsUpResult CheckServiceIsRunning(string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "/", Method.GET);
 			var result = new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
@@ -40,14 +39,14 @@ namespace ThumbsUp.Helper
 			return result;
 		}
 
-		public static ThumbsUpResult GetUserFromIdentifier(string applicationId, Guid thumbKey)
+		public static ThumbsUpResult GetUserFromIdentifier(Guid thumbKey, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "/user/get");
 			request.AddParameter("thumbkey", thumbKey);
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult ValidateUser(string applicationId, string username, string password)
+		public static ThumbsUpResult ValidateUser(string username, string password, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "user/validate");
 			request.AddParameter("username", username);
@@ -55,28 +54,28 @@ namespace ThumbsUp.Helper
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult ValidateUserName(string applicationId, string username)
+		public static ThumbsUpResult ValidateUserName(string username, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "user/validate/name");
 			request.AddParameter("username", username);
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult ValidateKey(string applicationId, Guid thumbKey)
+		public static ThumbsUpResult ValidateKey(Guid thumbKey, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "user/validate/thumbkey");
 			request.AddParameter("thumbkey", thumbKey);
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult Logout(string applicationId, Guid thumbKey)
+		public static ThumbsUpResult Logout(Guid thumbKey, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "user/logout");
 			request.AddParameter("thumbkey", thumbKey);
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult CreateUser(string applicationId, string username, string email)
+		public static ThumbsUpResult CreateUser(string username, string email, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "user/create");
 			request.AddParameter("username", username);
@@ -84,7 +83,7 @@ namespace ThumbsUp.Helper
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult RegisterApplication(string applicationId, string singleUseToken, string name)
+		public static ThumbsUpResult RegisterApplication(string singleUseToken, string name, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "application/register");
 			request.AddParameter("singleUseToken", singleUseToken);
@@ -93,7 +92,7 @@ namespace ThumbsUp.Helper
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult TransferApplication(string applicationId, string singleUseToken, string name, string id)
+		public static ThumbsUpResult TransferApplication(string singleUseToken, string name, string id, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "application/transfer");
 			request.AddParameter("singleUseToken", singleUseToken);
@@ -102,14 +101,14 @@ namespace ThumbsUp.Helper
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult GetErrorMessage(string applicationId, int errorCode)
+		public static ThumbsUpResult GetErrorMessage(int errorCode, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "error/" + errorCode, Method.GET);
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
 
-		public static ThumbsUpResult ResetPassword(string applicationId, string username, string password)
+		public static ThumbsUpResult ResetPassword(string username, string password, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "user/reset/password");
 			request.AddParameter("username", username);
@@ -117,7 +116,7 @@ namespace ThumbsUp.Helper
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult ForgotPasswordRequest(string applicationId, string username, string email)
+		public static ThumbsUpResult ForgotPasswordRequest(string username, string email, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "user/forgot-password/request");
 			request.AddParameter("username", username);
@@ -125,7 +124,7 @@ namespace ThumbsUp.Helper
 			return new ThumbsUpResult(Client.Execute<ThumbsUpResponse>(request));
 		}
 
-		public static ThumbsUpResult ForgotPasswordReset(string applicationId, string username, string token)
+		public static ThumbsUpResult ForgotPasswordReset(string username, string token, string applicationId = null)
 		{
 			var request = MakeRequest(applicationId, "user/forgot-password/reset");
 			request.AddParameter("username", username);
@@ -135,6 +134,7 @@ namespace ThumbsUp.Helper
 
 		private static RestRequest MakeRequest(string applicationId, string url, Method method = Method.POST)
 		{
+			applicationId = applicationId ?? ThumbsUpsApplicationId;
 			var request = new RestRequest(url, method);
 			request.AddParameter("applicationid", applicationId);
 			return request;

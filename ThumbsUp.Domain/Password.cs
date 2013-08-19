@@ -1,6 +1,6 @@
 ﻿using SimpleCrypto;
 
-namespace ThumbsUp.Service.Domain
+namespace ThumbsUp.Domain
 {
 	public interface IPassword
 	{		

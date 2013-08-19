@@ -4,8 +4,7 @@ using Nancy;
 using Nancy.Helper;
 using Shouldly;
 using System.Collections.Generic;
-using System.IO;
-using ThumbsUp.Service.Domain;
+using ThumbsUp.Service;
 using Xunit;
 #endregion
 

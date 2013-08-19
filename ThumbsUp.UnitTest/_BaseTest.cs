@@ -9,8 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using ThumbsUp.Service;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service.Raven;
+using ThumbsUp.Domain;
+
 using FakeItEasy;
 using Raven.Client;
 

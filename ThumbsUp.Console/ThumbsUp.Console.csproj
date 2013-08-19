@@ -64,9 +64,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RavenDB.Client.2.5.2666\lib\net45\Raven.Client.Lightweight-4.5.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
@@ -89,17 +86,13 @@
     <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ThumbsUp.Helper\ThumbsUp.Helper.csproj">
-      <Project>{a99fb1c2-2dd3-4e74-8180-f04daadebc77}</Project>
-      <Name>ThumbsUp.Helper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ThumbsUp.Service\ThumbsUp.Service.csproj">
-      <Project>{49f56a22-5de0-4fd6-90d3-5c0474936951}</Project>
-      <Name>ThumbsUp.Service</Name>
-    </ProjectReference>
+    <Content Include="SSL-Config.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SSL-Config.txt" />
+    <ProjectReference Include="..\ThumbsUp.Helper\ThumbsUp.Client.csproj">
+      <Project>{a99fb1c2-2dd3-4e74-8180-f04daadebc77}</Project>
+      <Name>ThumbsUp.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -5,10 +5,8 @@ using Nancy;
 using Nancy.Testing;
 using Nancy.TinyIoc;
 using Shouldly;
-using System;
+using ThumbsUp.Domain;
 using ThumbsUp.Service;
-using ThumbsUp.Service.Module;
-using ThumbsUp.Service.Raven;
 using Xunit;
 
 #endregion

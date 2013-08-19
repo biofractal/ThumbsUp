@@ -8,7 +8,7 @@ using Shouldly;
 using System;
 using System.Collections.Generic;
 using ThumbsUp.Service;
-using ThumbsUp.Service.Domain;
+using ThumbsUp.Domain;
 using ThumbsUp.Service.Module;
 using Xunit;
 using System.Configuration;

@@ -4,7 +4,7 @@ using Nancy;
 using Nancy.ModelBinding;
 using System.Dynamic;
 using System.Reflection;
-using ThumbsUp.Service.Domain;
+using ThumbsUp.Domain;
 
 #endregion
 

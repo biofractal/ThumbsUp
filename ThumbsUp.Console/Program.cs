@@ -4,10 +4,7 @@ using Raven.Client;
 using System;
 using System.Linq;
 using System.Windows.Forms;
-using ThumbsUp.Helper;
-using ThumbsUp.Service;
-using ThumbsUp.Service.Raven;
-using Application = ThumbsUp.Service.Domain.Application;
+using ThumbsUp.Client;
 using C = System.Console;
 
 namespace ThumbsUp.Console
@@ -103,8 +100,9 @@ namespace ThumbsUp.Console
 				C.WriteLine();
 				C.WriteLine("   ------------------------------------");
 				C.WriteLine();
-				C.WriteLine("   0 - Quit");
-				C.WriteLine("   1 - Back to Main Menu");
+				C.WriteLine("   0   - Quit");
+				C.WriteLine();
+				C.WriteLine("   <Hit any other key for Main Menu>");
 				C.WriteLine();
 				if (C.ReadLine() == "0") Quit();
 			}
@@ -130,7 +128,7 @@ namespace ThumbsUp.Console
 			var username = C.ReadLine();
 			C.WriteLine("Password?");
 			var password = C.ReadLine();
-			var result = ThumbsUpApi.ValidateUser(ConsoleApplicationId, username, password);
+			var result = ThumbsUpApi.ValidateUser(username, password, ConsoleApplicationId);
 			if (!IsError(result))
 			{
 				C.WriteLine("Success. The user has been logged in");
@@ -141,7 +139,7 @@ namespace ThumbsUp.Console
 		public static void UserLogout()
 		{
 			var thumbKey = GetThumbKey();
-			var result = ThumbsUpApi.Logout(ConsoleApplicationId, thumbKey);
+			var result = ThumbsUpApi.Logout(thumbKey, ConsoleApplicationId);
 			if (!IsError(result)) C.WriteLine("Success. The user has been logged out");
 		}
 
@@ -151,7 +149,7 @@ namespace ThumbsUp.Console
 			var username = C.ReadLine();
 			C.WriteLine("Email?");
 			var email = C.ReadLine();
-			var result = ThumbsUpApi.CreateUser(ConsoleApplicationId, username, email);
+			var result = ThumbsUpApi.CreateUser(username, email, ConsoleApplicationId);
 			if (!IsError(result))
 			{
 				C.WriteLine("Success. The new User has been registered");
@@ -164,7 +162,7 @@ namespace ThumbsUp.Console
 			C.WriteLine("Application Name?");
 			var name = C.ReadLine();
 			var singleUseToken = ThumbsUpAdmin.GenerateSingleUseToken();
-			var result = ThumbsUpApi.RegisterApplication(ConsoleApplicationId, singleUseToken, name);
+			var result = ThumbsUpApi.RegisterApplication(singleUseToken, name, ConsoleApplicationId);
 			if (!IsError(result))
 			{
 				C.WriteLine("Success. The new Application has been registered");
@@ -178,7 +176,7 @@ namespace ThumbsUp.Console
 			C.WriteLine("Application Id?");
 			var applicationId = C.ReadLine();
 			var singleUseToken = ThumbsUpAdmin.GenerateSingleUseToken();
-			var result = ThumbsUpApi.TransferApplication(ConsoleApplicationId, singleUseToken, name, applicationId);
+			var result = ThumbsUpApi.TransferApplication(singleUseToken, name, applicationId, ConsoleApplicationId);
 			if (!IsError(result))
 			{
 				C.WriteLine("Success. The existing Application has been registered");
@@ -188,14 +186,14 @@ namespace ThumbsUp.Console
 		public static void UserFromKey()
 		{
 			var thumbKey = GetThumbKey();
-			var result = ThumbsUpApi.GetUserFromIdentifier(ConsoleApplicationId, thumbKey);
+			var result = ThumbsUpApi.GetUserFromIdentifier(thumbKey, ConsoleApplicationId);
 			if (!IsError(result)) C.WriteLine(string.Format("Success. UserName = {0} : Email = {1}", result.Data.User.UserName, result.Data.User.Email));
 		}
 
 		public static void ValidateKey()
 		{
 			var thumbKey = GetThumbKey();
-			var result = ThumbsUpApi.ValidateKey(ConsoleApplicationId, thumbKey);
+			var result = ThumbsUpApi.ValidateKey(thumbKey, ConsoleApplicationId);
 			if (!IsError(result)) C.WriteLine("Success. The thumbKey exists");
 		}
 
@@ -203,7 +201,7 @@ namespace ThumbsUp.Console
 		{
 			C.WriteLine("UserName?");
 			var username = C.ReadLine();
-			var result = ThumbsUpApi.ValidateUserName(ConsoleApplicationId, username);
+			var result = ThumbsUpApi.ValidateUserName(username, ConsoleApplicationId);
 			if (!IsError(result)) C.WriteLine("The username is valid. It has not yet been used");
 		}
 
@@ -211,7 +209,7 @@ namespace ThumbsUp.Console
 		{
 			C.WriteLine("Error Code?");
 			var errorCode = C.ReadLine();
-			var result = ThumbsUpApi.GetErrorMessage(ConsoleApplicationId, int.Parse(errorCode));
+			var result = ThumbsUpApi.GetErrorMessage(int.Parse(errorCode), ConsoleApplicationId);
 			if (!IsError(result)) C.WriteLine("Success. Message = " + result.Data.ErrorMessage);
 		}
 
@@ -221,7 +219,7 @@ namespace ThumbsUp.Console
 			var username = C.ReadLine();
 			C.WriteLine("Password?");
 			var password = C.ReadLine();
-			var result = ThumbsUpApi.ResetPassword(ConsoleApplicationId, username, password);
+			var result = ThumbsUpApi.ResetPassword(username, password, ConsoleApplicationId);
 			if (!IsError(result))
 			{
 				C.WriteLine("Success. The password has been reset");
@@ -235,7 +233,7 @@ namespace ThumbsUp.Console
 			var username = C.ReadLine();
 			C.WriteLine("Email?");
 			var email = C.ReadLine();
-			var result = ThumbsUpApi.ForgotPasswordRequest(ConsoleApplicationId, username, email);
+			var result = ThumbsUpApi.ForgotPasswordRequest(username, email, ConsoleApplicationId);
 			if (!IsError(result))
 			{
 				C.WriteLine("Success. The request has been processed");
@@ -249,7 +247,7 @@ namespace ThumbsUp.Console
 			var username = C.ReadLine();
 			C.WriteLine("Request Token?");
 			var token = C.ReadLine();
-			var result = ThumbsUpApi.ForgotPasswordReset(ConsoleApplicationId, username, token);
+			var result = ThumbsUpApi.ForgotPasswordReset(username, token, ConsoleApplicationId);
 			if (!IsError(result))
 			{
 				C.WriteLine("Success. The password has been reset");

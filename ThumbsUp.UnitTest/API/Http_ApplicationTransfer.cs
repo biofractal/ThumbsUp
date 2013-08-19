@@ -10,7 +10,7 @@ using ThumbsUp.Service.Module;
 using Xunit;
 using ThumbsUp.Service;
 using FakeItEasy;
-using ThumbsUp.Service.Domain;
+using ThumbsUp.Domain;
 
 #endregion
 

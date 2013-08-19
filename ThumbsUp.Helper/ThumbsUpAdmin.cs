@@ -3,10 +3,9 @@ using Raven.Client.Document;
 using System;
 using System.Linq;
 using System.Threading;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service.Raven;
+using ThumbsUp.Domain;
 
-namespace ThumbsUp.Helper
+namespace ThumbsUp.Client
 {
 	public static class ThumbsUpAdmin
 	{

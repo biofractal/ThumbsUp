@@ -2,7 +2,7 @@
 using Nancy.Helper;
 using Shouldly;
 using ThumbsUp.Service;
-using ThumbsUp.Service.Domain;
+using ThumbsUp.Domain;
 using Xunit;
 #endregion
 

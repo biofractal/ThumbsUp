@@ -84,6 +84,10 @@
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="ThumbsUp.Domain, Version=1.0.0.21133, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\ThumbsUp.Domain.1.0.0.21133\lib\net45\ThumbsUp.Domain.dll</HintPath>
+    </Reference>
     <Reference Include="Topshelf, Version=3.1.107.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Topshelf.3.1.1\lib\net40-full\Topshelf.dll</HintPath>
@@ -93,15 +97,10 @@
     <Compile Include="Module\_BaseModule.cs" />
     <Compile Include="Service\UserCacheService.cs" />
     <Compile Include="ThumbsUpBootstrapper.cs" />
-    <Compile Include="Domain\Application.cs" />
-    <Compile Include="Domain\Password.cs" />
     <Compile Include="Service\PasswordService.cs" />
     <Compile Include="Service\ErrorService.cs" />
-    <Compile Include="Domain\User.cs" />
     <Compile Include="Module\ApplicationModule.cs" />
     <Compile Include="Module\RootModule.cs" />
-    <Compile Include="Raven\RavenIndexes.cs" />
-    <Compile Include="Raven\RavenSessionProvider.cs" />
     <Compile Include="Module\UserModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

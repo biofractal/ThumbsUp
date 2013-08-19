@@ -3,8 +3,7 @@ using Nancy.Bootstrapper;
 using Nancy.Helper;
 using Nancy.TinyIoc;
 using SimpleCrypto;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service.Raven;
+using ThumbsUp.Domain;
 
 namespace ThumbsUp.Service
 {

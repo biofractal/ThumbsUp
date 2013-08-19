@@ -3,8 +3,8 @@ using FakeItEasy;
 using Nancy.Helper;
 using Shouldly;
 using ThumbsUp.Service;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service.Raven;
+using ThumbsUp.Domain;
+
 using Xunit;
 #endregion
 

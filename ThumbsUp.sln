@@ -16,9 +16,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Console", "ThumbsU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.UnitTest", "ThumbsUp.UnitTest\ThumbsUp.UnitTest.csproj", "{E5C36322-A4C7-4C92-8055-4712113B59EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Helper", "ThumbsUp.Helper\ThumbsUp.Helper.csproj", "{A99FB1C2-2DD3-4E74-8180-F04DAADEBC77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Client", "ThumbsUp.Helper\ThumbsUp.Client.csproj", "{A99FB1C2-2DD3-4E74-8180-F04DAADEBC77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Demo.Nancy", "ThumbsUp.Demo.Nancy\ThumbsUp.Demo.Nancy.csproj", "{438DC377-9CFF-4880-AE79-92613975C3E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThumbsUp.Domain", "ThumbsUp.Domain\ThumbsUp.Domain.csproj", "{47963B15-0C63-4DEF-9214-5D83294C86AC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,6 +48,10 @@ Global
 		{438DC377-9CFF-4880-AE79-92613975C3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{438DC377-9CFF-4880-AE79-92613975C3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{438DC377-9CFF-4880-AE79-92613975C3E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47963B15-0C63-4DEF-9214-5D83294C86AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47963B15-0C63-4DEF-9214-5D83294C86AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47963B15-0C63-4DEF-9214-5D83294C86AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47963B15-0C63-4DEF-9214-5D83294C86AC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,7 +3,7 @@ using Shouldly;
 using SimpleCrypto;
 using System;
 using ThumbsUp.Service;
-using ThumbsUp.Service.Domain;
+using ThumbsUp.Domain;
 using Xunit;
 using Xunit.Extensions;
 

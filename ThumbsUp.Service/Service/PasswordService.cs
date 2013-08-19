@@ -2,8 +2,9 @@
 using System;
 using System.Configuration;
 using Nancy.Helper;
+using ThumbsUp.Domain;
 
-namespace ThumbsUp.Service.Domain
+namespace ThumbsUp.Service
 {
 	public interface IPasswordService
 	{

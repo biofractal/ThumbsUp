@@ -1,7 +1,7 @@
 ﻿using Nancy;
 using System.Collections.Generic;
 
-namespace ThumbsUp.Service.Domain
+namespace ThumbsUp.Service
 {
 	public enum ErrorCode 
 	{ 

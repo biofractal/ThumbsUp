@@ -4,8 +4,8 @@ using Shouldly;
 using System;
 using System.Configuration;
 using ThumbsUp.Service;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service.Raven;
+using ThumbsUp.Domain;
+
 using Xunit;
 
 #endregion

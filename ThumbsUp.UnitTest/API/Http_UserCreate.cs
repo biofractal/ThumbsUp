@@ -10,7 +10,7 @@ using System.Configuration;
 using ThumbsUp.Service;
 using ThumbsUp.Service.Module;
 using Xunit;
-using ThumbsUp.Service.Domain;
+using ThumbsUp.Domain;
 
 #endregion
 

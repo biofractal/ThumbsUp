@@ -3,8 +3,7 @@ using System;
 using System.Configuration;
 using System.Linq;
 using System.Runtime.Caching;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service.Raven;
+using ThumbsUp.Domain;
 using Nancy.Helper;
 
 namespace ThumbsUp.Service

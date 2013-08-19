@@ -4,8 +4,7 @@ using SimpleCrypto;
 using System;
 using System.Linq;
 using System.Configuration;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service.Raven;
+using ThumbsUp.Domain;
 
 namespace ThumbsUp.Service
 {

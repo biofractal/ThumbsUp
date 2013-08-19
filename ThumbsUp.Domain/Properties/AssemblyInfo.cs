@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ThumbsUp.Service")]
-[assembly: AssemblyDescription("A self-hosted centralised security service. This web API provides a secure store of user identifiable data. It is especially useful for securing services or sites that rely on forms authentication.")]
+[assembly: AssemblyTitle("ThumbsUp.Domain")]
+[assembly: AssemblyDescription("The classes required for advanced coding against the ThumbsUp Security Service")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("biofractal")]
-[assembly: AssemblyProduct("")]
+[assembly: AssemblyProduct("ThumbsUp.Domain")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("06436a63-58c2-443e-9faf-754dc55a9e0e")]
+[assembly: Guid("b7ef7574-a886-4ebd-8a53-6a5bd94b0fdd")]
 
 // Version information for an assembly consists of the following four values:
 //

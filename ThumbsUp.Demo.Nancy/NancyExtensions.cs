@@ -1,5 +1,5 @@
 ﻿using Nancy.ViewEngines.Razor;
-using ThumbsUp.Helper;
+using ThumbsUp.Client;
 
 namespace ThumbsUp.Demo.Nancy
 {

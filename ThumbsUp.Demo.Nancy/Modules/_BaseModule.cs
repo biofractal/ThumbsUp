@@ -22,7 +22,6 @@ namespace ThumbsUp.Demo.Nancy.Module
 			public string Id { get; set; }
 		}
 
-		public string ThumbsUpApplicationId = ConfigurationManager.AppSettings["ThumbsUp.Application.Id"];
 		public ParameterBag Params;
 		public _BaseModule() : this("")
 		{}

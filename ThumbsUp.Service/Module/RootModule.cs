@@ -1,7 +1,6 @@
 ﻿using Nancy;
 using Nancy.Helper;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service;
+using ThumbsUp.Domain;
 
 namespace ThumbsUp.Service.Module
 {

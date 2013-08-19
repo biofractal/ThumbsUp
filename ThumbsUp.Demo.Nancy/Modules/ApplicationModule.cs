@@ -1,6 +1,6 @@
 ﻿using Nancy;
 using Nancy.Security;
-using ThumbsUp.Helper;
+using ThumbsUp.Client;
 
 namespace ThumbsUp.Demo.Nancy.Module
 {

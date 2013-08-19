@@ -1,8 +1,8 @@
 ﻿using FakeItEasy;
 using Raven.Client;
 using ThumbsUp.Service;
-using ThumbsUp.Service.Domain;
-using ThumbsUp.Service.Raven;
+using ThumbsUp.Domain;
+
 
 namespace ThumbsUp.UnitTest
 {

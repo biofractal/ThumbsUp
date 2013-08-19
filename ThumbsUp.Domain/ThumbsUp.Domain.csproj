@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A99FB1C2-2DD3-4E74-8180-F04DAADEBC77}</ProjectGuid>
+    <ProjectGuid>{47963B15-0C63-4DEF-9214-5D83294C86AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ThumbsUp.Helper</RootNamespace>
-    <AssemblyName>ThumbsUp.Helper</AssemblyName>
+    <RootNamespace>ThumbsUp.Domain</RootNamespace>
+    <AssemblyName>ThumbsUp.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -36,17 +36,14 @@
     <Reference Include="Nancy">
       <HintPath>..\packages\Nancy.0.18.0\lib\net40\Nancy.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Authentication.Forms">
-      <HintPath>..\packages\Nancy.Authentication.Forms.0.18.0\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Abstractions-4.5">
       <HintPath>..\packages\RavenDB.Client.2.5.2666\lib\net45\Raven.Abstractions-4.5.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Lightweight-4.5">
       <HintPath>..\packages\RavenDB.Client.2.5.2666\lib\net45\Raven.Client.Lightweight-4.5.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.1\lib\net4\RestSharp.dll</HintPath>
+    <Reference Include="SimpleCrypto">
+      <HintPath>..\packages\SimpleCrypto.0.3.28.24\lib\SimpleCrypto.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -59,24 +56,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application.cs" />
+    <Compile Include="Password.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThumbsUpAdmin.cs" />
-    <Compile Include="ThumbsUpApi.cs" />
-    <Compile Include="ThumbsUpResponse.cs" />
-    <Compile Include="ThumbsUpResult.cs" />
-    <Compile Include="ThumbsUpUser.cs" />
+    <Compile Include="RavenIndexes.cs" />
+    <Compile Include="RavenSessionProvider.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ThumbsUp.Service\ThumbsUp.Service.csproj">
-      <Project>{49f56a22-5de0-4fd6-90d3-5c0474936951}</Project>
-      <Name>ThumbsUp.Service</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>del $(ProjectDir)*.nupkg
+nuget pack "$(ProjectPath)" -Prop Configuration=$(ConfigurationName) -OutputDirectory $(ProjectDir)
+nuget push  $(ProjectDir)*.nupkg f850637e-897b-4b59-81ca-c54890d7ad8d</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
