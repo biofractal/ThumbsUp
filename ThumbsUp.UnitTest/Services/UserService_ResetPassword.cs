@@ -13,6 +13,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Raven.Client.Linq;
 using System.Collections;
+using Nancy.Helper;
 #endregion
 
 namespace ThumbsUp.UnitTest.Services

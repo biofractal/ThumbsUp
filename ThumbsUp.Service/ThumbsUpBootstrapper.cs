@@ -11,7 +11,7 @@ namespace ThumbsUp.Service
 	{
 		protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
 		{
-			container.Register<IRavenSessionProvider, RavenSessionProvider>().AsSingleton();
+			container.Register<IRavenSessionProvider, RavenSessionProvider<RavenIndexes>>().AsSingleton();
 			container.Register<ICryptoService, PBKDF2>();
 			container.Register<IUserService, UserService>();
 			container.Register<IUserCacheService, UserCacheService>();

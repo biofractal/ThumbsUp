@@ -8,6 +8,7 @@ using ThumbsUp.Domain;
 
 using Xunit;
 using Xunit.Extensions;
+using Nancy.Helper;
 
 #endregion
 

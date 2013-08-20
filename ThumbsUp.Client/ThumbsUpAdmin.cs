@@ -1,4 +1,5 @@
-﻿using Raven.Client;
+﻿using Nancy.Helper;
+using Raven.Client;
 using Raven.Client.Document;
 using System;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ThumbsUp.Client
 {
 	public static class ThumbsUpAdmin
 	{
-		public static readonly IRavenSessionProvider RavenSessionProvider = new RavenSessionProvider();
+		public static readonly IRavenSessionProvider RavenSessionProvider = new RavenSessionProvider<RavenIndexes>();
 
 		public static string GenerateSingleUseToken()
 		{

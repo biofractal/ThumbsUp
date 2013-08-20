@@ -1,5 +1,4 @@
-﻿using Nancy.Security;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ThumbsUp.Domain

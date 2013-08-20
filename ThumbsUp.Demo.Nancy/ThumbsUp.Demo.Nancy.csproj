@@ -41,19 +41,28 @@
     <PublishDatabases>false</PublishDatabases>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JurassicCoffee">
+      <HintPath>..\packages\jurassic-coffee.0.26\Lib\net40\JurassicCoffee.exe</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Nancy">
+    <Reference Include="Nancy, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.0.18.0\lib\net40\Nancy.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Authentication.Forms, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.Authentication.Forms.0.18.0\lib\net40\Nancy.Authentication.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.Hosting.Aspnet">
-      <HintPath>..\packages\Nancy.Hosting.Aspnet.0.18.0\lib\net40\Nancy.Hosting.Aspnet.dll</HintPath>
+    <Reference Include="Nancy.Helper, Version=1.0.1.19381, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Nancy.Helper.1.0.1.19381\lib\net45\Nancy.Helper.dll</HintPath>
     </Reference>
-    <Reference Include="Nancy.ViewEngines.Razor">
+    <Reference Include="Nancy.ViewEngines.Razor, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Nancy.Viewengines.Razor.0.18.0\lib\net40\Nancy.ViewEngines.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions-4.5, Version=2.5.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -77,7 +86,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Razor.Unofficial">
+    <Reference Include="System.Web.Razor.Unofficial, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Web.Razor.Unofficial.2.0.2\lib\net40\System.Web.Razor.Unofficial.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
@@ -87,33 +97,23 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="ThumbsUp.Client, Version=1.0.0.24133, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ThumbsUp.Client, Version=1.0.1.20325, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\ThumbsUp.Client.1.0.0.24133\lib\net45\ThumbsUp.Client.dll</HintPath>
+      <HintPath>..\packages\ThumbsUp.Client.1.0.1.20325\lib\net45\ThumbsUp.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="ThumbsUp.Domain">
+      <HintPath>..\packages\ThumbsUp.Domain.1.0.2.20233\lib\net45\ThumbsUp.Domain.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-responsive.css" />
-    <Content Include="Content\bootstrap-responsive.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\thumbsup.demo.nancy.css" />
-    <Content Include="img\glyphicons-halflings-white.png" />
-    <Content Include="img\glyphicons-halflings.png" />
-    <Content Include="Scripts\bootbox.js" />
-    <Content Include="Scripts\bootbox.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Partials\UserCreateModal.cshtml" />
     <Content Include="Coffee\utilities.coffee" />
     <Content Include="Coffee\home.coffee" />
     <Content Include="Partials\ApplicationRegisterModal.cshtml" />
     <Content Include="Partials\ApplicationTransferModal.cshtml" />
-    <None Include="Scripts\jquery-2.0.3.intellisense.js" />
     <Content Include="Scripts\home.min.js" />
     <Content Include="Scripts\jqBootstrapValidation.js" />
-    <Content Include="Scripts\jquery-2.0.3.js" />
-    <Content Include="Scripts\jquery-2.0.3.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -130,13 +130,12 @@
     <Compile Include="Modules\_BaseModule.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
     <Content Include="Views\LoginView.cshtml" />
     <Content Include="Views\PasswordGenerateView.cshtml" />
     <Content Include="Views\PasswordRequestView.cshtml" />
     <Content Include="Views\_Master.cshtml" />
-    <Content Include="Scripts\jquery-2.0.3.min.map" />
     <Content Include="Views\HomeView.cshtml" />
+    <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -2,6 +2,7 @@
 
 using FakeItEasy;
 using Nancy;
+using Nancy.Helper;
 using Nancy.Testing;
 using Nancy.TinyIoc;
 using Shouldly;

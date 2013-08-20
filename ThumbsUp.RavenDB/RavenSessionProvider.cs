@@ -4,7 +4,7 @@ using Raven.Client.Indexes;
 using System;
 using System.Configuration;
 
-namespace ThumbsUp.Domain
+namespace ThumbsUp.RavenDB
 {
 	public interface IRavenSessionProvider
 	{ 

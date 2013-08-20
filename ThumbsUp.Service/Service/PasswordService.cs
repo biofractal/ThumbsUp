@@ -27,7 +27,10 @@ namespace ThumbsUp.Service
 
 		public IPassword Generate()
 		{
-			return new Password(cryptoService, PasswordCharactersCount);
+			var clear = RandomPassword.Generate(PasswordCharactersCount);
+			var salt = cryptoService.GenerateSalt();
+			var hash = cryptoService.Compute(clear, salt);
+			return new Password(){Clear = clear, Hash = hash, Salt = salt };
 		}
 
 		public bool IsPasswordValid(User user, string clear)

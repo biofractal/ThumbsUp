@@ -25,7 +25,7 @@ namespace ThumbsUp.UnitTest.API
 			var applicationId = MakeFake.Guid;
 			var singleUseToken = MakeFake.Guid;
 			var fakeApplicationService = A.Fake<IApplicationService>();
-			A.CallTo(() => fakeApplicationService.IsRegistered(A<string>.Ignored)).Returns(true);
+			A.CallTo(() => fakeApplicationService.AuthoriseSingleUseToken(A<string>.Ignored)).Returns(true);
 			A.CallTo(() => fakeApplicationService.Register(A<string>.Ignored)).Returns(new Application { Id = applicationId });
 			var applicationTestBrowser = MakeTestBrowser<ApplicationModule>(fakeApplicationService: fakeApplicationService);
 

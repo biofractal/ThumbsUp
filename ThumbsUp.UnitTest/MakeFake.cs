@@ -2,6 +2,7 @@
 using Raven.Client;
 using ThumbsUp.Service;
 using ThumbsUp.Domain;
+using Nancy.Helper;
 
 
 namespace ThumbsUp.UnitTest
