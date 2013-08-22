@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ThumbsUp.Client")]
-[assembly: AssemblyDescription("The ThumbsUp.Client makes it easy to build ThumbsUp security enabled web applications and admin consoles. This package includes a full ThumbsUp.Service API facade as well as a handy collection of helper objects and functions.")]
+[assembly: AssemblyDescription("The ThumbsUp.Client makes it easy to build ThumbsUp security enabled web applications. This package includes a full ThumbsUp.Service API facade.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("biofractal")]
 [assembly: AssemblyProduct("ThumbsUp.Client")]

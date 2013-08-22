@@ -1,9 +1,7 @@
 ﻿#region Using
 using Shouldly;
-using SimpleCrypto;
-using System;
-using ThumbsUp.Service;
 using ThumbsUp.Domain;
+using ThumbsUp.Service;
 using Xunit;
 using Xunit.Extensions;
 

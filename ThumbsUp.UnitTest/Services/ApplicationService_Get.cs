@@ -1,8 +1,7 @@
 ﻿#region Using
 using Shouldly;
-using System;
-using ThumbsUp.Service;
 using ThumbsUp.Domain;
+using ThumbsUp.Service;
 using Xunit;
 
 #endregion

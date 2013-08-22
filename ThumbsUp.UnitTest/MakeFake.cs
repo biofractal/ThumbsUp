@@ -1,8 +1,8 @@
 ﻿using FakeItEasy;
-using Raven.Client;
 using ThumbsUp.Service;
 using ThumbsUp.Domain;
 using Nancy.Helper;
+using Raven.Helper;
 
 
 namespace ThumbsUp.UnitTest
@@ -23,11 +23,7 @@ namespace ThumbsUp.UnitTest
 
 		public static IRavenSessionProvider RavenSessionProvider<T>(T instanceToLoad)
 		{
-			var fakeDocumentSession = A.Fake<IDocumentSession>();
-			A.CallTo(() => fakeDocumentSession.Load<T>(A<string>.Ignored)).Returns(instanceToLoad);
-			var fakeRavenSessionProvider = A.Fake<IRavenSessionProvider>();
-			A.CallTo(() => fakeRavenSessionProvider.Get()).Returns(fakeDocumentSession);
-			return fakeRavenSessionProvider;
+			return Raven.Helper.RavenSessionProvider<T>.Fake(instanceToLoad);
 		}
 
 		public static IUserService UserService(User userToReturn = null)

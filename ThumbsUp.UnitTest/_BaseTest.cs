@@ -1,18 +1,15 @@
 ﻿#region Using
 
+using FakeItEasy;
 using Nancy;
-using Nancy.Testing;
 using Nancy.Helper;
+using Nancy.Testing;
+using Raven.Helper;
 using Shouldly;
 using SimpleCrypto;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using ThumbsUp.Service;
-using ThumbsUp.Domain;
-
-using FakeItEasy;
-using Raven.Client;
 
 
 #endregion

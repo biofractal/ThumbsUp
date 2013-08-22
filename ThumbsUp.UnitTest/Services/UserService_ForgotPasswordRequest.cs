@@ -1,19 +1,12 @@
 ﻿#region Using
-using Nancy.Helper;
 using FakeItEasy;
-using Raven.Client;
+using Nancy.Helper;
+using Raven.Helper;
 using Shouldly;
-using SimpleCrypto;
 using System;
-using ThumbsUp.Service;
 using ThumbsUp.Domain;
-
+using ThumbsUp.Service;
 using Xunit;
-using Xunit.Extensions;
-using System.Linq;
-using System.Linq.Expressions;
-using Raven.Client.Linq;
-using System.Collections;
 #endregion
 
 namespace ThumbsUp.UnitTest.Services

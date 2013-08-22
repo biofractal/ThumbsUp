@@ -1,10 +1,9 @@
-﻿using Raven.Client;
+﻿using Nancy.Helper;
+using Raven.Client;
+using Raven.Helper;
 using System;
-using System.Configuration;
 using System.Linq;
-using System.Runtime.Caching;
 using ThumbsUp.Domain;
-using Nancy.Helper;
 
 namespace ThumbsUp.Service
 {
@@ -77,7 +76,7 @@ namespace ThumbsUp.Service
 
 		public User GetUserByName(string username)
 		{
-			return db.Query<User, RavenIndexes.User_ByCredentials>().FirstOrDefault(x => x.UserName == username);
+			return db.Query<User, Indexes.User_ByCredentials>().FirstOrDefault(x => x.UserName == username);
 		}
 	}
 }

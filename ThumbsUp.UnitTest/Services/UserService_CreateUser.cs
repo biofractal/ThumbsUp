@@ -9,6 +9,7 @@ using ThumbsUp.Domain;
 using Xunit;
 using Xunit.Extensions;
 using Nancy.Helper;
+using Raven.Helper;
 
 #endregion
 

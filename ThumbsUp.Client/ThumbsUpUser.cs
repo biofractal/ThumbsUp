@@ -1,20 +1,22 @@
-﻿using Nancy.Security;
-using System;
-using System.Collections.Generic;
+﻿using System;
+
 
 namespace ThumbsUp.Client
 {
-	public class ThumbsUpUser : IUserIdentity
-	{
-		#region ThumbsUp
-		public Guid ThumbKey { get; set; }
-		public string Email { get; set; }
-		#endregion
 
-		#region IUserIdentity
+	public interface IThumbsUpUser
+	{
+		string Id { get; set; }
+		Guid ThumbKey { get; set; }
+		string UserName { get; set; }
+		string Email { get; set; }
+	}
+
+	public class ThumbsUpUser : IThumbsUpUser
+	{
 		public string Id { get; set; }
+		public Guid ThumbKey { get; set; }
 		public string UserName { get; set; }
-		public IEnumerable<string> Claims { get; set; }
-		#endregion
+		public string Email { get; set; }
 	}
 }

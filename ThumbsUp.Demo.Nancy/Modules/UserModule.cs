@@ -1,17 +1,17 @@
 ﻿using Nancy;
 using Nancy.Security;
-using ThumbsUp.Client;
+using ThumbsUp.Nancy.FormsAuthentication;
 
 namespace ThumbsUp.Demo.Nancy.Module
 {
 	public class UserModule : _BaseModule
 	{
-		public UserModule()
+		public UserModule(IThumbsUpNancyApi thumbsUp)
 			: base("/user")
 		{
 			this.RequiresAuthentication();
 
-			Post["/create"] = _ => Response.AsJson(ThumbsUpApi.CreateUser(Params.UserName, Params.Email).Data);
+			Post["/create"] = _ => Response.AsJson(thumbsUp.CreateUser(Params.UserName, Params.Email).Data);
 		}
 	}
 }

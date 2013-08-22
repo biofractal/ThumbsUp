@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Configuration;
 using ThumbsUp.Domain;
+using Raven.Helper;
 
 namespace ThumbsUp.Service
 {

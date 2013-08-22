@@ -1,8 +1,8 @@
 ﻿#region Using
 using Nancy.Helper;
 using Shouldly;
-using ThumbsUp.Service;
 using ThumbsUp.Domain;
+using ThumbsUp.Service;
 using Xunit;
 #endregion
 

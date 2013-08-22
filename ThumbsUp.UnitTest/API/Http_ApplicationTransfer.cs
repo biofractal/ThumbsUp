@@ -1,16 +1,14 @@
 ﻿#region Using
 
+using FakeItEasy;
 using Nancy;
-using Nancy.Testing;
 using Nancy.Helper;
+using Nancy.Testing;
 using Shouldly;
-using System;
 using System.Collections.Generic;
+using ThumbsUp.Domain;
 using ThumbsUp.Service.Module;
 using Xunit;
-using ThumbsUp.Service;
-using FakeItEasy;
-using ThumbsUp.Domain;
 
 #endregion
 

@@ -1,13 +1,10 @@
 ﻿#region Using
 using FakeItEasy;
+using Raven.Helper;
 using Shouldly;
-using System;
-using System.Configuration;
-using ThumbsUp.Service;
 using ThumbsUp.Domain;
-
+using ThumbsUp.Service;
 using Xunit;
-using Nancy.Helper;
 
 #endregion
 

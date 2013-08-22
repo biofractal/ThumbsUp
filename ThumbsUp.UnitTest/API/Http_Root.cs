@@ -2,11 +2,10 @@
 
 using FakeItEasy;
 using Nancy;
-using Nancy.Helper;
 using Nancy.Testing;
 using Nancy.TinyIoc;
+using Raven.Helper;
 using Shouldly;
-using ThumbsUp.Domain;
 using ThumbsUp.Service;
 using Xunit;
 
@@ -30,7 +29,6 @@ namespace ThumbsUp.UnitTest.API
 				base.ConfigureRequestContainer(container, context);
 				container.Register<IApplicationService>(FakeApplicationService);
 				container.Register<IRavenSessionProvider>(A.Dummy<IRavenSessionProvider>());
-
 			}
 		}
 

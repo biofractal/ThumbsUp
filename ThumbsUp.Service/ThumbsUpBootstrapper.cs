@@ -2,6 +2,7 @@
 using Nancy.Bootstrapper;
 using Nancy.Helper;
 using Nancy.TinyIoc;
+using Raven.Helper;
 using SimpleCrypto;
 using ThumbsUp.Domain;
 
@@ -11,7 +12,7 @@ namespace ThumbsUp.Service
 	{
 		protected override void ConfigureRequestContainer(TinyIoCContainer container, NancyContext context)
 		{
-			container.Register<IRavenSessionProvider, RavenSessionProvider<RavenIndexes>>().AsSingleton();
+			container.Register<IRavenSessionProvider, RavenSessionProvider<Indexes>>().AsSingleton();
 			container.Register<ICryptoService, PBKDF2>();
 			container.Register<IUserService, UserService>();
 			container.Register<IUserCacheService, UserCacheService>();
