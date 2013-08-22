@@ -61,6 +61,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>del $(ProjectDir)*.nupkg
+nuget pack "$(ProjectPath)" -Prop Configuration=$(ConfigurationName) -OutputDirectory $(ProjectDir)
+nuget push  $(ProjectDir)*.nupkg f850637e-897b-4b59-81ca-c54890d7ad8d</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

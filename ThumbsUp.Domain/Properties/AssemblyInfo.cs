@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ThumbsUp.Domain")]
-[assembly: AssemblyDescription("The classes required for advanced coding against the ThumbsUp Security Service")]
+[assembly: AssemblyDescription("A small set of classes required for advanced coding against the ThumbsUp Security Service")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("biofractal")]
 [assembly: AssemblyProduct("ThumbsUp.Domain")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.2.*")]
+[assembly: AssemblyVersion("1.0.5.*")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
