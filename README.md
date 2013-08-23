@@ -1,4 +1,4 @@
-![ThumbsUp](http://www.clker.com/cliparts/M/4/k/w/f/I/thumbs-up.svg) ThumbsUp
+![ThumbsUp](https://github.com/biofractal/ThumbsUp/wiki/images/thumbsup-medium.png) ThumbsUp
 ===========
 
 A self-hosted centralised security service. The **ThumbsUp** API provides an easy way to securely store sensitive user details. **ThumbsUp** provides time-limited authorisation tokens suitable for use with Nancy's FormsAuthentication. It also provides a secure methods for logging out and for requesting new passwords.
