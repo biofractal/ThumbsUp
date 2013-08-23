@@ -1,7 +1,7 @@
 ThumbsUp
 ========
 
-A self-hosted centralised security service. The **ThumbsUp** API provides an easy way to securely store sensitive user details. ThumbsUp provides time-limited authorisation tokens suitable for use with Nancy's FormsAuthentication. It also provides a secure methods for logging out and for requesting new passwords.
+A self-hosted centralised security service. The **ThumbsUp** API provides an easy way to securely store sensitive user details. **ThumbsUp** provides time-limited authorisation tokens suitable for use with Nancy's FormsAuthentication. It also provides a secure methods for logging out and for requesting new passwords.
 
 If you want to dive right in then go to [Nancy Developer Quick Start](https://github.com/biofractal/ThumbsUp/wiki/Nancy-Developer-Quick-Start)
 
