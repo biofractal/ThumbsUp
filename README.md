@@ -7,6 +7,6 @@ For more details please see:
 
 * [Wiki Home](https://github.com/biofractal/ThumbsUp/wiki) for an brief explanation of **ThumbsUp**
 
-* [Wiki Contents](wiki/Contents) for a complete list of wiki documents. 
+* [Wiki Contents](https://github.com/biofractal/ThumbsUp/wiki/Contents) for a complete list of wiki documents. 
 
-If you want to dive right in then go to [Nancy Developer Quick Start](wiki/Nancy-Developer-Quick-Start)
+If you want to dive right in then go to [Nancy Developer Quick Start](https://github.com/biofractal/ThumbsUp/wiki/Nancy-Developer-Quick-Start)
