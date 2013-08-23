@@ -5,8 +5,8 @@ A self-hosted centralised security service. This API provides a secure store of 
 
 For more details please see:
 
-* ThumbsUp Wiki](https://github.com/biofractal/ThumbsUp/wiki) for an brief explanation of **ThumbsUp**
+* [Wiki Home](https://github.com/biofractal/ThumbsUp/wiki) for an brief explanation of **ThumbsUp**
 
-* Contents](wiki/Contents) for a complete list of wiki documents. 
+* [Wiki Contents](wiki/Contents) for a complete list of wiki documents. 
 
 If you want to dive right in then go to [Nancy Developer Quick Start](wiki/Nancy-Developer-Quick-Start)
